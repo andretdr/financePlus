@@ -1,0 +1,188 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    View Stock Page
+{% endblock %}
+
+
+{% block body %}
+
+    <!-- Storing the data for this stock page -->    
+    <input type="hidden" id="viewsymbol" name="viewsymbol" value="{{ symbol }}">
+    <input type="hidden" id="viewdata" name="viewdata" value="1d">
+    <input type="hidden" id="viewcurrprice" name="viewcurrprice" value="0">
+    <input type="hidden" id="viewcash" name="viewcash" value="0">
+    <input type="hidden" id="viewquantity" name="viewquantity" value="0">
+    <input type="hidden" id="viewavgcost" name="viewavgcost" value="0">
+
+    <div id="viewstockbody">
+        <div>
+            <div id="viewlogo">
+            </div>
+
+            <div id="buyhideme">
+                <div class="buysellmenu">
+                    BUY
+                    <div id="buydollarsformcontainer">
+                        <div id="buydollarsform">
+                            $<input type="number" id="viewbuydollars" name="viewbuydollars" min='0' placeholder="0.00" oninput="validity.valid||(value='');">
+                        </div>
+                    </div>
+                    <div id="buydollarsbuttoncontainer">
+                        <div id="buydollarsbutton">
+
+                            <button onclick="buyindollars(states)">Buy in Dollars</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        ----------- or -------------
+
+                    </div>
+
+                    <div id="buysharesformcontainer">
+                        <div id="buysharesform">
+                            <input type="number" id="viewbuyshares" name="viewbuyshares" min='0' placeholder="0" oninput="validity.valid||(value='');">share(s)
+                        </div>
+                    </div>
+                    <div id="buysharesbuttoncontainer">
+                        <div id="buysharesbutton">
+
+                            <button onclick="buyinshares(states)">Buy in Shares</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>
+                            Current Price : $<data id="buycurrentprice"></data></br>
+                            
+                            <div id="buytype">
+                            </div>
+
+                            <p>Shares in holdings : <data id="buyquantity"> share(s)</data></p>
+                            <p>Cash Available : $<data id="buycash"></data></p>
+
+                            <div id="buystatus">
+                            </div>
+
+                        </div>
+                    </div>
+                    <button onclick="buy(states)">Buy</button>
+                    <button onclick="closeBuySellMenu(states)">Cancel</button>
+                </div>
+            </div>
+
+            <div id="sellhideme">
+                <div class="buysellmenu">
+                    SELL
+                    <div id="selldollarsformcontainer">
+                        <div id="selldollarsform">
+                            $<input type="number" id="viewselldollars" name="viewselldollars" min='0' placeholder="0.00" oninput="validity.valid||(value='');">
+                        </div>
+                    </div>
+                    <div id="selldollarsbuttoncontainer">
+                        <div id="selldollarsbutton">
+
+                            <button onclick="sellindollars(states)">Sell in Dollars</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        ----------- or -------------
+                    </div>
+
+                    <div id="sellsharesformcontainer">
+                        <div id="sellsharesform">
+                            <input type="number" id="viewsellshares" name="viewsellshares" min='0' placeholder="0" oninput="validity.valid||(value='');">share(s)
+                        </div>
+                    </div>
+                    <div id="sellsharesbuttoncontainer">
+                        <div id="sellsharesbutton">
+
+                            <button onclick="sellinshares(states)">Sell in Shares</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        ----------- or -------------
+                    </div>
+
+                    <div id="sellcloseformcontainer">
+                        <div id="sellcloseform">
+                            <input type="checkbox" id="viewsellclose" name="viewsellclose" onclick="updatesellclosepage(states)"/> Close position and sell all shares
+                        </div>
+                    </div>
+                    <div id="sellclosebuttoncontainer">
+                        <div id="sellclosebutton">
+                            <button onclick="sellClose(states)">Close Position</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>
+                            Current Price : $<data id="sellcurrentprice"></data></br>
+                            
+                            <div id="selltype">
+                            </div></br>
+
+                            <p>Shares in holdings : <data id="sellsharestotal"></data></p>
+                            <p>Cash Available : $<data id="sellcashtotal"></data></p>
+
+                            <div id="sellstatus"></div>
+                        </div>
+                    </div>
+                    <button onClick="sell(states)"">Sell</button>
+
+
+                    <button onclick="closeBuySellMenu(states)">Cancel</button>
+                </div>
+            </div>
+
+            <div id="viewcanvas">
+            </div>
+
+            <div id='viewgraphbuttons'>
+            </div>
+                <button id="viewgraphday">1D</button>
+                <button id="viewgraphweek">1W</button>
+                <button id="viewgraphmonth">1M</button>
+                <button id="viewgraphthreem">3M</button>
+                <button id="viewgraphyear">1Y</button>
+
+            <div id="viewinfo">
+            </div>
+
+            <div id="viewholdings">
+            </div>
+
+
+            <div>
+                <button onclick="showBuyMenu(states)">Buy</button> <button id="viewsellbutton" onclick="showSellMenu(states)">Sell</button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="../static/viewstock.js"></script>
+    <script src="../static/buysell.js"></script>
+    <script>
+
+        // initialise states
+        let states = {'buy':false, 'sell':false, 'bydollars':false, 'byshares':false};
+
+        // retrieve the symbol data for this page
+        const symbol = (document.getElementById("viewsymbol")).value;
+
+        // draw symbol
+        rendersymbol(symbol);
+
+        renderpage(symbol, states);
+
+        // refresh page every 3 secs
+        let interval = 3000;
+        const viewpageinterval = setInterval(()=>{renderpage(symbol, states, 'api')}, interval);
+
+    </script>
+
+{% endblock %}

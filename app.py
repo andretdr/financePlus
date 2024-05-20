@@ -1,0 +1,209 @@
+import os
+import re
+import sys
+
+from flask import Flask, render_template, jsonify, request, session, redirect
+from flask_session import Session
+from werkzeug.security import check_password_hash, generate_password_hash
+
+import mysql.connector, buysell, func, landf, viewf
+import yfinance as yf
+
+# Configure application
+app = Flask(__name__)
+
+# Configure Session
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
+
+# Configure DB
+try:
+    conn = mysql.connector.connect(
+        user="d3xj7d753lhx14ad",
+        password="qyjau9ud4manbl1w",
+        host="z12itfj4c1vgopf8.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+        port=3306,
+        database="nodabg0vdbkgxoop"
+    )
+except mysql.connector.Error as e:
+    print(f"Error connecting to database: {e}")
+    sys.exit(1)
+
+db = conn.cursor(dictionary = True)
+
+
+@app.route('/', methods=['GET', 'POST'])
+@landf.loginRequired
+def index():
+    """ Main page """
+
+    if request.method == 'GET':
+        return render_template("index.html")
+    
+#    clientrequest = request.get_json()
+
+#    if clientrequest['return'] != None:
+        # if client request fetch of 'return':'cash'
+#        return jsonify({'cash':func.returncash(db)})
+
+    if request.method == 'POST':
+        clientrequest = request.get_json()
+        clienttype = clientrequest['type']
+
+        cashdict = []
+        cashdict.append({"cash":0})
+
+        if clienttype == 'full' or clienttype == 'cash':
+            cash = func.returncash(db)
+            cashdict[0]['cash'] = cash
+
+        data = []
+
+        if clienttype == 'full' or clienttype == 'holdings':
+            data = viewf.dbReturnUserHoldingsDataALL(session['user_id'], db)
+
+            for items in data:
+                items['currprice'] = viewf.returncurrprice(items['symb'])
+                
+                try:
+                    symb = yf.Ticker(items['symb'])
+                    items['prevclose'] = (viewf.returnprevclose(symb, '1d'))[0]['prevdayclose']
+
+                except: # if error reading symb
+                    return 1
+    
+        returndata = cashdict + data
+
+        print(returndata)
+        return jsonify(returndata)
+    
+
+@app.route('/landing')
+def landing():
+    """ Login and Registration page """
+
+    return render_template("landing.html")
+
+@app.route('/login', methods=['POST'])
+def login():
+    """ Do username n password checks and login """
+
+    clientdata = request.get_json()
+
+    # assigning for readability
+    cdusername = clientdata['username']
+    cdpassword = clientdata['password']
+
+    # validation checks
+    statusarr = []
+    statusarr.append(landf.validatename(cdusername))
+    statusarr.append(landf.validatepassword(cdpassword))
+    statusarr.append(landf.finduserpassword(cdusername, cdpassword, db))
+
+
+    # if checks fail, return status
+    if not landf.isvalid(statusarr):
+        return jsonify(statusarr)
+
+    # if all good, sign user in
+    landf.signinuser(cdusername, db)
+
+    return jsonify(statusarr)
+
+
+@app.route('/logout')
+def logout():
+    """ logout functionality """
+
+    # Forget userid
+    session.clear()
+
+    return redirect("/")
+
+
+@app.route('/register', methods=['POST'])
+def register():
+    """ Do registration checks and log in if successful """
+
+    clientdata = request.get_json()
+
+    # assigning for readability
+    cdusername = clientdata['username']
+    cdpassword = clientdata['password']
+    cdconfirmation = clientdata['confirmation']
+    cdhash = generate_password_hash(cdpassword, method='scrypt', salt_length=16)
+
+    # validation checks
+    statusarr = []
+    statusarr.append(landf.validatename(cdusername)) # NEED TO CHECK THAT USER DOES NOT EXIST
+    statusarr.append(landf.ifexistsname(cdusername, db))
+    statusarr.append(landf.validatepassword(cdpassword))
+    statusarr.append(landf.validateconfirmation(cdpassword, cdconfirmation))
+
+    # if checks fail, return status
+    if not landf.isvalid(statusarr):
+        return jsonify(statusarr)
+
+    # if all is good, create account
+    db.execute("INSERT INTO fin_users (username, hash) VALUES (%s, %s)", (cdusername.upper(), cdhash,))
+    conn.commit()
+
+    # sign in the user
+    landf.signinuser(cdusername, db)
+
+    return jsonify(statusarr)
+
+
+@app.route('/viewstock', methods = ['GET', 'POST'])
+@landf.loginRequired
+def viewstock():
+    if request.method == "GET" :
+        symbol = request.args.get('q')
+        return render_template("viewstock.html", symbol = symbol)
+    
+    else:
+        clientdata = request.get_json()
+        typedata = clientdata['type']
+        if typedata == 'stock':
+            data = viewf.retrievedata(clientdata['symbol'], db)
+        if typedata == 'holdings':
+            data = viewf.dbReturnUserHoldingsData(session['user_id'], clientdata['symbol'], db)
+
+        return jsonify(data)
+
+
+@app.route('/buy', methods = ['POST'])
+@landf.loginRequired
+def buy():
+    clientdata = request.get_json()
+    clientsymb = clientdata['symbol']
+    clientbuyamt = clientdata['buyamt']
+
+    record = buysell.buyshares(session['user_id'], clientsymb, clientbuyamt, db, conn)
+
+    return jsonify(record)
+
+
+@app.route('/sell', methods = ['POST'])
+@landf.loginRequired
+def sell():
+    clientdata = request.get_json()
+    clientsymb = clientdata['symbol']
+    clientsellamt = clientdata['sellamt']
+    clientclose = clientdata['close']
+
+    record = buysell.sellshares(session['user_id'], clientsymb, clientsellamt, clientclose, db, conn)
+
+    return jsonify(record)
+
+    
+
+
+
+
+
+
+
+
+    

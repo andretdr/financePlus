@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index Page
+
+{% endblock %}
+
+{% block body %}
+
+    <p>My Holdings</p>
+    <section id="holdgrid"></section>
+
+
+
+
+
+    <script src="../static/index.js"></script>
+    <script>
+
+        refreshHoldingsPage();
+        const viewpage = setInterval(()=>{refreshHoldingsPage()}, 3000);
+
+        
+
+        
+        
+    </script>
+
+
+
+{% endblock %}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+    <head>
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link href="../static/styles.css" rel="stylesheet">
+        <script src="../static/stock_info.js"></script>
+        <script src="../static/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+
+    <body>
+        <div class="dashboardcontainer">
+            <div class="dashboardmaincolumn">
+                <a href = "/"><h1>FINANCE PLUS</h1></a>
+
+                <!-- SEARCH BAR -->
+                <div>
+                    <form>
+                        <input id="searchbar" type="text" autocomplete="off" placeholder="Search Symbol">
+                    </form>
+                </div>
+                <div id="searchstatus">
+
+                </div>
+                
+                <!-- ingest search bar data from stock_info.js -->
+                
+                <script>
+                    // searchbar script
+                    let searchbar = document.getElementById("searchbar");
+                    searchbar.addEventListener('keyup', event => {
+                        let html = `<div class="searchmenu">`;
+                        let input = searchbar.value;
+
+                        if (input) { // only if there is value
+                            input = input.toUpperCase();
+                            let counter = 0;
+
+                            for (let stock of stocklist) {
+                                if (stock[0].startsWith(input)){
+                                    html += `<a href="/viewstock?q=${stock[0]}"> ${stock[0]} | ${stock[1]} </a></br>`;
+                                    counter ++;
+                                    if (counter > 5)
+                                        break;
+                                }
+                            }
+                        }
+                        html += `</div>`
+                        document.getElementById("searchstatus").innerHTML = html;
+                    });
+       
+                </script>
+
+            </div>
+            <div class="dashboardsidecolumn">
+                <button><a href=".\logout">Logout</a></button>
+                </form>
+            </div>
+        </div>
+
+        <div id="indexbody">
+        {% block body %}{% endblock %}
+        </div>
+
+
+    </body>
+
+</html>
+
