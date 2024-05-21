@@ -1,6 +1,25 @@
 from functools import wraps
 from flask import redirect, render_template, session
 
+import mysql.connector
+
+""" initialise db connection """
+def mysql_conn():
+    # Configure DB
+    try:
+        conn = mysql.connector.connect(
+            user="d3xj7d753lhx14ad",
+            password="qyjau9ud4manbl1w",
+            host="z12itfj4c1vgopf8.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+            port=3306,
+            database="nodabg0vdbkgxoop"
+        )
+    except mysql.connector.Error as e:
+        print(f"Error connecting to database: {e}")
+        sys.exit(1)
+
+    return conn
+
 
 """ return username """
 def returnUserName(argid, argdb):
@@ -12,9 +31,12 @@ def returnUserName(argid, argdb):
 
 """ returns cash of current user """
 def returncash(argdb):
+
+#    argdb.execute("LOCK TABLES fin_users READ")
     argdb.execute("SELECT cash FROM fin_users WHERE id = %s", (session['user_id'],))
     row = argdb.fetchall()
-    
+#    argdb.execute("UNLOCK TABLES")
+
     return row[0]['cash']
 
 

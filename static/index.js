@@ -6,8 +6,8 @@ async function getHoldingsPage(argtype = 'full'){
 
 }
 
-async function refreshHoldingsPage() {
-    let resultObj = await getHoldingsPage();
+async function refreshHoldingsPage(resultObj) {
+//    let resultObj = await getHoldingsPage();
     html = ``;
 
     for (let i = 1; i < resultObj.length; i++){

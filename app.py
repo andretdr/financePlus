@@ -1,12 +1,10 @@
-import os
-import re
-import sys
+import os, json, re ,sys
 
 from flask import Flask, render_template, jsonify, request, session, redirect
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-import mysql.connector, buysell, func, landf, viewf
+import buysell, func, landf, viewf
 import yfinance as yf
 
 # Configure application
@@ -18,18 +16,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure DB
-try:
-    conn = mysql.connector.connect(
-        user="d3xj7d753lhx14ad",
-        password="qyjau9ud4manbl1w",
-        host="z12itfj4c1vgopf8.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-        port=3306,
-        database="nodabg0vdbkgxoop"
-    )
-except mysql.connector.Error as e:
-    print(f"Error connecting to database: {e}")
-    sys.exit(1)
-
+conn = func.mysql_conn()
 db = conn.cursor(dictionary = True)
 
 
@@ -39,13 +26,26 @@ def index():
     """ Main page """
 
     if request.method == 'GET':
-        return render_template("index.html")
-    
-#    clientrequest = request.get_json()
 
-#    if clientrequest['return'] != None:
-        # if client request fetch of 'return':'cash'
-#        return jsonify({'cash':func.returncash(db)})
+        print("a")
+        cash = func.returncash(db)
+        print("b")
+        cashdict = [{} for _ in range(1)]
+        cashdict[0]['cash'] = cash
+
+
+        data = viewf.dbReturnUserHoldingsDataALL(session['user_id'], db)
+        apidata = viewf.returnCPPC(data)
+
+        for i in range(len(data)):
+            data[i]['currprice'] = apidata[i]['currprice']
+            data[i]['prevclose'] = apidata[i]['prevclose']
+
+        print("c")
+        returndata = cashdict + data
+
+        return render_template("index.html", data = returndata)
+    
 
     if request.method == 'POST':
         clientrequest = request.get_json()
@@ -154,6 +154,7 @@ def register():
 @app.route('/viewstock', methods = ['GET', 'POST'])
 @landf.loginRequired
 def viewstock():
+
     if request.method == "GET" :
         symbol = request.args.get('q')
         return render_template("viewstock.html", symbol = symbol)
@@ -193,8 +194,7 @@ def sell():
 
     return jsonify(record)
 
-    
-
+ 
 
 
 

@@ -2,13 +2,24 @@
 
 {% block title %}
     Index Page
-
 {% endblock %}
 
 {% block body %}
 
     <p>My Holdings</p>
-    <section id="holdgrid"></section>
+    <input type="hidden" id="datadump" name="datadump" value="{{ data }}">
+    <section id="holdgrid">
+        {% for item in data %}
+            {% if item.symb is defined %}
+                {% set symb = item.symb %}
+                {% set hrefstr = "/viewstock?q="+symb %}
+                <p><a href={{ hrefstr }} >{{ item }}</a></p>
+            {% endif %}
+
+
+        {% endfor %}
+    </section>
+
 
 
 
@@ -24,7 +35,8 @@
 
 //        console.log(`${endtime - starttime} ms`)
 
-        
+//        console.log(document.getElementById("datadump").value);
+                
 
         
         
