@@ -170,6 +170,30 @@ def dbReturnUserHoldingsDataALL(argid, argdb):
     return rows
 
 
+""" return currprice and prev close given holdings data from dbReturnUserHoldingsDataALL"""
+def returnCPPC(argholdingsdata):
+
+    # create a string of symb names
+    symbstr = ''
+    for item in argholdingsdata:
+        symbstr += item['symb'] + ' '
+
+    # initialise API
+    data = yf.download(symbstr, period='2d')
+
+    # initialise list of dict
+    returndata = [{} for _ in range(len(argholdingsdata))]
+
+    for i in range(len(argholdingsdata)):
+        symb = argholdingsdata[i]['symb']
+#        returndata[i]['symb'] = symb
+        closeinfo = data['Close'][symb]
+        returndata[i]['currprice'] = closeinfo.iloc[1]
+        returndata[i]['prevclose'] = closeinfo.iloc[0]
+
+    return returndata
+
+
 
 """ returns currprice of symbol """
 def returncurrprice(argsymb):

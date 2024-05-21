@@ -63,19 +63,15 @@ def index():
         if clienttype == 'full' or clienttype == 'holdings':
             data = viewf.dbReturnUserHoldingsDataALL(session['user_id'], db)
 
-            for items in data:
-                items['currprice'] = viewf.returncurrprice(items['symb'])
-                
-                try:
-                    symb = yf.Ticker(items['symb'])
-                    items['prevclose'] = (viewf.returnprevclose(symb, '1d'))[0]['prevdayclose']
+            # return currprice and prev close for all symbols
+            apidata = viewf.returnCPPC(data)
 
-                except: # if error reading symb
-                    return 1
+            for i in range(len(data)):
+                data[i]['currprice'] = apidata[i]['currprice']
+                data[i]['prevclose'] = apidata[i]['prevclose']
     
         returndata = cashdict + data
 
-        print(returndata)
         return jsonify(returndata)
     
 

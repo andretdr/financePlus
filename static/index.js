@@ -12,7 +12,7 @@ async function refreshHoldingsPage() {
 
     for (let i = 1; i < resultObj.length; i++){
         symb = resultObj[i]['symb'];
-        currprice = resultObj[i]['currprice'];
+        currprice = (resultObj[i]['currprice']).toFixed(2);
         quantity = resultObj[i]['quantity'];
         avgcost = resultObj[i]['avgcost'];
         prevclose = resultObj[i]['prevclose'];
