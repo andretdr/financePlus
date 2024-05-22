@@ -2,6 +2,11 @@
 <html lang = 'en'>
     <head>
         <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <!-- bootstrap and css -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
         <link href="../static/styles.css" rel="stylesheet">
         <script src="../static/stock_info.js"></script>
         <script src="../static/scripts.js"></script>
@@ -11,54 +16,53 @@
     </head>
 
     <body>
-        <div class="dashboardcontainer">
-            <div class="dashboardmaincolumn">
-                <a href = "/"><h1>FINANCE PLUS</h1></a>
-
-                <!-- SEARCH BAR -->
-                <div>
-                    <form>
-                        <input id="searchbar" type="text" autocomplete="off" placeholder="Search Symbol">
-                    </form>
-                </div>
-                <div id="searchstatus">
-
-                </div>
-                
-                <!-- ingest search bar data from stock_info.js -->
-                
-                <script>
-                    // searchbar script
-                    let searchbar = document.getElementById("searchbar");
-                    searchbar.addEventListener('keyup', event => {
-                        let html = `<div class="searchmenu">`;
-                        let input = searchbar.value;
-
-                        if (input) { // only if there is value
-                            input = input.toUpperCase();
-                            let counter = 0;
-
-                            for (let stock of stocklist) {
-                                if (stock[0].startsWith(input)){
-                                    html += `<a href="/viewstock?q=${stock[0]}"> ${stock[0]} | ${stock[1]} </a></br>`;
-                                    counter ++;
-                                    if (counter > 5)
-                                        break;
-                                }
-                            }
-                        }
-                        html += `</div>`
-                        document.getElementById("searchstatus").innerHTML = html;
-                    });
-       
-                </script>
-
+        <div class="dashboard">
+            <!-- LOGO -->
+            <div class="dashboard__logo">
+                <a href = "/"><h1>finance+</h1></a>
             </div>
-            <div class="dashboardsidecolumn">
+            <!-- SEARCH BAR -->
+            <div class="dashboard__search">
+                <form>
+                    <input id="searchbar" type="text" autocomplete="off" placeholder="Search Symbol">
+                </form>
+                <div id="searchstatus">
+                    <p></p>
+                </div>
+            </div>
+            <!-- SETTINGS -->
+            <div class="dashboard__settings">
                 <button><a href=".\logout">Logout</a></button>
                 </form>
             </div>
         </div>
+
+        <!-- ingest search bar data from stock_info.js -->
+        <script>
+            // searchbar script
+            let searchbar = document.getElementById("searchbar");
+            searchbar.addEventListener('keyup', event => {
+                let html = `<div class="searchmenu">`;
+                let input = searchbar.value;
+
+                if (input) { // only if there is value
+                    input = input.toUpperCase();
+                    let counter = 0;
+
+                    for (let stock of stocklist) {
+                        if (stock[0].startsWith(input)){
+                            html += `<a href="/viewstock?q=${stock[0]}"> ${stock[0]} | ${stock[1]} </a></br>`;
+                            counter ++;
+                            if (counter > 5)
+                                break;
+                        }
+                    }
+                }
+                html += `</div>`
+                document.getElementById("searchstatus").innerHTML = html;
+            });
+        </script>
+
 
         <div id="indexbody">
         {% block body %}{% endblock %}

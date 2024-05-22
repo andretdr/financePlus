@@ -1,25 +1,12 @@
 /** shows the login form on the landing page, hides login button */
 function showlogin(){
-    html =  `
-            <form id="loginform">
-                <div>
-                    <input autocomplete='off' autofocus 'type='text' name='username' placeholder='Username' />
-                </div>
-                <div id="loginnamestatus">
 
-                </div>
-                <div>
-                    <input autocomplete='off' autofocus 'type='text' name='password' placeholder='Password' />
-                </div>
-                <div id="loginpasswordstatus">
+    document.getElementById("landing-container__login-form-hideme").style.visibility = "visible";
+    document.getElementById("landing-container__login-button-hideme").style.visibility = "hidden";
 
-                </div>
-                <button>Submit</button>
-            </form>
-            `
-    document.querySelector('#landingitemlogin').innerHTML = html;
+    document.getElementById("landing-container__register-form-hideme").style.visibility = "hidden";
+    document.getElementById("landing-container__register-button-hideme").style.visibility = "visible";
     
-    addEL_loginform();
 }
 
 /** adds eventlistener to the login form */
@@ -76,52 +63,15 @@ function loginprintstatus(argstatusarr){
 }
 
 
-/** hides the login form on the landing page, shows the login button */
-function hidelogin(){
-    html =  `
-            <button class="btn btn-primary" id="loginstart">Login</button>
-
-            `
-    document.querySelector('#landingitemlogin').innerHTML = html;
-
-    let button = document.querySelector("#loginstart");
-    button.addEventListener('click', function(){
-        showlogin();
-        hideregister();
-    });
-}
-
-
-
 /** shows the register form on the landing page, hides register button */
 function showregister(){
-html =  `
-            <form id="registerform">
-                <div>
-                    <input autocomplete='off' autofocus type='text' name='username' placeholder='Username' />
-                </div>
-                <div id="registernamestatus">
 
-                </div>
-                <div>
-                    <input autocomplete='off' autofocus type='text' name='password' placeholder='Password' />
-                </div>
-                <div id="registerpasswordstatus">
+    document.getElementById("landing-container__login-form-hideme").style.visibility = "hidden";
+    document.getElementById("landing-container__login-button-hideme").style.visibility = "visible";
 
-                </div>
-                <div>
-                    <input autocomplete='off' autofocus type='text' name='confirmation' placeholder='Reconfirm Password' />
-                </div>
-                <div id="registerconfirmationstatus">
+    document.getElementById("landing-container__register-form-hideme").style.visibility = "visible";
+    document.getElementById("landing-container__register-button-hideme").style.visibility = "hidden";
 
-                </div>
-
-                <button>Submit</button>
-            </form>
-            `
-    document.querySelector('#landingitemregister').innerHTML = html;
-
-    addEL_registerform();
 }
 
 
@@ -178,20 +128,4 @@ function registerprintstatus(argstatusarr){
         if (argstatusarr[i]['input'] == 'confirmation')
             printstatus('#registerconfirmationstatus', argstatusarr[i]);
     }
-}
-
-
-/** hides the register form on the landing page, shows the register button */
-function hideregister(){
-html =  `
-            <button class="btn btn-primary" id="registerstart">Create Account</button>
-
-            `
-    document.querySelector('#landingitemregister').innerHTML = html;
-
-    let button = document.querySelector("#registerstart");
-    button.addEventListener('click', function(){
-        showregister();
-        hidelogin();
-    });
 }

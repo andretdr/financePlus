@@ -139,9 +139,10 @@ def returnprevclose(argsymb, argrange):
 """ return stock quantity, avgcost, cash, symb data from db given userid and db """
 def dbReturnUserHoldingsData(argid, argsymb, argdb):
     
-    argdb.execute("SELECT cash FROM fin_users WHERE fin_users.id = %s", (argid,))
+#    argdb.execute("SELECT cash FROM fin_users WHERE fin_users.id = %s", (argid,))
     rows = argdb.fetchall()
-    cash = rows[0]['cash']
+#    cash = rows[0]['cash']
+    cash = '200.00'
 
     symbid = buysell.lookupSymbol(argsymb, argdb)
     data = []
@@ -164,12 +165,10 @@ def dbReturnUserHoldingsDataALL(argid, argdb):
     
     # execute seperately incase the row doesnt exist, if new transaction
     print("1")
-    argdb.execute("LOCK TABLES fin_holdings READ, fin_symbs READ")
     executionstr = "SELECT fin_holdings.quantity, fin_holdings.avgcost, fin_symbs.symb FROM (fin_holdings INNER JOIN fin_symbs ON fin_symbs.id = fin_holdings.symb_id) WHERE fin_holdings.user_id = %s ORDER BY fin_symbs.symb ASC"
     argdb.execute(executionstr, (argid,))
     rows = argdb.fetchall()
     print("2")
-    argdb.execute("UNLOCK TABLES")
     print("3")
     
     return rows

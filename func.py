@@ -32,10 +32,8 @@ def returnUserName(argid, argdb):
 """ returns cash of current user """
 def returncash(argdb):
 
-#    argdb.execute("LOCK TABLES fin_users READ")
     argdb.execute("SELECT cash FROM fin_users WHERE id = %s", (session['user_id'],))
     row = argdb.fetchall()
-#    argdb.execute("UNLOCK TABLES")
 
     return row[0]['cash']
 

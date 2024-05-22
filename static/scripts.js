@@ -1,12 +1,12 @@
-const validationstatus = [  "",
+const validationstatus = [  "<p></p><p></p>",
                             "Username must be alphanumeric",
                             "Password must be more then 8 characters",
                             "Password and confirmation do not match",
                             "Username exists",
                             "Incorrect Password or username",
-                            "",
-                            "",
-                            "",
+                            "<p></p>",
+                            "<p></p>",
+                            "<p></p>",
                             "Holdings data entry not found", // Holdings data entry not found
                             "Symbol not found"
                         ];
@@ -72,7 +72,8 @@ function returnstatus(argn, arginput, argvalidstat=validationstatus){
 /** print status given the selector and the status dictonary of the form {'status':n, 'message':txt}. 
  *  if argstatus is not provided, it prints '' */
 function printstatus(argselector, argstatus={'message':''}){
-    document.querySelector(argselector).innerHTML = argstatus['message'];    
+    document.querySelector(argselector).innerHTML = argstatus['message'];
+    document.querySelector(argselector).style.color = 'red';  
 }
 
 

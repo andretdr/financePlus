@@ -20,26 +20,79 @@
 
     <body>
 
-        <div class="landingcontainer">
-            <div class="landingcolumn">
-                FINANCE PLUS
+        <div class="landing-container">
+            <div class="landing-container__logo">
+                <h1>finance +</h1>
             </div>
 
-            <div class="landingcolumn">
-                <div id="landingitemlogin">
-                    
+            <div class="landing-container__items">
+                <div id="landing-container__login">
+                    <div id="landing-container__login-form-hideme">
+                        
+                        <form id="loginform">
+                            <h2>Sign In</h2>
+                            <div>
+                                <input autocomplete='off' autofocus 'type='text' name='username' placeholder='Username' />
+                            </div>
+                            <div id="loginnamestatus">
+                                <p></p><p></p>
+                            </div>
+                            <div>
+                                <input autocomplete='off' autofocus 'type='text' name='password' placeholder='Password' />
+                            </div>
+                            <div id="loginpasswordstatus">
+                                <p></p><p></p>
+                            </div>
+                            <button>Submit</button>
+                        </form>
+
+                    </div>
+                    <div id="landing-container__login-button-hideme">
+
+                        <button class="btn btn-primary" id="loginstart" onclick="showlogin()">Login</button>
+                        
+                    </div>
                 </div>
-                <div id="landingitemregister">
-    
+                <div id="landing-container__register">
+
+                    <div id="landing-container__register-form-hideme">
+                        <form id="registerform">
+                            <h2>Create Account</h2>
+                            <div>
+                                <input autocomplete='off' autofocus type='text' name='username' placeholder='Username' />
+                            </div>
+                            <div id="registernamestatus">
+                                <p></p><p></p>
+                            </div>
+                            <div>
+                                <input autocomplete='off' autofocus type='text' name='password' placeholder='Password' />
+                            </div>
+                            <div id="registerpasswordstatus">
+                                <p></p><p></p>
+                            </div>
+                            <div>
+                                <input autocomplete='off' autofocus type='text' name='confirmation' placeholder='Reconfirm Password' />
+                            </div>
+                            <div id="registerconfirmationstatus">
+                                <p></p><p></p>
+                            </div>
+
+                            <button>Submit</button>
+                        </form>
+                    </div>
+                    
+                    <div id="landing-container__register-button-hideme">
+                        <button class="btn btn-primary" id="registerstart" onclick="showregister()">Create Account</button>
+                    </div>
+                
                 </div>
             </div>
         </div>
 
         <script>
-            hidelogin();
 
-            hideregister();
-
+            addEL_loginform();
+            addEL_registerform();
 
 
 /**
