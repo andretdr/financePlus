@@ -1,11 +1,11 @@
 /** shows the login form on the landing page, hides login button */
 function showlogin(){
 
-    document.getElementById("landing-container__login-form-hideme").style.visibility = "visible";
-    document.getElementById("landing-container__login-button-hideme").style.visibility = "hidden";
+    document.querySelector(".landing-container__login-form-hideme").style.visibility = "visible";
+    document.querySelector(".landing-container__login-button-hideme").style.visibility = "hidden";
 
-    document.getElementById("landing-container__register-form-hideme").style.visibility = "hidden";
-    document.getElementById("landing-container__register-button-hideme").style.visibility = "visible";
+    document.querySelector(".landing-container__register-form-hideme").style.visibility = "hidden";
+    document.querySelector(".landing-container__register-button-hideme").style.visibility = "visible";
     
 }
 
@@ -66,11 +66,11 @@ function loginprintstatus(argstatusarr){
 /** shows the register form on the landing page, hides register button */
 function showregister(){
 
-    document.getElementById("landing-container__login-form-hideme").style.visibility = "hidden";
-    document.getElementById("landing-container__login-button-hideme").style.visibility = "visible";
+    document.querySelector(".landing-container__login-form-hideme").style.visibility = "hidden";
+    document.querySelector(".landing-container__login-button-hideme").style.visibility = "visible";
 
-    document.getElementById("landing-container__register-form-hideme").style.visibility = "visible";
-    document.getElementById("landing-container__register-button-hideme").style.visibility = "hidden";
+    document.querySelector(".landing-container__register-form-hideme").style.visibility = "visible";
+    document.querySelector(".landing-container__register-button-hideme").style.visibility = "hidden";
 
 }
 

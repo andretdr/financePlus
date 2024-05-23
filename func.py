@@ -1,7 +1,9 @@
 from functools import wraps
 from flask import redirect, render_template, session
 
-import mysql.connector
+import mysql.connector, mysql.connector.pooling
+import pymysql.cursors
+import sys
 
 """ initialise db connection """
 def mysql_conn():
@@ -12,13 +14,31 @@ def mysql_conn():
             password="qyjau9ud4manbl1w",
             host="z12itfj4c1vgopf8.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
             port=3306,
-            database="nodabg0vdbkgxoop"
+            database="nodabg0vdbkgxoop",
         )
     except mysql.connector.Error as e:
         print(f"Error connecting to database: {e}")
         sys.exit(1)
 
     return conn
+
+
+# Configure DB for connection pooling
+def mysql_connpool():
+    try:
+        conn_pool = mysql.connector.pooling.MySQLConnectionPool(
+            pool_name="mypool",
+            user="d3xj7d753lhx14ad",
+            password="qyjau9ud4manbl1w",
+            host="z12itfj4c1vgopf8.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+            port=3306,
+            database="nodabg0vdbkgxoop",
+        )
+    except mysql.connector.Error as e:
+        print(f"Error connecting to database: {e}")
+        sys.exit(1)
+
+    return conn_pool
 
 
 """ return username """
@@ -32,8 +52,13 @@ def returnUserName(argid, argdb):
 """ returns cash of current user """
 def returncash(argdb):
 
+#    with argdb:
+#        with argdb.cursor() as cursor:
+#            cursor.execute("SELECT cash FROM fin_users WHERE id = %s", (session['user_id'],))
+
     argdb.execute("SELECT cash FROM fin_users WHERE id = %s", (session['user_id'],))
     row = argdb.fetchall()
+#    row = cursor.fetchall()
 
     return row[0]['cash']
 

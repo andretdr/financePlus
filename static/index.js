@@ -35,3 +35,34 @@ async function refreshHoldingsPage(resultObj) {
     document.getElementById("holdgrid").innerHTML = html;
 
 };
+
+/**  updates the search counter on the arrow keys. argdir accepts "up", "down" **/
+function updateSearchCounter(argcounter, arglength, argdir) {
+    let counter = argcounter;
+
+    if (argdir == "up"){
+        if (counter <= 0)
+            counter = arglength-1;
+        else
+            counter -= 1;
+    }
+    if (argdir == "down"){ // if "down"
+        if (counter >= arglength-1)
+            counter = 0;
+        else
+            counter += 1;
+    }
+    console.log("counter aa:"+counter)
+    return counter;
+}
+
+/**  set focus **/
+function setActiveSearch(argcounter) {
+    searchlist = document.getElementsByClassName("search-menu__items");
+    console.log(searchlist);
+    for (let i = 0; i < searchlist.length; i++){
+        console.log("item" + searchlist[i]);
+        searchlist[i].style.backgroundColor="rgb(227, 245, 255)";
+        }
+    searchlist[argcounter].style.backgroundColor="rgb(233, 127, 137)";
+}

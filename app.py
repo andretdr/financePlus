@@ -4,7 +4,7 @@ from flask import Flask, render_template, jsonify, request, session, redirect
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-import buysell, func, landf, viewf
+import buysell, func, landf, viewf, mysql.connector
 import yfinance as yf
 
 # Configure application
@@ -15,10 +15,10 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Configure DB
-conn = func.mysql_conn()
-db = conn.cursor(dictionary = True)
 
+conn = func.mysql_conn()
+# conn = conn_pool.get_connection()
+db = conn.cursor(dictionary = True)
 
 @app.route('/', methods=['GET', 'POST'])
 @landf.loginRequired
@@ -27,9 +27,7 @@ def index():
 
     if request.method == 'GET':
 
-        print("a")
         cash = func.returncash(db)
-        print("b")
         cashdict = [{} for _ in range(1)]
         cashdict[0]['cash'] = cash
 
@@ -41,7 +39,6 @@ def index():
             data[i]['currprice'] = apidata[i]['currprice']
             data[i]['prevclose'] = apidata[i]['prevclose']
 
-        print("c")
         returndata = cashdict + data
 
         return render_template("index.html", data = returndata)

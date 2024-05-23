@@ -6,6 +6,8 @@
         <!-- bootstrap and css -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
         <link href="../static/styles.css" rel="stylesheet">
         <script src="../static/stock_info.js"></script>
@@ -15,35 +17,90 @@
         <title>{% block title %}{% endblock %}</title>
     </head>
 
-    <body>
-        <div class="dashboard">
-            <!-- LOGO -->
-            <div class="dashboard__logo">
-                <a href = "/"><h1>finance+</h1></a>
-            </div>
-            <!-- SEARCH BAR -->
-            <div class="dashboard__search">
-                <form>
-                    <input id="searchbar" type="text" autocomplete="off" placeholder="Search Symbol">
-                </form>
-                <div id="searchstatus">
-                    <p></p>
+    <body class="page-layout">
+        <header class="page-format page-format--header">
+            <section class="dashboard">
+                <!-- LOGO -->
+                <div class="dashboard__logo">
+                    <a href = "/"><h1>finance+</h1></a>
                 </div>
-            </div>
-            <!-- SETTINGS -->
-            <div class="dashboard__settings">
-                <button><a href=".\logout">Logout</a></button>
-                </form>
-            </div>
-        </div>
+                <!-- SEARCH BAR -->
+                <div class="dashboard__search">
+                    <form class="dashboard__searchform" action="javascript:void(0)">
+                        <input class="dashboard__searchbar" id="searchbar" type="text" autocomplete="off" placeholder="Search Symbol"/>
+                    
+                        <div class="dashboard__searchresult" id="searchstatus">
+                        </div>
+
+                    </form>
+                </div>
+                <!-- SETTINGS -->
+                <div class="dashboard__settings">
+                    <button class="dashboard__button"><a href=".\logout"><i class="fa fa-bars"></i></a></button>
+                    </form>
+                </div>
+            </section>
+        </header>
 
         <!-- ingest search bar data from stock_info.js -->
+        <script src="../static/index.js"></script>
         <script>
+
+            let searchcounter = -1; // keeps track of current search item
+            let newlist = true; // keeps track if list is new
+
             // searchbar script
             let searchbar = document.getElementById("searchbar");
+
+            // catch up down arrow
+            searchbar.addEventListener('keydown', event => {
+
+                console.log("start" + newlist);
+                const key = event.key;
+                if ((key !== "ArrowUp") && (key !== "ArrowDown") && (key !== "Enter")){
+                    // reset list
+                    newlist = true;
+                    return;
+                }
+
+                if (newlist)
+                    searchcounter = -1 //starts outside the menu
+
+                const searchlist = document.getElementsByClassName("search-menu__items");
+                const listlength = searchlist.length;
+                
+                console.log("searchcounter a :"+searchcounter);
+                if (key === "ArrowUp"){
+                    searchcounter = updateSearchCounter(searchcounter, listlength, "up");
+                }
+
+                if (key === "ArrowDown"){
+                    searchcounter = updateSearchCounter(searchcounter, listlength, "down");
+                }
+                console.log("searchcounter b :"+searchcounter);
+                
+                
+                if (key === "Enter"){
+                    console.log("asdasdasd");
+                    searchlist[searchcounter].click();
+                }
+
+                setActiveSearch(searchcounter);
+                // using the same list until it resets
+                newlist = false;
+                console.log("end" + newlist);
+            });
+
+            // catch search logic
             searchbar.addEventListener('keyup', event => {
-                let html = `<div class="searchmenu">`;
+                
                 let input = searchbar.value;
+
+                // dont proceed if there is no new list to generate
+                if (!newlist) 
+                    return;
+
+                let html = `<section class="search-menu">`;
 
                 if (input) { // only if there is value
                     input = input.toUpperCase();
@@ -51,24 +108,32 @@
 
                     for (let stock of stocklist) {
                         if (stock[0].startsWith(input)){
-                            html += `<a href="/viewstock?q=${stock[0]}"> ${stock[0]} | ${stock[1]} </a></br>`;
+                            html += `<a class="search-menu__items" href="/viewstock?q=${stock[0]}"><div> ${stock[0]} | ${stock[1]} </div></a>`;
                             counter ++;
+                            // if we list 6 already then break
                             if (counter > 5)
                                 break;
                         }
                     }
+
                 }
-                html += `</div>`
+                html += `</section>`
                 document.getElementById("searchstatus").innerHTML = html;
+
             });
         </script>
 
 
-        <div id="indexbody">
+        <main class="page-format page-format--main" id="indexbody">
         {% block body %}{% endblock %}
-        </div>
+        </main>
 
 
+        <footer class="page-format page-format--footer">
+            <section class="footer-bar">
+
+            </section>
+        </footer>
     </body>
 
 </html>

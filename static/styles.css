@@ -1,38 +1,175 @@
+/** sets box sizing for project **/
 * {
 	box-sizing: border-box;
+}
 
+/** handles vertical layout of the page **/
+.page-layout {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/** handles horizontal layout of the page **/
+.page-format {
+    width: 100%;
+    height: 800px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    
+}
+
+.page-format--header {
+    background-color: rgb(64, 161, 241);
+    height: 80px;
+}
+
+.page-format--main {
+    background-color: rgb(239, 246, 252);
+    min-height: calc(100vh - 160px);
+}
+
+.page-format--footer {
+    margin-left: auto;
+    background-color: rgb(64, 161, 241);
+    height: 80px;
 }
 
 .dashboard {
+    width: 100%;
+    max-width: 1500px;
     display: grid;
-    grid-template-columns: 200px 1fr 200px;
-    width: 100vw;
-    height: 100px;
+    grid-template-columns: 20% 60% 20%;
     justify-items: center;
+    align-items: center;
 }
 
 .dashboard__logo {
+    justify-self: start;
     grid-column: 1 / 2;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
+
+.dashboard__logo a {
+    margin: 20px;
+}
+
+.dashboard__logo a:link {
+    text-decoration: none;
+    color: rgba(253, 253, 253, 0.925);
+}
+
+.dashboard__logo a:visited {
+    text-decoration: none;
+    color: rgba(253, 253, 253, 0.925);
+    }
 
 .dashboard__logo h1 {
     text-transform: uppercase;
     text-align: center;
-    font-weight: 200;
-    font-size: 25px;
-    
-
+    font-weight: 500;
+    font-size: 100%;
 }
 
 .dashboard__search {
     grid-column: 2 / 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+}
 
+.dashboard__searchform {
+    width: 100%;
+}
+
+.dashboard__searchbar {
+    position: relative;
+    width: 100%;
+    padding: 8px 10px 8px 40px;
+    margin: 8px 0px;
+    border: 2px solid rgb(193, 232, 255);
+    border-radius: 12px;
+    background-color: rgb(227, 245, 255);
+    background-image: url('./images/searchicon.png');
+    background-position: 10px 10px;
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    outline: none;
+}
+
+.dashboard__searchbar:focus {
+    border: 2px solid rgb(193, 232, 255);
+    background-color: white;
+}
+
+.dashboard__searchresult {
+    visibility: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.dashboard__searchbar:focus + .dashboard__searchresult {visibility: visible;}
+
+.dashboard__searchresult:hover {visibility: visible;}
+
+.search-menu__items:hover + .dashboard__searchresult {visibility: visible;}
+
+.search-menu {
+    position: absolute;
+    
+    width: 100%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    transform: translate(0, 0);
+}
+
+.search-menu a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.search-menu__items {
+    background-color: rgb(227, 245, 255);
 }
 
 .dashboard__settings {
     grid-column: 3 / 4;
-
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
 }
+
+.dashboard__button {
+    width: 50px;
+    height: 50px;
+    margin: 20px;
+    background-color: rgb(136, 201, 255);
+    border: none;
+    border-radius: 15px;
+    color: rgba(253, 253, 253, 0.925);
+    cursor: pointer;
+}
+
+.dashboard__button:hover {
+    background-color: rgb(136, 201, 255);
+}
+
+.footer-bar {
+    width: 100%;
+    max-width: 1500px;
+}
+
 
 #buyhideme {
     visibility: hidden;
@@ -88,19 +225,19 @@
     height: 600px;
 }
 
-#landing-container__login {
+.landing-container__login {
     text-align: center;
     position: relative;
     margin: auto;
 }
 
-#landing-container__register {
+.landing-container__register {
     text-align: center;
     position: relative;
     margin: auto
 }
 
-#landing-container__login-form-hideme {
+.landing-container__login-form-hideme {
     visibility: visible;
     width: 300px;
     height: 250px;
@@ -110,7 +247,7 @@
 
 }
 
-#landing-container__login-button-hideme {
+.landing-container__login-button-hideme {
     visibility: hidden;
     position: absolute;
     width: 300px;
@@ -122,7 +259,7 @@
     justify-content: center;
 }
 
-#landing-container__register-form-hideme {
+.landing-container__register-form-hideme {
     visibility: hidden;
     position: absolute;
     width: 300px;
@@ -131,7 +268,7 @@
     transform: translate(-50%, -50%);
 }
 
-#landing-container__register-button-hideme {
+.landing-container__register-button-hideme {
     visibility: visible;
     position: absolute;
     width: 300px;
@@ -142,24 +279,6 @@
     align-items: center;
     justify-content: center;
 }
-
-
-.searchmenu {
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.searchmenu a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.searchmenu a:hover {background-color: #ddd;}
 
 #viewcurrentprice {
     font-size: x-large;
