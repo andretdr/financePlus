@@ -16,7 +16,6 @@
 .page-format {
     width: 100%;
     height: 800px;
-
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -24,22 +23,26 @@
     
 }
 
+/** header overide **/
 .page-format--header {
     background-color: rgb(64, 161, 241);
     height: 80px;
 }
 
+/** main overide **/
 .page-format--main {
     background-color: rgb(239, 246, 252);
     min-height: calc(100vh - 160px);
 }
 
+/** footer overide **/
 .page-format--footer {
     margin-left: auto;
     background-color: rgb(64, 161, 241);
     height: 80px;
 }
 
+/** navbar container **/
 .dashboard {
     width: 100%;
     max-width: 1500px;
@@ -49,6 +52,7 @@
     align-items: center;
 }
 
+/** navbar logo container **/
 .dashboard__logo {
     justify-self: start;
     grid-column: 1 / 2;
@@ -57,20 +61,24 @@
     align-items: flex-start;
 }
 
+/** navbar logo anchor **/
 .dashboard__logo a {
     margin: 20px;
 }
 
+/** navbar logo anchor state **/
 .dashboard__logo a:link {
     text-decoration: none;
     color: rgba(253, 253, 253, 0.925);
 }
 
+/** navbar logo anchor state **/
 .dashboard__logo a:visited {
     text-decoration: none;
     color: rgba(253, 253, 253, 0.925);
     }
 
+/** actual navbar logo text **/
 .dashboard__logo h1 {
     text-transform: uppercase;
     text-align: center;
@@ -78,6 +86,7 @@
     font-size: 100%;
 }
 
+/** navbar searchbar container **/
 .dashboard__search {
     grid-column: 2 / 3;
     display: flex;
@@ -86,10 +95,12 @@
     width: 70%;
 }
 
+/** navbar searchbar form **/
 .dashboard__searchform {
     width: 100%;
 }
 
+/** navbar actual searchbar **/
 .dashboard__searchbar {
     position: relative;
     width: 100%;
@@ -110,27 +121,32 @@
     background-color: white;
 }
 
+/** navbar searchresult container default hidden **/
 .dashboard__searchresult {
     visibility: hidden;
     position: relative;
     width: 100%;
 }
 
+/** show searchresult container on dashboard__searchbar:focus **/
 .dashboard__searchbar:focus + .dashboard__searchresult {visibility: visible;}
 
-.dashboard__searchresult:hover {visibility: visible;}
-
+/** show searchresult container on search-menu__items:hover **/
 .search-menu__items:hover + .dashboard__searchresult {visibility: visible;}
 
+/** show searchresult container on dashboard__searchresult:hover **/
+.dashboard__searchresult:hover {visibility: visible;}
+
+/** dynamic searchresult container **/
 .search-menu {
     position: absolute;
-    
     width: 100%;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     transform: translate(0, 0);
 }
 
+/** dynamic searchresult item anchor **/
 .search-menu a {
     color: black;
     padding: 12px 16px;
@@ -138,10 +154,12 @@
     display: block;
 }
 
+/** dynamic searchresult item **/
 .search-menu__items {
     background-color: rgb(227, 245, 255);
 }
 
+/** dashboard settings container **/
 .dashboard__settings {
     grid-column: 3 / 4;
     display: flex;
@@ -150,6 +168,7 @@
     width: 100%;
 }
 
+/** actual dashboard settings button **/
 .dashboard__button {
     width: 50px;
     height: 50px;
@@ -165,6 +184,7 @@
     background-color: rgb(136, 201, 255);
 }
 
+/** horizontal formating for footer bar **/
 .footer-bar {
     width: 100%;
     max-width: 1500px;

@@ -56,13 +56,20 @@ function updateSearchCounter(argcounter, arglength, argdir) {
     return counter;
 }
 
-/**  set focus **/
+/**  set color **/
 function setActiveSearch(argcounter) {
     searchlist = document.getElementsByClassName("search-menu__items");
-    console.log(searchlist);
-    for (let i = 0; i < searchlist.length; i++){
-        console.log("item" + searchlist[i]);
+    // reset color on all items
+    for (let i = 0; i < searchlist.length; i++)
         searchlist[i].style.backgroundColor="rgb(227, 245, 255)";
-        }
+
+    // highlight the selected item
     searchlist[argcounter].style.backgroundColor="rgb(233, 127, 137)";
+}
+
+/** on hover, set the new highlight, return new counter **/
+function onHoverSearch(argcounter) {
+    setActiveSearch(argcounter);
+    // changing page var
+    searchcounter = argcounter;
 }
