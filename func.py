@@ -2,7 +2,6 @@ from functools import wraps
 from flask import redirect, render_template, session
 
 import mysql.connector, mysql.connector.pooling
-import pymysql.cursors
 import sys
 
 
