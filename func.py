@@ -5,16 +5,17 @@ import mysql.connector, mysql.connector.pooling
 import pymysql.cursors
 import sys
 
+
 """ initialise db connection """
 def mysql_conn():
     # Configure DB
     try:
         conn = mysql.connector.connect(
-            user="d3xj7d753lhx14ad",
-            password="qyjau9ud4manbl1w",
-            host="z12itfj4c1vgopf8.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+            user="p7bd0h8ge1mlykim",
+            password="z2jsf0lcs1vwrt70",
+            host="ol5tz0yvwp930510.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
             port=3306,
-            database="nodabg0vdbkgxoop",
+            database="rl3utnqw5gapzw4n",
         )
     except mysql.connector.Error as e:
         print(f"Error connecting to database: {e}")
@@ -28,11 +29,11 @@ def mysql_connpool():
     try:
         conn_pool = mysql.connector.pooling.MySQLConnectionPool(
             pool_name="mypool",
-            user="d3xj7d753lhx14ad",
-            password="qyjau9ud4manbl1w",
-            host="z12itfj4c1vgopf8.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+            user="p7bd0h8ge1mlykim",
+            password="z2jsf0lcs1vwrt70",
+            host="ol5tz0yvwp930510.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
             port=3306,
-            database="nodabg0vdbkgxoop",
+            database="rl3utnqw5gapzw4n",
         )
     except mysql.connector.Error as e:
         print(f"Error connecting to database: {e}")
