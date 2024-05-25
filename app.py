@@ -31,8 +31,8 @@ def index():
         cashdict = [{} for _ in range(1)]
         cashdict[0]['cash'] = str(cash)
 
-
         data = viewf.dbReturnUserHoldingsDataALL(session['user_id'], db)
+
         apidata = viewf.returnCPPC(data)
 
         for i in range(len(data)):

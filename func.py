@@ -22,7 +22,6 @@ def mysql_conn():
 
     return conn
 
-
 # Configure DB for connection pooling
 def mysql_connpool():
     try:

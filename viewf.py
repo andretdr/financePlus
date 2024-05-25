@@ -177,6 +177,9 @@ def dbReturnUserHoldingsDataALL(argid, argdb):
 """ return currprice and prev close given holdings data from dbReturnUserHoldingsDataALL"""
 def returnCPPC(argholdingsdata):
 
+    if len(argholdingsdata) == 0:
+        return argholdingsdata
+
     # create a string of symb names
     symbstr = ''
     for item in argholdingsdata:
