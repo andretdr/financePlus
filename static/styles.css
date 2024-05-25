@@ -190,6 +190,147 @@
     max-width: 1500px;
 }
 
+/** index body container **/
+.index-body {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/** index body heading container **/
+.index-body__heading {
+    align-self: flex-start;
+    width: 300px;
+    height: 100px;
+}
+
+/** index body heading **/
+.index-body__heading h2{
+    width: 100%;
+    height: 100%;
+    margin: 20px 30px;
+    text-transform: uppercase;
+    font-size: 30px;
+    font-weight: 700;
+    color: rgb(96, 174, 238)
+}
+
+/** index body holdings **/
+.index-body__holdings {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/** link on holdings item*/
+.index-body__holdings a {
+    width: 100%;
+    height: 80px;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 10px;
+
+}
+
+/** link on holdings item state */
+.index-body__holdings a:link {
+    text-decoration: none;
+}
+
+/** link on holdings item state */
+.index-body__holdings a:visited {
+    text-decoration: none;
+}
+
+/** color the list items bg */
+.index-body__holdings a:nth-child(even) {
+    background-color: rgb(205, 234, 247);
+}
+
+/** color the list items bg */
+.index-body__holdings a:nth-child(odd) {
+    background-color: rgb(221, 240, 250);
+}
+
+/** link on holdings item state */
+.index-body__holdings a:hover {
+    background-color: rgb(255, 255, 255);
+}
+
+/** index body individual holding item grid **/
+.holding-item {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 150px 100px 100px 1fr 150px;
+    grid-template-rows: 35px 20px;
+    justify-content: center;
+}
+
+/** shared rules for each item **/
+.hitem__each {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+/** position for symb **/
+.hitem__each--symb {
+    font-size: 30px;
+    font-weight: 500;
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+}
+
+/** position for cp **/
+.hitem__each--cp {
+    justify-content: center;
+    font-size: 22px;
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+}
+
+/** position for quantity **/
+.hitem__each--quantity {
+    justify-content: center;
+    font-size: 15px;
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+}
+
+/** position for dailypnl **/
+.hitem__each--dailypnl {
+    justify-content: center;
+    font-size: 18px;
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+}
+
+/** position for marketvalue **/
+.hitem__each--value {
+    justify-content: flex-end;
+    font-size: 22px;
+    grid-column: 5 / 6;
+    grid-row: 1 / 2;
+}
+
+/** position for pnl **/
+.hitem__each--pnl {
+    justify-content: flex-end;
+    font-size: 18px;
+    grid-column: 5 / 6;
+    grid-row: 2 / 3;
+}
+
+/** position for pnl **/
+.hitem__data {
+    text-align: right;
+}
 
 #buyhideme {
     visibility: hidden;
@@ -208,7 +349,7 @@
     height: 800px;
     width: 800px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    background: white;
+    background: rgb(255, 255, 255);
     z-index: 1;
     text-align: center;
 }

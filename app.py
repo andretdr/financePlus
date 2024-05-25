@@ -29,7 +29,7 @@ def index():
 
         cash = func.returncash(db)
         cashdict = [{} for _ in range(1)]
-        cashdict[0]['cash'] = cash
+        cashdict[0]['cash'] = str(cash)
 
 
         data = viewf.dbReturnUserHoldingsDataALL(session['user_id'], db)
@@ -39,7 +39,7 @@ def index():
             data[i]['currprice'] = apidata[i]['currprice']
             data[i]['prevclose'] = apidata[i]['prevclose']
 
-        returndata = cashdict + data
+        returndata = json.dumps(cashdict + data)
 
         return render_template("index.html", data = returndata)
     

@@ -6,34 +6,45 @@
 
 {% block body %}
 
-    <p>My Holdings</p>
-    <input type="hidden" id="datadump" name="datadump" value="{{ data }}">
-    <section id="holdgrid">
-        {% for item in data %}
-            {% if item.symb is defined %}
-                {% set symb = item.symb %}
-                {% set hrefstr = "/viewstock?q="+symb %}
-                <p><a href={{ hrefstr }} >{{ item }}</a></p>
-            {% endif %}
+    <section class="index-body">
+        <input type="hidden" id="datadump" name="datadump" value="{{ data }}">
+
+        <div class="index-body__heading">
+            <h2>My Holdings</h2>
+        </div>
+
+        <div class="index-body__holdings" id="index-body__grid-insert">
+
+<!--
+            {% for item in data %}
+                {% if item.symb is defined %}
+                    {% set symb = item.symb %}
+                    {% set hrefstr = "/viewstock?q="+symb %}
+                    <div><a href={{ hrefstr }} >{{ item }}</a></div>
+                {% endif %}
 
 
-        {% endfor %}
+            {% endfor %}
+
+-->
+        </div>
+
     </section>
 
     <script>
 
-//        starttime = performance.now();
-//        refreshHoldingsPage();
-//        const viewpage = setInterval(()=>{refreshHoldingsPage()}, 3000);
-//        endtime = performance.now();
+        let controller = new indexController();
+        let view = new indexView(controller);
+        view.refreshHoldingsPage();
 
-//        console.log(`${endtime - starttime} ms`)
-
-//        console.log(document.getElementById("datadump").value);
-                
+        setInterval(()=>{
+            controller.updateRawData();
+            view.refreshHoldingsPage();
+            }, 3000);
 
         
-        
+
+       
     </script>
 
 
