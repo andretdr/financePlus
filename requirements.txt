@@ -3,5 +3,5 @@ flask-Session
 mysql
 mysql.connector
 yfinance
-gunicorn==22.0.0
 Werkzeug==2.3.7
+waitress==3.0.0

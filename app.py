@@ -191,8 +191,8 @@ def sell():
 
     return jsonify(record)
 
- 
-
+def create_app():
+    return app
 
 
 
