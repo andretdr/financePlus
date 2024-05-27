@@ -14,21 +14,15 @@
         </div>
 
         <div class="index-body__holdings" id="index-body__grid-insert">
-
-<!--
-            {% for item in data %}
-                {% if item.symb is defined %}
-                    {% set symb = item.symb %}
-                    {% set hrefstr = "/viewstock?q="+symb %}
-                    <div><a href={{ hrefstr }} >{{ item }}</a></div>
-                {% endif %}
-
-
-            {% endfor %}
-
--->
         </div>
 
+    </section>
+
+{% endblock %}
+
+{% block footer %}
+    <section class="footer-bar">
+        <div id="footer-bar__info"></div>
     </section>
 
     <script>
@@ -36,17 +30,12 @@
         let controller = new indexController();
         let view = new indexView(controller);
         view.refreshHoldingsPage();
-
-        setInterval(()=>{
+    
+/**        setInterval(()=>{
             controller.updateRawData();
             view.refreshHoldingsPage();
             }, 3000);
-
-        
-
-       
+*/
     </script>
-
-
-
 {% endblock %}
+

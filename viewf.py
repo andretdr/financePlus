@@ -193,8 +193,11 @@ def returnCPPC(argholdingsdata):
 
     for i in range(len(argholdingsdata)):
         symb = argholdingsdata[i]['symb']
-#        returndata[i]['symb'] = symb
-        closeinfo = data['Close'][symb]
+        # if only 1 entry, use a different cmd
+        if len(argholdingsdata) == 1:
+            closeinfo = data['Close']
+        else:
+            closeinfo = data['Close'][symb]
         returndata[i]['currprice'] = closeinfo.iloc[1]
         returndata[i]['prevclose'] = closeinfo.iloc[0]
 

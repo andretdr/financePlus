@@ -18,6 +18,7 @@
     </head>
 
     <body class="page-layout">
+
         <header class="page-format page-format--header">
             <section class="dashboard">
                 <!-- LOGO -->
@@ -41,91 +42,86 @@
             </section>
         </header>
 
-
-
-        <!-- ingest search bar data from stock_info.js -->
-        <script>
-
-            let searchcounter = -1; // keeps track of current search item
-            let newlist = true; // keeps track if list is new
-
-            // searchbar script
-            let searchbar = document.getElementById("searchbar");
-
-            // catch up, down or enter key on search results
-            searchbar.addEventListener('keydown', event => {
-
-                const key = event.key;
-                // reset list if not up, down or enter key
-                if ((key !== "ArrowUp") && (key !== "ArrowDown") && (key !== "Enter")){
-                    newlist = true;
-                    return;
-                }
-
-                if (newlist)
-                    searchcounter = -1 // initialise searchcounter
-
-                const searchlist = document.getElementsByClassName("search-menu__items");
-                const listlength = searchlist.length;
-                
-                if (key === "ArrowUp")
-                    searchcounter = updateSearchCounter(searchcounter, listlength, "up");
-
-                if (key === "ArrowDown")
-                    searchcounter = updateSearchCounter(searchcounter, listlength, "down");
-                
-                if (key === "Enter")
-                    searchlist[searchcounter].click();
-
-                setActiveSearch(searchcounter);
-                
-                newlist = false; // using the same list until it resets
-            });
-
-            // catch search logic on any other key
-            searchbar.addEventListener('keyup', event => {
-
-                let input = searchbar.value;
-                // dont proceed if there is no new list to generate
-                if (!newlist) 
-                    return;
-
-                let html = `<section class="search-menu">`;
-
-                if (input) { // only if there is value
-                    input = input.toUpperCase();
-                    let counter = 0;
-
-                    for (let stock of stocklist) {
-                        if (stock[0].startsWith(input)){
-                            html += `
-                                    <a class="search-menu__items" href="/viewstock?q=${stock[0]}" 
-                                    onmouseover="onHoverSearch(${counter})">
-                                    <div> ${stock[0]} | ${stock[1]} </div></a>`;
-                            counter ++;
-                            // if we list 6 already then break
-                            if (counter > 5)
-                                break;
-                        }
-                    }
-                }
-                html += `</section>`
-                document.getElementById("searchstatus").innerHTML = html;
-            });
-        </script>
-
-
         <main class="page-format page-format--main" id="indexbody">
-        {% block body %}{% endblock %}
+            {% block body %}{% endblock %}
         </main>
 
-
         <footer class="page-format page-format--footer">
-            <section class="footer-bar">
-
-            </section>
+            {% block footer %}{% endblock %}
         </footer>
+
+
     </body>
 
 </html>
 
+<!-- ingest search bar data from stock_info.js -->
+<script>
+
+    let searchcounter = -1; // keeps track of current search item
+    let newlist = true; // keeps track if list is new
+
+    // searchbar script
+    let searchbar = document.getElementById("searchbar");
+
+    // catch up, down or enter key on search results
+    searchbar.addEventListener('keydown', event => {
+
+        const key = event.key;
+        // reset list if not up, down or enter key
+        if ((key !== "ArrowUp") && (key !== "ArrowDown") && (key !== "Enter")){
+            newlist = true;
+            return;
+        }
+
+        if (newlist)
+            searchcounter = -1 // initialise searchcounter
+
+        const searchlist = document.getElementsByClassName("search-menu__items");
+        const listlength = searchlist.length;
+        
+        if (key === "ArrowUp")
+            searchcounter = updateSearchCounter(searchcounter, listlength, "up");
+
+        if (key === "ArrowDown")
+            searchcounter = updateSearchCounter(searchcounter, listlength, "down");
+        
+        if (key === "Enter")
+            searchlist[searchcounter].click();
+
+        setActiveSearch(searchcounter);
+        
+        newlist = false; // using the same list until it resets
+    });
+
+    // catch search logic on any other key
+    searchbar.addEventListener('keyup', event => {
+
+        let input = searchbar.value;
+        // dont proceed if there is no new list to generate
+        if (!newlist) 
+            return;
+
+        let html = `<section class="search-menu">`;
+
+        if (input) { // only if there is value
+            input = input.toUpperCase();
+            let counter = 0;
+
+            for (let stock of stocklist) {
+                if (stock[0].startsWith(input)){
+                    html += `
+                            <a class="search-menu__items" href="/viewstock?q=${stock[0]}" 
+                            onmouseover="onHoverSearch(${counter})">
+                            <div> ${stock[0]} | ${stock[1]} </div></a>`;
+                    counter ++;
+                    // if we list 6 already then break
+                    if (counter > 5)
+                        break;
+                }
+            }
+        }
+        html += `</section>`
+        document.getElementById("searchstatus").innerHTML = html;
+    });
+</script>

@@ -134,11 +134,43 @@ class indexView {
     constructor(argController){
         // initialise
         this.controllerRef = argController;
+
+    }
+
+    // update footer with info
+    updateFooter(argcash, argtotalpnl) {
+        let doc = document.getElementById("footer-bar__info");
+        const green = "rgb(126, 255, 114)";
+        const red = "rgb(255, 57, 57)";
+
+        let html = ``;
+        if (parseFloat(argtotalpnl) < 0)
+            html = `
+                        <div class="footer-item__pnltxt" style="color:${red};">unrealised p&l</div>
+                        <div class="footer-item__pnl" style="color:${red};">&#11206 $${argtotalpnl}</div>
+                    `
+        else
+            html = `
+                        <div class="footer-item__pnltxt" style="color:${green};">unrealised p&l</div>
+                        <div class="footer-item__pnl" style="color:${green};">&#11205 $${argtotalpnl}</div>
+                    `
+
+        doc.innerHTML =     `
+                            <div class="footer-item">
+                            `
+                            + html +
+                            `
+                                <div class="footer-item__cashtxt">total cash available</div>
+                                <div class="footer-item__cash">$${argcash}</div>
+                            <div>
+                            `;
     }
 
     refreshHoldingsPage() {
         let html = ``;
         let dataobj = this.controllerRef.returnData();
+
+        let totalpnl = 0;
 
         for (let i = 0; i < dataobj.length; i++){
             let symb = dataobj[i]['symb'];
@@ -152,12 +184,13 @@ class indexView {
             let totalcost = (avgcost*quantity).toFixed(2);
             let pnl = (marketvalue - totalcost).toFixed(2);
 
-            // setting up the color
-            const green = "rgb(15, 175, 0)";
-            const red = "rgb(255, 57, 57)";
+            totalpnl += parseFloat(pnl);
 
             let dpnlhtml = ``;
             let pnlhtml = ``;
+
+            const green = "rgb(15, 175, 0)";
+            const red = "rgb(255, 57, 57)";
 
             if (parseFloat(dailypnl) < 0)
                 dpnlhtml = `<data style="color:${red}">(${dailypnl}&#37) &#11206</data>`
@@ -195,5 +228,7 @@ class indexView {
                         
         }
         document.getElementById("index-body__grid-insert").innerHTML = html;
+
+        this.updateFooter(this.controllerRef.returnCash(), totalpnl.toFixed(2));
     }
 }
