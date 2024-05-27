@@ -15,7 +15,7 @@
 /** handles horizontal layout of the page **/
 .page-format {
     width: 100%;
-    height: 800px;
+
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -53,7 +53,7 @@
     width: 100%;
     max-width: 1500px;
     display: grid;
-    grid-template-columns: 20% 60% 20%;
+    grid-template-columns: 4em 1.5fr 50% 1fr 4em;
     justify-items: center;
     align-items: center;
 }
@@ -94,11 +94,11 @@
 
 /** navbar searchbar container **/
 .dashboard__search {
-    grid-column: 2 / 3;
+    grid-column: 3 / 4;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70%;
+    width: 100%;
 }
 
 /** navbar searchbar form **/
@@ -167,9 +167,9 @@
 
 /** dashboard settings container **/
 .dashboard__settings {
-    grid-column: 3 / 4;
+    grid-column: 5 / 6;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     width: 100%;
 }
@@ -178,7 +178,6 @@
 .dashboard__button {
     width: 50px;
     height: 50px;
-    margin: 20px;
     background-color: rgb(136, 201, 255);
     border: none;
     border-radius: 15px;
@@ -208,7 +207,7 @@
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: 69% 13.75% 17.75%;
+    grid-template-columns: 1fr 10em 10em;
     grid-template-rows: 40% 60%;
     font-size: 15px;
     color: antiquewhite;
@@ -229,6 +228,7 @@
 .footer-item__pnl {
     display: flex;
     align-items: flex-start;
+    justify-content: center;
     left: 0;
     top: 0;
     padding: 3px 10px;
@@ -338,7 +338,7 @@
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: 150px 100px 100px 1fr 150px;
+    grid-template-columns: 5em 0.5fr 5em 5em 2fr 5em;
     grid-template-rows: 35px 20px;
     justify-content: center;
 }
@@ -361,24 +361,24 @@
 /** position for cp **/
 .hitem__each--cp {
     justify-content: center;
-    font-size: 22px;
-    grid-column: 2 / 3;
+    font-size: 19px;
+    grid-column: 3 / 4;
     grid-row: 1 / 2;
 }
 
 /** position for quantity **/
 .hitem__each--quantity {
     justify-content: center;
-    font-size: 15px;
-    grid-column: 2 / 3;
+    font-size: 14px;
+    grid-column: 3 / 4;
     grid-row: 2 / 3;
 }
 
 /** position for dailypnl **/
 .hitem__each--dailypnl {
     justify-content: center;
-    font-size: 18px;
-    grid-column: 3 / 4;
+    font-size: 16px;
+    grid-column: 4 / 5;
     grid-row: 1 / 2;
 }
 
@@ -386,7 +386,7 @@
 .hitem__each--value {
     justify-content: flex-end;
     font-size: 22px;
-    grid-column: 5 / 6;
+    grid-column: 6 / 7;
     grid-row: 1 / 2;
 }
 
@@ -394,7 +394,7 @@
 .hitem__each--pnl {
     justify-content: flex-end;
     font-size: 18px;
-    grid-column: 5 / 6;
+    grid-column: 6 / 7;
     grid-row: 2 / 3;
 }
 

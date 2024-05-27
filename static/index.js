@@ -147,12 +147,12 @@ class indexView {
         if (parseFloat(argtotalpnl) < 0)
             html = `
                         <div class="footer-item__pnltxt" style="color:${red};">unrealised p&l</div>
-                        <div class="footer-item__pnl" style="color:${red};">&#11206 $${argtotalpnl}</div>
+                        <div class="footer-item__pnl" style="color:${red};"> $${argtotalpnl}&darr;</div>
                     `
         else
             html = `
                         <div class="footer-item__pnltxt" style="color:${green};">unrealised p&l</div>
-                        <div class="footer-item__pnl" style="color:${green};">&#11205 $${argtotalpnl}</div>
+                        <div class="footer-item__pnl" style="color:${green};"> $${argtotalpnl}&uarr;</div>
                     `
 
         doc.innerHTML =     `
@@ -193,20 +193,20 @@ class indexView {
             const red = "rgb(255, 57, 57)";
 
             if (parseFloat(dailypnl) < 0)
-                dpnlhtml = `<data style="color:${red}">(${dailypnl}&#37) &#11206</data>`
+                dpnlhtml = `<data style="color:${red}">(${dailypnl}&#37) &darr;</data>`
             else
-                dpnlhtml = `<data style="color:${green}">(${dailypnl}&#37) &#11205</data>`
+                dpnlhtml = `<data style="color:${green}">(${dailypnl}&#37) &uarr;</data>`
 
             if (parseFloat(pnl) < 0)
-                pnlhtml = `<data style="color:${red}">${pnl}&#11206</data>`
+                pnlhtml = `<data style="color:${red}">$${pnl}&darr;</data>`
             else
-                pnlhtml = `<data style="color:${green}">${pnl}&#11205</data>`
+                pnlhtml = `<data style="color:${green}">$${pnl}&uarr;</data>`
     
             html += `
                     <a href="/viewstock?q=${symb}">
                         <div class="holding-item">
                             <div class="hitem__each hitem__each--symb"><data>${symb}</data></div>
-                            <div class="hitem__each hitem__each--cp"><data>${currprice}</data></div>
+                            <div class="hitem__each hitem__each--cp"><data>$${currprice}</data></div>
                             <div class="hitem__each hitem__each--quantity"><data>${quantity}</data></div>
                             <div class="hitem__each hitem__each--dailypnl">
                     `
@@ -215,7 +215,7 @@ class indexView {
                     +
                     `
                             </div>
-                            <div class="hitem__each hitem__each--value"><data class="hitem__data">${marketvalue}</data></div>
+                            <div class="hitem__each hitem__each--value"><data class="hitem__data">$${marketvalue}</data></div>
                             <div class="hitem__each hitem__each--pnl">
                     `
                     +
