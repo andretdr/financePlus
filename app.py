@@ -75,7 +75,7 @@ def index():
 @app.route('/landing')
 def landing():
     """ Login and Registration page """
-
+    print(yf.__version__)
     return render_template("landing.html")
 
 @app.route('/login', methods=['POST'])
