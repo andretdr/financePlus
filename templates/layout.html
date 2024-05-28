@@ -7,13 +7,13 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
         <link href="../static/styles.css" rel="stylesheet">
+
+        <!-- ingest search bar data from stock_info.js -->
         <script src="../static/stock_info.js"></script>
         <script src="../static/scripts.js"></script>
         <script src="../static/index.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-
         <title>{% block title %}{% endblock %}</title>
     </head>
 
@@ -55,73 +55,15 @@
 
 </html>
 
-<!-- ingest search bar data from stock_info.js -->
 <script>
-
-    let searchcounter = -1; // keeps track of current search item
-    let newlist = true; // keeps track if list is new
-
     // searchbar script
     let searchbar = document.getElementById("searchbar");
 
+    const searchevents = searchbarEvents();
+
     // catch up, down or enter key on search results
-    searchbar.addEventListener('keydown', event => {
-
-        const key = event.key;
-        // reset list if not up, down or enter key
-        if ((key !== "ArrowUp") && (key !== "ArrowDown") && (key !== "Enter")){
-            newlist = true;
-            return;
-        }
-
-        if (newlist)
-            searchcounter = -1 // initialise searchcounter
-
-        const searchlist = document.getElementsByClassName("search-menu__items");
-        const listlength = searchlist.length;
-        
-        if (key === "ArrowUp")
-            searchcounter = updateSearchCounter(searchcounter, listlength, "up");
-
-        if (key === "ArrowDown")
-            searchcounter = updateSearchCounter(searchcounter, listlength, "down");
-        
-        if (key === "Enter")
-            searchlist[searchcounter].click();
-
-        setActiveSearch(searchcounter);
-        
-        newlist = false; // using the same list until it resets
-    });
-
+    searchbar.addEventListener('keydown', event => {searchevents.Keydown(event)});
+    
     // catch search logic on any other key
-    searchbar.addEventListener('keyup', event => {
-
-        let input = searchbar.value;
-        // dont proceed if there is no new list to generate
-        if (!newlist) 
-            return;
-
-        let html = `<section class="search-menu">`;
-
-        if (input) { // only if there is value
-            input = input.toUpperCase();
-            let counter = 0;
-
-            for (let stock of stocklist) {
-                if (stock[0].startsWith(input)){
-                    html += `
-                            <a class="search-menu__items" href="/viewstock?q=${stock[0]}" 
-                            onmouseover="onHoverSearch(${counter})">
-                            <div> ${stock[0]} | ${stock[1]} </div></a>`;
-                    counter ++;
-                    // if we list 6 already then break
-                    if (counter > 5)
-                        break;
-                }
-            }
-        }
-        html += `</section>`
-        document.getElementById("searchstatus").innerHTML = html;
-    });
+    searchbar.addEventListener('keyup', event => {searchevents.Keyup(event)});
 </script>

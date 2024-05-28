@@ -1,40 +1,3 @@
-async function getHoldingsPage(argtype = 'cash'){
-    
-    // type = full, cash, holdings, sort = symb, quantity, avgcost
-    let dataobj = await fetcher('/', 'POST', {'status':'request', 'type':argtype});
-    return dataobj;
-
-}
-
-async function refreshHoldingsPage(resultObj) {
-//    let resultObj = await getHoldingsPage();
-    html = ``;
-
-    for (let i = 1; i < resultObj.length; i++){
-        symb = resultObj[i]['symb'];
-        currprice = (resultObj[i]['currprice']).toFixed(2);
-        quantity = resultObj[i]['quantity'];
-        avgcost = resultObj[i]['avgcost'];
-        prevclose = resultObj[i]['prevclose'];
-        dailypnl = ((currprice - prevclose)/prevclose).toFixed(2);
-
-        marketvalue = (currprice*quantity).toFixed(2);
-        totalcost = (avgcost*quantity).toFixed(2);
-        pnl = (marketvalue - totalcost).toFixed(2);
-
-        html += `
-                    <a href="/viewstock?q=${symb}">
-                    <p>${symb}  currprice: ${currprice} quantity: ${quantity} 
-                    avgcost: ${avgcost} %${dailypnl}, MARKET VALUE: ${marketvalue} 
-                    PNL: ${pnl}</p>
-                    </a>    
-                `
-                    
-    }
-
-    document.getElementById("holdgrid").innerHTML = html;
-
-};
 
 /**  updates the search counter on the arrow keys. argdir accepts "up", "down" **/
 function updateSearchCounter(argcounter, arglength, argdir) {
@@ -72,6 +35,76 @@ function onHoverSearch(argcounter) {
     setActiveSearch(argcounter);
     // changing page var
     searchcounter = argcounter;
+}
+
+
+/** nested function for closure on variables */
+function searchbarEvents(){
+    let searchcounter = -1; // keeps track of current search item
+    let newlist = true; // keeps track if list is new
+
+    /** on search bar keydown run this **/
+    function Keydown(event) {
+
+        const key = event.key;
+        // reset list if not up, down or enter key
+        if ((key !== "ArrowUp") && (key !== "ArrowDown") && (key !== "Enter")){
+            newlist = true;
+            return;
+        }
+
+        if (newlist)
+            searchcounter = -1 // initialise searchcounter
+
+        const searchlist = document.getElementsByClassName("search-menu__items");
+        const listlength = searchlist.length;
+        
+        if (key === "ArrowUp")
+            searchcounter = updateSearchCounter(searchcounter, listlength, "up");
+
+        if (key === "ArrowDown")
+            searchcounter = updateSearchCounter(searchcounter, listlength, "down");
+        
+        if (key === "Enter")
+            searchlist[searchcounter].click();
+
+        setActiveSearch(searchcounter);
+        
+        newlist = false; // using the same list until it resets
+    };
+
+    /** on search bar keyup run this **/
+    function Keyup(event) {
+
+        let input = searchbar.value;
+        // dont proceed if there is no new list to generate
+        if (!newlist) 
+            return;
+
+        let html = `<section class="search-menu">`;
+
+        if (input) { // only if there is value
+            input = input.toUpperCase();
+            let counter = 0;
+
+            for (let stock of stocklist) {
+                if (stock[0].startsWith(input)){
+                    html += `
+                            <a class="search-menu__items" href="/viewstock?q=${stock[0]}" 
+                            onmouseover="onHoverSearch(${counter})">
+                            <div> ${stock[0]} | ${stock[1]} </div></a>`;
+                    counter ++;
+                    // if we list 6 already then break
+                    if (counter > 5)
+                        break;
+                }
+            }
+        }
+        html += `</section>`
+        document.getElementById("searchstatus").innerHTML = html;
+    };
+
+    return {Keyup, Keydown}
 }
 
 
