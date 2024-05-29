@@ -7,13 +7,8 @@
 
 {% block body %}
 
-    <!-- Storing the data for this stock page -->    
-    <input type="hidden" id="viewsymbol" name="viewsymbol" value="{{ symbol }}">
-    <input type="hidden" id="viewdata" name="viewdata" value="1d">
-    <input type="hidden" id="viewcurrprice" name="viewcurrprice" value="0">
-    <input type="hidden" id="viewcash" name="viewcash" value="0">
-    <input type="hidden" id="viewquantity" name="viewquantity" value="0">
-    <input type="hidden" id="viewavgcost" name="viewavgcost" value="0">
+    <!-- Storing the data for this stock page -->
+    <input type="hidden" id="datadump" name="datadump" value="{{ data }}">
 
     <div id="viewstockbody">
         <div>
@@ -31,7 +26,7 @@
                     <div id="buydollarsbuttoncontainer">
                         <div id="buydollarsbutton">
 
-                            <button onclick="buyindollars(states)">Buy in Dollars</button>
+                            <button onclick="buysellview.buyindollars()">Buy in Dollars</button>
                         </div>
                     </div>
 
@@ -48,7 +43,7 @@
                     <div id="buysharesbuttoncontainer">
                         <div id="buysharesbutton">
 
-                            <button onclick="buyinshares(states)">Buy in Shares</button>
+                            <button onclick="buysellview.buyinshares()">Buy in Shares</button>
                         </div>
                     </div>
 
@@ -67,8 +62,8 @@
 
                         </div>
                     </div>
-                    <button onclick="buy(states)">Buy</button>
-                    <button onclick="closeBuySellMenu(states)">Cancel</button>
+                    <button onclick="viewview.buy()">Buy</button>
+                    <button onclick="buysellview.closeBuySellMenu()">Cancel</button>
                 </div>
             </div>
 
@@ -83,7 +78,7 @@
                     <div id="selldollarsbuttoncontainer">
                         <div id="selldollarsbutton">
 
-                            <button onclick="sellindollars(states)">Sell in Dollars</button>
+                            <button onclick="buysellview.sellindollars()">Sell in Dollars</button>
                         </div>
                     </div>
 
@@ -99,7 +94,7 @@
                     <div id="sellsharesbuttoncontainer">
                         <div id="sellsharesbutton">
 
-                            <button onclick="sellinshares(states)">Sell in Shares</button>
+                            <button onclick="buysellview.sellinshares()">Sell in Shares</button>
                         </div>
                     </div>
 
@@ -109,12 +104,12 @@
 
                     <div id="sellcloseformcontainer">
                         <div id="sellcloseform">
-                            <input type="checkbox" id="viewsellclose" name="viewsellclose" onclick="updatesellclosepage(states)"/> Close position and sell all shares
+                            <input type="checkbox" id="viewsellclose" name="viewsellclose" onclick="buysellview.updatesellclosepage()"/> Close position and sell all shares
                         </div>
                     </div>
                     <div id="sellclosebuttoncontainer">
                         <div id="sellclosebutton">
-                            <button onclick="sellClose(states)">Close Position</button>
+                            <button onclick="buysellview.sellClose()">Close Position</button>
                         </div>
                     </div>
 
@@ -131,10 +126,10 @@
                             <div id="sellstatus"></div>
                         </div>
                     </div>
-                    <button onClick="sell(states)"">Sell</button>
+                    <button onClick="viewview.sell()">Sell</button>
 
 
-                    <button onclick="closeBuySellMenu(states)">Cancel</button>
+                    <button onclick="buysellview.closeBuySellMenu()">Cancel</button>
                 </div>
             </div>
 
@@ -143,11 +138,11 @@
 
             <div id='viewgraphbuttons'>
             </div>
-                <button id="viewgraphday">1D</button>
-                <button id="viewgraphweek">1W</button>
-                <button id="viewgraphmonth">1M</button>
-                <button id="viewgraphthreem">3M</button>
-                <button id="viewgraphyear">1Y</button>
+                <button id="viewgraphday" onclick="viewview.graphButton('1d')">1D</button>
+                <button id="viewgraphweek" onclick="viewview.graphButton('1w')">1W</button>
+                <button id="viewgraphmonth" onclick="viewview.graphButton('1m')">1M</button>
+                <button id="viewgraphthreem" onclick="viewview.graphButton('3m')">3M</button>
+                <button id="viewgraphyear" onclick="viewview.graphButton('1y')">1Y</button>
 
             <div id="viewinfo">
             </div>
@@ -157,7 +152,7 @@
 
 
             <div>
-                <button onclick="showBuyMenu(states)">Buy</button> <button id="viewsellbutton" onclick="showSellMenu(states)">Sell</button>
+                <button onclick="buysellview.showBuyMenu()">Buy</button> <button id="viewsellbutton" onclick="buysellview.showSellMenu(states)">Sell</button>
             </div>
 
         </div>
@@ -168,20 +163,18 @@
     <script src="../static/buysell.js"></script>
     <script>
 
+        const viewcontroller = new viewController();
+        const buysellview = new buySellView(viewcontroller);
+        const viewview = new viewView(viewcontroller, buysellview);
+
         // initialise states
         let states = {'buy':false, 'sell':false, 'bydollars':false, 'byshares':false};
 
-        // retrieve the symbol data for this page
-        const symbol = (document.getElementById("viewsymbol")).value;
-
-        // draw symbol
-        rendersymbol(symbol);
-
-        renderpage(symbol, states);
+        viewview.renderpage();
 
         // refresh page every 3 secs
-//        let interval = 3000;
-//        const viewpageinterval = setInterval(()=>{renderpage(symbol, states, 'api')}, interval);
+        let interval = 3000;
+        const viewpageinterval = setInterval(()=>{viewview.refreshAPIDataServerV()}, interval);
 
     </script>
 

@@ -1,11 +1,12 @@
 from flask import session
-import datetime
+import datetime, time
 import func, buysell
+import pandas as pd
 
 import yfinance as yf
 """ https://aroussi.com/post/python-yahoo-finance """
 
-def retrievedata(argsymb, argdb):
+def retrievedata(argsymb):
     
     """ connects with API to retrieve stock data 
         returns a list of dict with bookmarks,  [0] = {'status':status}
@@ -32,17 +33,23 @@ def retrievedata(argsymb, argdb):
         enddate = datetime.datetime.now()
 
         symb = yf.Ticker(argsymb)
-        
-        dailydf = symb.history(period="1d", interval="5m")
-        dailydict = dailydf.to_dict('records')
-        weeklydf = symb.history(start=returndatef(returnstartdate(enddate, 7)), end=returndatef(enddate), interval="60m")
-        weeklydict = weeklydf.to_dict('records')
-        monthlydf = symb.history(start=returndatef(returnstartdate(enddate, 30)), end=returndatef(enddate), interval="1d")
-        monthlydict = monthlydf.to_dict('records')
-        threemlydf = symb.history(start=returndatef(returnstartdate(enddate, 90)), end=returndatef(enddate), interval="1d")
-        threemlydict = threemlydf.to_dict('records')
-        yearlydf = symb.history(start=returndatef(returnstartdate(enddate, 365)), end=returndatef(enddate), interval="1wk")
-        yearlydict = yearlydf.to_dict('records')
+
+        dailydict = []
+        weeklydict = []
+        monthlydict = []
+        threemlydict = []
+        yearlydict = []
+
+        dailydf = (symb.history(period="1d", interval="5m"))[list({'Close'})]
+        dailydict.append(dailydf.to_dict('records'))
+        weeklydf = (symb.history(start=returndatef(returnstartdate(enddate, 7)), end=returndatef(enddate), interval="60m"))[list({'Close'})]
+        weeklydict.append(weeklydf.to_dict('records'))
+        monthlydf = (symb.history(start=returndatef(returnstartdate(enddate, 30)), end=returndatef(enddate), interval="1d"))[list({'Close'})]
+        monthlydict.append(monthlydf.to_dict('records'))
+        threemlydf = (symb.history(start=returndatef(returnstartdate(enddate, 90)), end=returndatef(enddate), interval="1d"))[list({'Close'})]
+        threemlydict.append(threemlydf.to_dict('records'))
+        yearlydf = (symb.history(start=returndatef(returnstartdate(enddate, 365)), end=returndatef(enddate), interval="1wk"))[list({'Close'})]
+        yearlydict.append(yearlydf.to_dict('records'))
 
         # get closing info
         prevdayclose = returnprevclose(symb, '1d')
@@ -70,8 +77,7 @@ def retrievedata(argsymb, argdb):
     yearbm = []
     yearbm.append({'bm':'YEAR'})
 
-
-    finaldata = status + prevdayclose + prevweekclose + prevmonthclose + prevthreemclose + prevyearclose + currentprice + daybm + dailydict + weekbm + weeklydict + monthbm + monthlydict + threembm + threemlydict + yearbm + yearlydict
+    finaldata = status + currentprice + prevdayclose + prevweekclose + prevmonthclose + prevthreemclose + prevyearclose + daybm + dailydict + weekbm + weeklydict + monthbm + monthlydict + threembm + threemlydict + yearbm + yearlydict
     
     return finaldata
 
@@ -141,8 +147,8 @@ def dbReturnUserHoldingsData(argid, argsymb, argdb):
     
     argdb.execute("SELECT cash FROM fin_users WHERE fin_users.id = %s", (argid,))
     rows = argdb.fetchall()
-    cash = rows[0]['cash']
-    cash = '200.00'
+    cash = str(rows[0]['cash'])
+
 
     symbid = buysell.lookupSymbol(argsymb, argdb)
     data = []
@@ -202,8 +208,6 @@ def returnCPPC(argholdingsdata):
         returndata[i]['prevclose'] = closeinfo.iloc[0]
 
     return returndata
-
-
 
 """ returns currprice of symbol """
 def returncurrprice(argsymb):

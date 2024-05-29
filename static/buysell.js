@@ -7,577 +7,520 @@ const transactionStatus =   [   "Transaction Made",
                             ];
 
 
-/** set state given the state list, and boolean values in the order of
- *  buy, sell, dollars, shares */
-function setState(argstates, buy, sell, dollars, shares, close){
-
-    argstates['buy'] = buy;
-    argstates['sell'] = sell;
-    argstates['bydollars'] = dollars;
-    argstates['byshares'] = shares;
-    argstates['byclose'] = close;
-}
 
 
-/** test for quantity owed, if 0, disable sell button */
-function disableSellButton(arghdata){
-
-    let sellbutton = document.getElementById("viewsellbutton");
-
-    if (arghdata[0]['quantity'] == 0){
-        sellbutton.disabled = true;
+class buySellView{
+    // methods
+    constructor(argController){
+        // initialise
+        this.controllerRef = argController;
     }
-    else
-        sellbutton.disabled = false;
-}
+
+    /** show buy in dollars state */
+    buyindollars(){
+        let argstates = this.controllerRef.returnStates();
+
+        document.getElementById("buydollarsformcontainer").style.visibility = "visible";
+        document.getElementById("buydollarsbuttoncontainer").style.visibility = "hidden";
+        document.getElementById("buysharesformcontainer").style.visibility = "hidden";
+        document.getElementById("buysharesbuttoncontainer").style.visibility = "visible";
+
+        document.getElementById("buytype").innerHTML = `Estimated Shares : <data id="buyestshares"></data> share(s)`;
+
+        this.renderTxnMessage({"status":3});
+
+        // set buy in dollars state
+        this.controllerRef.setState(true, false, true, false, false);
+
+        this.updatebuydollarspage();
+    }
 
 
-/** show buy menu */
-function showBuyMenu(argstates){
-    document.getElementById("buyhideme").style.visibility = "visible";
+    /** show buy in shares state */
+    buyinshares(){
 
-    // show and set buy in dollars state
-    buyindollars(argstates);
+        document.getElementById("buydollarsformcontainer").style.visibility = "hidden";
+        document.getElementById("buydollarsbuttoncontainer").style.visibility = "visible";
+        document.getElementById("buysharesformcontainer").style.visibility = "visible";
+        document.getElementById("buysharesbuttoncontainer").style.visibility = "hidden";
 
-    currprice = getCurrentPricePage();
+        document.getElementById("buytype").innerHTML = `Estimated Cost : $<data id="buyestdollars"></data>`;
 
-    //refresh page data
-    refreshbuypagecurrprice(currprice);
-    refreshEstShares(currprice);
+        this.renderTxnMessage({"status":3});
 
-    updateAvailSharesTxnPage(argstates);
-    updateCashTxnPage(argstates);
+        // set buy in shares state
+        this.controllerRef.setState(true, false, false, true, false);
 
-    addELbuyshares(argstates);
-    addELbuydollars(argstates);
-}
+    //    refreshEstDollars(getCurrentPricePage());
+        this.updatebuysharespage();
+    }
 
 
-/** show sell menu */
-function showSellMenu(argstates){
-    document.getElementById("sellhideme").style.visibility = "visible";
+    /** show sell in dollars state */
+    sellindollars(){
 
-    // show and set sell in dollars state
-    sellindollars(argstates);
+        document.getElementById("selldollarsformcontainer").style.visibility = "visible";
+        document.getElementById("selldollarsbuttoncontainer").style.visibility = "hidden";
+        document.getElementById("sellsharesformcontainer").style.visibility = "hidden";
+        document.getElementById("sellsharesbuttoncontainer").style.visibility = "visible";
 
-    currprice = getCurrentPricePage();
+        document.getElementById("sellcloseformcontainer").style.visibility = "hidden";
+        document.getElementById("sellclosebuttoncontainer").style.visibility = "visible";
 
-    //refresh page data
-    refreshsellpagecurrprice(currprice);
-    refreshSellEstShares(currprice);
+        document.getElementById("selltype").innerHTML = `Estimated Shares : <data id="sellestshares"></data> share(s)`;
+
+        // set buy in dollars state
+        this.controllerRef.setState(false, true, true, false, false);
+
+        //refreshSellEstShares(getCurrentPricePage());
+        this.updateselldollarspage();
+    }
+
+
+    /** show sell in shares state */
+    sellinshares(){
+
+        document.getElementById("selldollarsformcontainer").style.visibility = "hidden";
+        document.getElementById("selldollarsbuttoncontainer").style.visibility = "visible";
+        document.getElementById("sellsharesformcontainer").style.visibility = "visible";
+        document.getElementById("sellsharesbuttoncontainer").style.visibility = "hidden";
+
+        document.getElementById("sellcloseformcontainer").style.visibility = "hidden";
+        document.getElementById("sellclosebuttoncontainer").style.visibility = "visible";
+
+        document.getElementById("selltype").innerHTML = `Estimated Total : $<data id="sellesttotal"></data>`;
+
+        // set buy in shares state
+        this.controllerRef.setState(false, true, false, true, false);
+
+        //refreshSellEstShares(getCurrentPricePage());
+        this.updatesellsharespage();
+
+    }
+
+
+    /** show sell close state */
+    sellClose(){
+
+        document.getElementById("selldollarsformcontainer").style.visibility = "hidden";
+        document.getElementById("selldollarsbuttoncontainer").style.visibility = "visible";
+        document.getElementById("sellsharesformcontainer").style.visibility = "hidden";
+        document.getElementById("sellsharesbuttoncontainer").style.visibility = "visible";
+
+        document.getElementById("sellcloseformcontainer").style.visibility = "visible";
+        document.getElementById("sellclosebuttoncontainer").style.visibility = "hidden";
+
+        document.getElementById("selltype").innerHTML = `Estimated Total : $<data id="sellesttotal"></data>`;
+
+        // set buy in shares state
+        this.controllerRef.setState(false, true, false, false, true);
+
+        //refreshSellEstShares(getCurrentPricePage());
+        this.updatesellclosepage();
+
+    }
+
+    /** renders any status message */
+    renderTxnMessage(status, argmessage=transactionStatus){
+
+        const argstate = this.controllerRef.returnStates();
+
+        let html =  `
+                    ${argmessage[status['status']]}
+                `
+        if (argstate['buy'])
+            document.getElementById("buystatus").innerHTML= html;
+        if (argstate['sell'])
+            document.getElementById("sellstatus").innerHTML= html;
+    }
+
+
+    /** update buydollarspage */
+    updatebuydollarspage(){
+        const cash = parseFloat(this.controllerRef.returnCash());
+
+        let buyid = document.getElementById("viewbuydollars");
+        const inputvalue = parseFloat(buyid.value);
+
+        let color = '';
+
+        if (inputvalue > cash){
+            color = 'red';
+        }
+        else
+            color = 'black';
+
+        buyid.style.color = color;
+        this.updateCashTxnPage(color);
+
+        this.refreshEstShares();
+    }
+
+    /** update cash buy page */
+    updateCashTxnPage(argcolor='black'){
+        const argstates = this.controllerRef.returnStates();
+        const cash = returnCash()
     
-    updateAvailSharesTxnPage(argstates);
-    updateCashTxnPage(argstates);
+        if (argstates['buy']){
+            document.getElementById("buycash").innerHTML=`${parseFloat(cash).toFixed(2)}`;
+            document.getElementById("buycash").style.color = argcolor;
+        }
 
-    addELsellshares(argstates);
-    addELselldollars(argstates);
-}
+        if (argstates['sell']){
+            document.getElementById("sellcashtotal").innerHTML=`${parseFloat(cash).toFixed(2)}`;
+        }
 
-
-/** hide buy sell menus */
-function closeBuySellMenu(argstates){
-    let buysellmenu = document.getElementById("buyhideme")
-    buysellmenu.style.visibility = "hidden";
-
-    buysellmenu = document.getElementById("sellhideme")
-    buysellmenu.style.visibility = "hidden";
-
-    hideallbuy();
-    hideallsell();
-
-    // clear messages
-    renderTxnMessage(argstates, {"status":3});
-
-    // set state to buystate false
-    setState(argstates, false, false, false, false, false);
-
-}
-
-
-/** show buy in dollars state */
-function buyindollars(argstates){
-
-    document.getElementById("buydollarsformcontainer").style.visibility = "visible";
-    document.getElementById("buydollarsbuttoncontainer").style.visibility = "hidden";
-    document.getElementById("buysharesformcontainer").style.visibility = "hidden";
-    document.getElementById("buysharesbuttoncontainer").style.visibility = "visible";
-
-    document.getElementById("buytype").innerHTML = `Estimated Shares : <data id="buyestshares"></data> share(s)`;
-
-    renderTxnMessage(argstates, {"status":3});
-
-    // set buy in dollars state
-    setState(argstates, true, false, true, false, false);
-
-//    refreshEstShares(getCurrentPricePage());
-    updatebuydollarspage(argstates);
-}
-
-
-/** show buy in shares state */
-function buyinshares(argstates){
-
-    document.getElementById("buydollarsformcontainer").style.visibility = "hidden";
-    document.getElementById("buydollarsbuttoncontainer").style.visibility = "visible";
-    document.getElementById("buysharesformcontainer").style.visibility = "visible";
-    document.getElementById("buysharesbuttoncontainer").style.visibility = "hidden";
-
-    document.getElementById("buytype").innerHTML = `Estimated Cost : $<data id="buyestdollars"></data>`;
-
-    renderTxnMessage(argstates, {"status":3});
-
-    // set buy in shares state
-    setState(argstates, true, false, false, true, false);
-
-//    refreshEstDollars(getCurrentPricePage());
-    updatebuysharespage(argstates);
-}
-
-
-/** show sell in dollars state */
-function sellindollars(argstates){
-
-    document.getElementById("selldollarsformcontainer").style.visibility = "visible";
-    document.getElementById("selldollarsbuttoncontainer").style.visibility = "hidden";
-    document.getElementById("sellsharesformcontainer").style.visibility = "hidden";
-    document.getElementById("sellsharesbuttoncontainer").style.visibility = "visible";
-
-    document.getElementById("sellcloseformcontainer").style.visibility = "hidden";
-    document.getElementById("sellclosebuttoncontainer").style.visibility = "visible";
-
-    document.getElementById("selltype").innerHTML = `Estimated Shares : <data id="sellestshares"></data> share(s)`;
-
-    // set buy in dollars state
-    setState(argstates, false, true, true, false, false);
-
-    //refreshSellEstShares(getCurrentPricePage());
-    updateselldollarspage(argstates);
-}
-
-
-/** show sell in shares state */
-function sellinshares(argstates){
-
-    document.getElementById("selldollarsformcontainer").style.visibility = "hidden";
-    document.getElementById("selldollarsbuttoncontainer").style.visibility = "visible";
-    document.getElementById("sellsharesformcontainer").style.visibility = "visible";
-    document.getElementById("sellsharesbuttoncontainer").style.visibility = "hidden";
-
-    document.getElementById("sellcloseformcontainer").style.visibility = "hidden";
-    document.getElementById("sellclosebuttoncontainer").style.visibility = "visible";
-
-    document.getElementById("selltype").innerHTML = `Estimated Total : $<data id="sellesttotal"></data>`;
-
-    // set buy in shares state
-    setState(argstates, false, true, false, true, false);
-
-    //refreshSellEstShares(getCurrentPricePage());
-    updatesellsharespage(argstates);
-
-}
-
-
-/** show sell close state */
-function sellClose(argstates){
-
-    document.getElementById("selldollarsformcontainer").style.visibility = "hidden";
-    document.getElementById("selldollarsbuttoncontainer").style.visibility = "visible";
-    document.getElementById("sellsharesformcontainer").style.visibility = "hidden";
-    document.getElementById("sellsharesbuttoncontainer").style.visibility = "visible";
-
-    document.getElementById("sellcloseformcontainer").style.visibility = "visible";
-    document.getElementById("sellclosebuttoncontainer").style.visibility = "hidden";
-
-    document.getElementById("selltype").innerHTML = `Estimated Total : $<data id="sellesttotal"></data>`;
-
-    // set buy in shares state
-    setState(argstates, false, true, false, false, true);
-
-    //refreshSellEstShares(getCurrentPricePage());
-    updatesellclosepage(argstates);
-
-}
-
-
-/** hide all shares */
-function hideallbuy(){
-
-    document.getElementById("buydollarsformcontainer").style.visibility = "hidden";
-    document.getElementById("buydollarsbuttoncontainer").style.visibility = "hidden";
-    document.getElementById("buysharesformcontainer").style.visibility = "hidden";
-    document.getElementById("buysharesbuttoncontainer").style.visibility = "hidden";
-}
-
-
-/** hide all shares */
-function hideallsell(){
-
-    document.getElementById("selldollarsformcontainer").style.visibility = "hidden";
-    document.getElementById("selldollarsbuttoncontainer").style.visibility = "hidden";
-    document.getElementById("sellsharesformcontainer").style.visibility = "hidden";
-    document.getElementById("sellsharesbuttoncontainer").style.visibility = "hidden";
-    document.getElementById("sellcloseformcontainer").style.visibility = "hidden";
-    document.getElementById("sellclosebuttoncontainer").style.visibility = "hidden";
-
-}
-
-
-/** update buydollarspage */
-function updatebuydollarspage(argstates){
-
-    let buyid = document.getElementById("viewbuydollars");
-    const inputvalue = parseFloat(buyid.value);
-    const currprice = parseFloat(getCurrentPricePage());
-    const cash = getCashPage();
-    let color = '';
-
-    if (inputvalue > cash){
-        color = 'red';
     }
-    else
-        color = 'black';
 
-    buyid.style.color = color;
-    updateCashTxnPage(argstates, color);
+    /** dynamically updates color for cash n refreshes est dollars 
+     *  based on curr price updates and input */
+    updatebuysharespage(){
+        let buysid = document.getElementById("viewbuyshares");
+        const inputvalue = parseFloat(buysid.value);
+        const currprice = parseFloat(this.controllerRef.returnCurrprice());
+        const cash = parseFloat(this.controllerRef.returnCash());
+        let color = '';
 
-    refreshEstShares(currprice);
-}
+        if (inputvalue*currprice > cash){
+            color = 'red';
+        }
+        else
+            color = 'black';
+        
+        
+        this.updateCashTxnPage(color);
 
-
-/** dynamically updates color for cash n refreshes est dollars 
- *  based on curr price updates and input */
-function updatebuysharespage(argstates){
-    let buysid = document.getElementById("viewbuyshares");
-    const inputvalue = parseFloat(buysid.value);
-    const currprice = parseFloat(getCurrentPricePage());
-    const cash = getCashPage();
-    let color = '';
-
-    if (inputvalue*currprice > cash){
-        color = 'red';
+        this.refreshEstDollars(color);
     }
-    else
-        color = 'black';
+
+
+
+    /** show buy menu */
+    showBuyMenu(){
+        const argstates = this.controllerRef.returnStates();
+        const currprice = this.controllerRef.returnCurrprice()
+
+        document.getElementById("buyhideme").style.visibility = "visible";
+
+        // show and set buy in dollars state
+        this.buyindollars();
+
+        //refresh page data
+        this.refreshbuypagecurrprice();
+        this.refreshEstShares();
+
+        this.updateAvailSharesTxnPage();
+        this.updateCashTxnPage();
+
+        this.addELbuyshares();
+        this.addELbuydollars();
+    }
+
+    /** show sell menu */
+    showSellMenu(){
+        document.getElementById("sellhideme").style.visibility = "visible";
+
+        // show and set sell in dollars state
+        this.sellindollars();
+
+        //refresh page data
+        this.refreshsellpagecurrprice();
+        this.refreshSellEstShares();
+        
+        this.updateAvailSharesTxnPage();
+        this.updateCashTxnPage();
+
+        this.addELsellshares();
+        this.addELselldollars();
+    }
+
+    /** update availshares in sell page */
+    updateAvailSharesTxnPage(argcolor='black'){
+        const shares = this.controllerRef.returnQuantity();
+        const argstates = this.controllerRef.returnStates();
     
+        if (argstates['sell']){
+            document.getElementById("sellsharestotal").innerHTML=`${parseFloat(shares).toFixed(2)}`;
+            document.getElementById("sellsharestotal").style.color = argcolor;
+        }
+        if (argstates['buy']){
+            document.getElementById("buyquantity").innerHTML=`${parseFloat(shares).toFixed(2)}`;
+        }
+    }
+
+
+    /** update cash buy page */
+    updateCashTxnPage(argcolor='black'){
+        const cash = this.controllerRef.returnCash();
+        const argstates = this.controllerRef.returnStates();
+
+        if (argstates['buy']){
+            document.getElementById("buycash").innerHTML=`${parseFloat(cash).toFixed(2)}`;
+            document.getElementById("buycash").style.color = argcolor;
+        }
+
+        if (argstates['sell']){
+            document.getElementById("sellcashtotal").innerHTML=`${parseFloat(cash).toFixed(2)}`;
+        }
+    }
+
+
+    /** dynamically updates color for avilshares n refreshes est shares 
+     *  based on curr price updates and input */
+    updateselldollarspage(){
+
+        let sellid = document.getElementById("viewselldollars");
+        const inputvalue = parseFloat(sellid.value);
+        const currprice = parseFloat(this.controllerRef.returnCurrprice());
+        const availshares = parseFloat(this.controllerRef.returnQuantity());
+        let color = '';
+
+        if ((inputvalue/currprice) > availshares){
+            color = 'red';
+        }
+        else
+            color = 'black';
+        
+        this.updateAvailSharesTxnPage(color);
+
+        this.refreshSellEstShares(color);
+    }
+
+
+    /** dynamically updates color for avilshares n refreshes est total 
+     *  based on curr price updates and input */
+    updatesellsharespage(){
+        
+        let sellid = document.getElementById("viewsellshares");
+        const inputvalue = parseFloat(sellid.value);
+        const availshares = parseFloat(this.controllerRef.returnQuantity());
+        let color = '';
+
+        if (inputvalue > availshares)
+            color = 'red';
+        
+        else
+            color = 'black';
+        
+        sellid.style.color = color;
+
+        this.updateAvailSharesTxnPage(color);
+
+        this.refreshSellEstTotal(color);
+    }
+
+
+    /** dynamically updates color for avilshares n refreshes est total 
+     *  based on curr price updates and input */
+    updatesellclosepage(){
+        
+        this.updateAvailSharesTxnPage();
+        this.refreshSellEstTotalClose();
+    }
+
+
+    /** main refresher of buysell data */
+    renderBuySellData(){
+        let argstates = this.controllerRef.returnStates();
+
+        if (argstates['buy']){
+            // update curr price buy page
+            this.refreshbuypagecurrprice();
     
-    updateCashTxnPage(argstates, color);
-
-    refreshEstDollars(currprice, color);
-}
-
-
-/** dynamically updates color for avilshares n refreshes est shares 
- *  based on curr price updates and input */
-function updateselldollarspage(argstates){
-    console.log(argstates)
-
-    let sellid = document.getElementById("viewselldollars");
-    const inputvalue = parseFloat(sellid.value);
-    const currprice = parseFloat(getCurrentPricePage());
-    const availshares = getAvailSharesPage();
-    let color = '';
-
-    if ((inputvalue/currprice) > availshares){
-        color = 'red';
-    }
-    else
-        color = 'black';
-
+            if (argstates['bydollars'])
+                // update est shares buy page
+                this.refreshEstShares();
     
-    updateAvailSharesTxnPage(argstates, color);
-
-    refreshSellEstShares(currprice, color);
-}
-
-
-/** dynamically updates color for avilshares n refreshes est total 
- *  based on curr price updates and input */
-function updatesellsharespage(argstates){
+            if (argstates['byshares'])
+                // update est cost buy page
+                this.refreshEstDollars();
+        }
+        
+        if (argstates['sell']){
+            // update curr price sell page
+            this.refreshsellpagecurrprice();
     
-    let sellid = document.getElementById("viewsellshares");
-    const inputvalue = parseFloat(sellid.value);
-    const currprice = parseFloat(getCurrentPricePage());
-    const availshares = getAvailSharesPage();
-
-    let color = '';
-
-    if (inputvalue > availshares)
-        color = 'red';
+            if (argstates['bydollars'])
+                // update est shares sell page
+                this.refreshSellEstShares();
     
-    else
-        color = 'black';
+            if (argstates['byshares'])
+                // update est cost sell page
+                this.refreshSellEstTotal();
     
-    sellid.style.color = color;
-    updateAvailSharesTxnPage(argstates, color);
+            if (argstates['close'])
+                // update est cost sell page
+                this.refreshSellEstTotalClose();
+        }
+    }
 
-    refreshSellEstTotal(currprice, color);
-}
+    /** refresh buy page current price */
+    refreshbuypagecurrprice(){
+        let argcurrprice = this.controllerRef.returnCurrprice();
+        document.getElementById("buycurrentprice").innerHTML = `${argcurrprice.toFixed(2)}`
+    }
+
+    /** refresh sell page current price */
+    refreshsellpagecurrprice(){
+        let argcurrprice = this.controllerRef.returnCurrprice();
+        document.getElementById("sellcurrentprice").innerHTML = `${argcurrprice.toFixed(2)}`
+    }
+
+    /** refresh est shares */
+    refreshEstShares(){
+        let argcurrprice = this.controllerRef.returnCurrprice();
+        let buyinputdollars = parseFloat(document.getElementById("viewbuydollars").value);
+
+        if (isNaN(buyinputdollars)){
+            buyinputdollars = 0;
+        }
+
+        let estshares = (buyinputdollars/argcurrprice).toFixed(2);
+
+        // update est shares on buy page
+        document.getElementById("buyestshares").innerHTML = `${estshares}`;
+    }
 
 
-/** dynamically updates color for avilshares n refreshes est total 
- *  based on curr price updates and input */
-function updatesellclosepage(argstates){
+    /** refresh est dollars */
+    refreshEstDollars(argcolor='black'){
+        let argcurrprice = this.controllerRef.returnCurrprice();
+
+        let buyinputshares = parseFloat(document.getElementById("viewbuyshares").value);
+
+        if (isNaN(buyinputshares)){
+            buyinputshares = 0;
+        }
+        let estcost = (buyinputshares * argcurrprice).toFixed(2);
+
+        // update est cost on buy page
+        document.getElementById("buyestdollars").innerHTML = `${estcost}`;
+        document.getElementById("buyestdollars").style.color = argcolor;
+    }
+
+
+    /** refresh SELL est shares */
+    refreshSellEstShares(argcolor = 'black'){
+        let argcurrprice = this.controllerRef.returnCurrprice();
+        let sellinputdollars = parseFloat(document.getElementById("viewselldollars").value);
+
+        if (isNaN(sellinputdollars)){
+            sellinputdollars = 0;
+        }
+
+        let estshares = (sellinputdollars/argcurrprice).toFixed(2);
+
+        // update est shares on sell page
+        document.getElementById("sellestshares").innerHTML = `${estshares}`;
+        document.getElementById("sellestshares").style.color = argcolor;
+    }
+
+
+    /** refresh SELL est total */
+    refreshSellEstTotal(){
+        let argcurrprice = this.controllerRef.returnCurrprice();
+        let sellinputshares = parseFloat(document.getElementById("viewsellshares").value);
+
+        if (isNaN(sellinputshares)){
+            sellinputshares = 0;
+        }
+
+        let esttotal = (sellinputshares * argcurrprice).toFixed(2);
+
+        // update est total on sell page
+        document.getElementById("sellesttotal").innerHTML = `${esttotal}`;
+    }
+
+
+    /** refresh SELL est total on close */
+    refreshSellEstTotalClose(){
+        const argcurrprice = this.controllerRef.returnCurrprice();
+        const availshares = this.controllerRef.returnQuantity();
+        let sellid = document.getElementById("viewsellclose");
     
-    updateAvailSharesTxnPage(argstates);
-    
-    refreshSellEstTotalClose();
-}
+        let esttotal = 0;
 
-
-/** add EL to input field buy in dollars */
-function addELbuydollars(argstates){
-
-    let buyid = document.getElementById("viewbuydollars");
-    buyid.addEventListener('keyup', () => {
-        updatebuydollarspage(argstates);
-        renderTxnMessage(argstates, {"status":3});
-    });
-}
-
-
-/** add EL to input field buy in shares */
-function addELbuyshares(argstates){
-
-    let buysid = document.getElementById("viewbuyshares");
-    buysid.addEventListener('keyup', ()=> {
-        updatebuysharespage(argstates);
-        renderTxnMessage(argstates, {"status":3});
-    });
-
-}
-
-
-/** add EL to input field buy in dollars */
-function addELselldollars(argstates){
-
-    let sellid = document.getElementById("viewselldollars");
-    sellid.addEventListener('keyup', () => {
-        updateselldollarspage(argstates);
-        renderTxnMessage(argstates, {"status":3});
-    });
-}
-
-
-/** add EL to input field buy in shares */
-function addELsellshares(argstates){
-
-    let buysid = document.getElementById("viewsellshares");
-    buysid.addEventListener('keyup', ()=> {
-        updatesellsharespage(argstates)
-        renderTxnMessage(argstates, {"status":3});
-    });
-
-}
-
-
-/** refresh buy page current price */
-function refreshbuypagecurrprice(argcurrprice){
-    document.getElementById("buycurrentprice").innerHTML = `${argcurrprice.toFixed(2)}`
-}
-
-
-/** refresh sell page current price */
-function refreshsellpagecurrprice(argcurrprice){
-    document.getElementById("sellcurrentprice").innerHTML = `${argcurrprice.toFixed(2)}`
-}
-
-
-/** refresh est shares */
-function refreshEstShares(argcurrprice){
-
-    let buyinputdollars = parseFloat(document.getElementById("viewbuydollars").value);
-
-    if (isNaN(buyinputdollars)){
-        buyinputdollars = 0;
-   }
-
-    let estshares = (buyinputdollars/argcurrprice).toFixed(2);
-
-    // update est shares on buy page
-    document.getElementById("buyestshares").innerHTML = `${estshares}`;
-}
-
-
-/** refresh est dollars */
-function refreshEstDollars(argcurrprice, argcolor='black'){
-
-    let buyinputshares = parseFloat(document.getElementById("viewbuyshares").value);
-
-    if (isNaN(buyinputshares)){
-        buyinputshares = 0;
-   }
-   console.log(argcurrprice);
-
-   let estcost = (buyinputshares * argcurrprice).toFixed(2);
-
-   // update est cost on buy page
-   document.getElementById("buyestdollars").innerHTML = `${estcost}`;
-   document.getElementById("buyestdollars").style.color = argcolor;
-}
-
-
-/** refresh SELL est shares */
-function refreshSellEstShares(argcurrprice, argcolor = 'black'){
-
-    let sellinputdollars = parseFloat(document.getElementById("viewselldollars").value);
-
-    if (isNaN(sellinputdollars)){
-        sellinputdollars = 0;
-   }
-
-    let estshares = (sellinputdollars/argcurrprice).toFixed(2);
-
-    // update est shares on sell page
-    document.getElementById("sellestshares").innerHTML = `${estshares}`;
-    document.getElementById("sellestshares").style.color = argcolor;
-}
-
-
-/** refresh SELL est total */
-function refreshSellEstTotal(argcurrprice){
-    let sellinputshares = parseFloat(document.getElementById("viewsellshares").value);
-
-    if (isNaN(sellinputshares)){
-        sellinputshares = 0;
-   }
-
-   let esttotal = (sellinputshares * argcurrprice).toFixed(2);
-
-   // update est total on sell page
-   document.getElementById("sellesttotal").innerHTML = `${esttotal}`;
-}
-
-
-/** refresh SELL est total on close */
-function refreshSellEstTotalClose(){
-
-    let sellid = document.getElementById("viewsellclose");
-
-    const currprice = parseFloat(getCurrentPricePage());
-    const availshares = parseFloat(getAvailSharesPage());
-    let esttotal = 0;
-
-    if (sellid.checked == true){
-        esttotal = (currprice*availshares).toFixed(2);
+        if (sellid.checked == true){
+            esttotal = (argcurrprice*availshares).toFixed(2);
+        }
+        // update est total on sell page
+        document.getElementById("sellesttotal").innerHTML = `${esttotal}`;
     }
 
-    // update est total on sell page
-    document.getElementById("sellesttotal").innerHTML = `${esttotal}`;
-
-};
-
-/** update cash buy page */
-function updateCashTxnPage(argstates, argcolor='black'){
-    const cash = getCashPage();
- 
-    if (argstates['buy']){
-        document.getElementById("buycash").innerHTML=`${parseFloat(cash).toFixed(2)}`;
-        document.getElementById("buycash").style.color = argcolor;
+    /** add EL to input field buy in dollars */
+    addELbuydollars(){
+        
+        let buyid = document.getElementById("viewbuydollars");
+        buyid.addEventListener('keyup', () => {
+            this.updatebuydollarspage();
+            this.renderTxnMessage({"status":3});
+        });
     }
 
-    if (argstates['sell']){
-        document.getElementById("sellcashtotal").innerHTML=`${parseFloat(cash).toFixed(2)}`;
+    /** add EL to input field buy in shares */
+    addELbuyshares(){
+
+        let buysid = document.getElementById("viewbuyshares");
+        buysid.addEventListener('keyup', ()=> {
+            this.updatebuysharespage();
+            this.renderTxnMessage({"status":3});
+        });
     }
 
-}
+    /** add EL to input field buy in dollars */
+    addELselldollars(){
 
-
-/** update availshares in sell page */
-function updateAvailSharesTxnPage(argstates, argcolor='black'){
-    const shares = getAvailSharesPage();
- 
-    if (argstates['sell']){
-        document.getElementById("sellsharestotal").innerHTML=`${parseFloat(shares).toFixed(2)}`;
-        document.getElementById("sellsharestotal").style.color = argcolor;
-    }
-    if (argstates['buy']){
-        document.getElementById("buyquantity").innerHTML=`${parseFloat(shares).toFixed(2)}`;
-    }
-}
-
-
-/** handles the buy request */
-async function buy(argstates){
-    const cash = getCashPage();
-    const symbol = getSymbolPage();
-    let input = 0;
-
-    // getting user input
-    if (argstates['bydollars'])
-        input = document.getElementById("viewbuydollars").value;
-    if (argstates['byshares']){
-        let inputshares = document.getElementById("viewbuyshares").value;
-        let currprice = getCurrentPricePage();
-        input = (inputshares * currprice).toFixed(2);
+        let sellid = document.getElementById("viewselldollars");
+        sellid.addEventListener('keyup', () => {
+            this.updateselldollarspage();
+            this.renderTxnMessage({"status":3});
+        });
     }
 
-    // Client side check
-    if (input > cash){
-        renderTxnMessage(argstates, {'status':1})
-        return 1;
+    /** add EL to input field buy in shares */
+    addELsellshares(argstates){
+
+        let buysid = document.getElementById("viewsellshares");
+        buysid.addEventListener('keyup', ()=> {
+            this.updatesellsharespage()
+            this.renderTxnMessage({"status":3});
+        });
     }
 
-    // server POST
-    let responseobj = await fetcher('/buy', 'POST', {'symbol':symbol, 'buyamt':input});
+    /** hide buy sell menus */
+    closeBuySellMenu(){
+        let buysellmenu = document.getElementById("buyhideme")
+        buysellmenu.style.visibility = "hidden";
 
-    renderTxnMessage(argstates, responseobj[0]);
+        buysellmenu = document.getElementById("sellhideme")
+        buysellmenu.style.visibility = "hidden";
 
+        this.hideallbuy();
+        this.hideallsell();
 
-    // if all went well, refresh
-    if (responseobj[0]['status'] == 0)
-        updatePageHoldingsData(responseobj, argstates)
-}
+        // clear messages
+        this.renderTxnMessage({"status":3});
 
-
-/** handles the sell request */
-async function sell(argstates){
-    const quantity = parseFloat(getAvailSharesPage());
-    const currprice = parseFloat(getCurrentPricePage());
-    const symbol = getSymbolPage();
-
-    let inputshares = 0;
-
-    // get the input depending on the state
-    if (argstates['bydollars']){
-         let input = parseFloat(document.getElementById("viewselldollars").value);
-         inputshares = (input/currprice).toFixed(2);
-    }
-    if (argstates['byshares'])
-        inputshares = parseFloat(document.getElementById("viewsellshares").value);
-
-
-    // Client side check
-    if (inputshares > quantity){
-        renderTxnMessage(argstates, {'status':2})
-        return 1;
+        // set state to buystate false
+        this.controllerRef.setState(false, false, false, false, false);
     }
 
-    // prepare body
-    let body = {'symbol':symbol, 'sellamt':inputshares, 'close':false}
+    /** hide all shares */
+    hideallbuy(){
+        document.getElementById("buydollarsformcontainer").style.visibility = "hidden";
+        document.getElementById("buydollarsbuttoncontainer").style.visibility = "hidden";
+        document.getElementById("buysharesformcontainer").style.visibility = "hidden";
+        document.getElementById("buysharesbuttoncontainer").style.visibility = "hidden";
+    }
 
-    if (argstates['byclose'])
-        body['close'] = true;
-
-    // server POST
-    let responseobj = await fetcher('/sell', 'POST', body);
-
-    renderTxnMessage(argstates, responseobj[0]);
-
-    // if all went well, refresh
-    if (responseobj[0]['status'] == 0)
-        updatePageHoldingsData(responseobj, argstates)
-}
-
-
-
-/** renders any status message */
-function renderTxnMessage(argstate, status, argmessage=transactionStatus){
-    html =  `
-                ${argmessage[status['status']]}
-            `
-    if (argstate['buy'])
-        document.getElementById("buystatus").innerHTML= html;
-    if (argstate['sell'])
-        document.getElementById("sellstatus").innerHTML= html;
+    /** hide all shares */
+    hideallsell(){
+        document.getElementById("selldollarsformcontainer").style.visibility = "hidden";
+        document.getElementById("selldollarsbuttoncontainer").style.visibility = "hidden";
+        document.getElementById("sellsharesformcontainer").style.visibility = "hidden";
+        document.getElementById("sellsharesbuttoncontainer").style.visibility = "hidden";
+        document.getElementById("sellcloseformcontainer").style.visibility = "hidden";
+        document.getElementById("sellclosebuttoncontainer").style.visibility = "hidden";
+    }
 }
 

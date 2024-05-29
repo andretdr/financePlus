@@ -15,8 +15,6 @@ def buyshares(argid, argsymb, argcashamt, argdb, conn):
     #make purchase
     status = buysharesDB(argid, argsymb, argcashamt, argdb, conn)
 
-    print(f"buyshares {status}")
-
     return status
 
 

@@ -1,8 +1,9 @@
 from functools import wraps
 from flask import redirect, render_template, session
 
+import numpy as np
 import mysql.connector, mysql.connector.pooling
-import sys
+import sys, json
 
 
 """ initialise db connection """
@@ -72,3 +73,19 @@ def returnquantity(argsymb, argdb):
         return 0    
     else:
         return row[0]['quantity']
+
+""" enconding for json """
+class NpEncoder(json.JSONEncoder):
+    def default(self, obj):
+        dtypes = (np.datetime64, np.complexfloating, np.timestamp)
+        if isinstance(obj, dtypes):
+            return str(obj)
+        elif isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            if any([np.issubdtype(obj.dtype, i) for i in dtypes]):
+                return obj.astype(str).tolist()
+            return obj.tolist()
+        return super(NpEncoder, self).default(obj)

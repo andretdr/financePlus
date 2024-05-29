@@ -154,13 +154,18 @@ def viewstock():
 
     if request.method == "GET" :
         symbol = request.args.get('q')
-        return render_template("viewstock.html", symbol = symbol)
+        data_a = viewf.retrievedata(symbol)
+        data_b = viewf.dbReturnUserHoldingsData(session['user_id'], symbol, db)
+
+        returndata = json.dumps(data_b + data_a, cls=func.NpEncoder)
+
+        return render_template("viewstock.html", data = returndata)
     
     else:
         clientdata = request.get_json()
         typedata = clientdata['type']
         if typedata == 'stock':
-            data = viewf.retrievedata(clientdata['symbol'], db)
+            data = viewf.retrievedata(clientdata['symbol'])
         if typedata == 'holdings':
             data = viewf.dbReturnUserHoldingsData(session['user_id'], clientdata['symbol'], db)
 
@@ -176,6 +181,7 @@ def buy():
 
     record = buysell.buyshares(session['user_id'], clientsymb, clientbuyamt, db, conn)
 
+    print(record)
     return jsonify(record)
 
 
