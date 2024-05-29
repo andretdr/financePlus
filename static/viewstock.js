@@ -109,7 +109,6 @@ class viewController{
     async refreshAPIDataServer(){
         const data = await this.getAPIData();
         this.refreshStockData(data);
-        console.log(this.returnCurrprice());
     }
 
     async getHoldingsData(){
@@ -281,6 +280,8 @@ class viewView{
 
         this.renderGraph(this.controllerRef.returnViewdata);
 
+        this.disableGraphButton();
+
         this.renderviewinfo();
 
         this.updatePageHoldingsData();
@@ -289,7 +290,7 @@ class viewView{
 
     /** renders symbol on page */
     renderSymbol(){
-        document.getElementById("viewlogo").innerHTML = `${this.controllerRef.returnSymb()}`;
+        document.getElementById("viewlogo").innerHTML = `<h2>${this.controllerRef.returnSymb()}<h2>`;
     }
 
     /** takes in dictionary with 'symbol':symbol, 'status':status and prints error */
@@ -305,7 +306,7 @@ class viewView{
             html = `SYMBOL ${argstatus['symbol']} not found`;
 
         //rendering message
-        document.getElementById("viewstockbody").innerHTML = html;
+        document.getElementById("view-error").innerHTML = html;
     }
 
     /** accepts argrange of '1d','1w','1m','3m','1y' */
@@ -319,10 +320,29 @@ class viewView{
             // redraw graph
             this.renderGraph();
 
-        //INVESTIGATE
             // render info
             this.renderviewinfo();
+
+            this.disableGraphButton();
         }
+    }
+
+    /** disables the graph buttons when selected */
+    disableGraphButton(){
+        const argrange = this.controllerRef.returnViewdata();
+
+        // disable button
+        const switcher = {'1d':'viewgraphday', '1w':'viewgraphweek', 
+                            '1m':'viewgraphmonth', '3m':'viewgraphthreem', '1y':'viewgraphyear'}
+
+        // enable all buttons 1st                                
+        for (let key in switcher){
+            let element = document.getElementById(switcher[key]);
+            element.disabled = false;
+        }
+        // disable the one
+        let element = document.getElementById(switcher[argrange]);
+        element.disabled = true;
     }
 
     /** render the stock graph given data from this.controllerRef **/
@@ -372,13 +392,13 @@ class viewView{
     /** render the stock data */
     renderviewinfo(){
 
-    const currentprice = this.controllerRef.returnCurrprice();
+    const currentprice = (this.controllerRef.returnCurrprice()).toFixed(2);
     const dailyreturn = (this.controllerRef.returnSmartly()).toFixed(2);
     const dailypercent = (this.controllerRef.returnSmartlyP()).toFixed(2);
 
     let html = `
             <div>
-                <data id="viewcurrentprice">${currentprice}</data></br>
+                <data id="viewcurrentprice">$${currentprice}</data></br>
             `;
     if (parseFloat(dailyreturn) < 0)
         html += `   <data id="viewdailyreturn" style='color:red;'>${dailyreturn}&darr; </data>
@@ -397,6 +417,8 @@ class viewView{
     /** get API data from server through controllerRef, then update page */
     async refreshAPIDataServerV(){
         await this.controllerRef.refreshAPIDataServer();
+        this.renderGraph(this.controllerRef.returnSmartGraphdata());
+        this.renderviewinfo();
         this.updatePageHoldingsData();
     }
 
@@ -430,7 +452,7 @@ class viewView{
         const avgcost = (this.controllerRef.returnAvgcost()).toFixed(2);
         const value = (currprice*quantity).toFixed(2);
         const totalcost = (avgcost*quantity).toFixed(2);
-        const pnl = value - totalcost;
+        const pnl = (value - totalcost).toFixed(2);
 
         let html = `
                 <p>Holdings </p>

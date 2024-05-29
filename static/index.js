@@ -156,6 +156,7 @@ class indexController {
         let argtype = "holdings"
         let dataobj = await fetcher('/', 'POST', {'status':'request', 'type':argtype});
         this.data = this.getDataFromRawData(dataobj);
+        console.log(this.data);
     }
     
 }
@@ -197,6 +198,12 @@ class indexView {
                                 <div class="footer-item__cash">$${argcash}</div>
                             <div>
                             `;
+    }
+
+    /** refresh main index page with pulling updated data from server */
+    async refreshHoldingsPageV() {
+        await this.controllerRef.updateRawData();
+        this.refreshHoldingsPage()
     }
 
     refreshHoldingsPage() {

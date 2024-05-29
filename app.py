@@ -159,6 +159,9 @@ def viewstock():
 
         returndata = json.dumps(data_b + data_a, cls=func.NpEncoder)
 
+        if data_a[0]["status"] == 10:
+            return render_template("error.html", data = "Symbol not found")
+
         return render_template("viewstock.html", data = returndata)
     
     else:
@@ -168,6 +171,9 @@ def viewstock():
             data = viewf.retrievedata(clientdata['symbol'])
         if typedata == 'holdings':
             data = viewf.dbReturnUserHoldingsData(session['user_id'], clientdata['symbol'], db)
+
+        if data[0]["status"] == 10:
+            return render_template("error.html", data = "Symbol not found")
 
         return jsonify(data)
 

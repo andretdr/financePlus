@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-
+<main class="page-format page-format--main" id="indexbody">
     <section class="index-body">
         <input type="hidden" id="datadump" name="datadump" value="{{ data }}">
 
@@ -17,6 +17,7 @@
         </div>
 
     </section>
+</main>
 
 {% endblock %}
 
@@ -31,11 +32,10 @@
         const view = new indexView(controller);
         view.refreshHoldingsPage();
     
-/**        setInterval(()=>{
-            controller.updateRawData();
-            view.refreshHoldingsPage();
+        setInterval(()=>{
+            view.refreshHoldingsPageV();
             }, 3000);
-*/
+
     </script>
 {% endblock %}
 
