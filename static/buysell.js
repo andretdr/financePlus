@@ -20,12 +20,19 @@ class buySellView{
     buyindollars(){
         let argstates = this.controllerRef.returnStates();
 
-        document.getElementById("buydollarsformcontainer").style.visibility = "visible";
-        document.getElementById("buydollarsbuttoncontainer").style.visibility = "hidden";
-        document.getElementById("buysharesformcontainer").style.visibility = "hidden";
-        document.getElementById("buysharesbuttoncontainer").style.visibility = "visible";
+        document.getElementById("buydollarsformcontainer").style.display = "flex";
+        document.getElementById("buydollarsbuttoncontainer").style.display = "none";
+        document.getElementById("buysharesformcontainer").style.display = "none";
+        document.getElementById("buysharesbuttoncontainer").style.display = "flex";
 
-        document.getElementById("buytype").innerHTML = `Estimated Shares : <data id="buyestshares"></data> share(s)`;
+        document.getElementById("buytype").innerHTML = 
+                    ` 
+                        <div class="buysell-holdings__text"> Estimated Shares : </div>
+                        <div class="buysell-holdings__resultcontainer">
+                            <div class="buysell-holdings__result" id="buyestshares">
+                            </div>
+                        </div>
+                    `;
 
         this.renderTxnMessage({"status":3});
 
@@ -39,12 +46,23 @@ class buySellView{
     /** show buy in shares state */
     buyinshares(){
 
-        document.getElementById("buydollarsformcontainer").style.visibility = "hidden";
-        document.getElementById("buydollarsbuttoncontainer").style.visibility = "visible";
-        document.getElementById("buysharesformcontainer").style.visibility = "visible";
-        document.getElementById("buysharesbuttoncontainer").style.visibility = "hidden";
+        document.getElementById("buydollarsformcontainer").style.display = "none";
+        document.getElementById("buydollarsbuttoncontainer").style.display = "flex";
+        document.getElementById("buysharesformcontainer").style.display = "flex";
+        document.getElementById("buysharesbuttoncontainer").style.display = "none";
 
-        document.getElementById("buytype").innerHTML = `Estimated Cost : $<data id="buyestdollars"></data>`;
+        document.getElementById("buytype").innerHTML = 
+                    `
+                        <div class="buysell-holdings__text"> Estimated Cost : </div>
+                        <div class="buysell-holdings__resultcontainer">
+                            <div class="buysell-holdings__unit">$</div>
+                            <div class="buysell-holdings__result" id="buyestdollars">
+                            </div>
+                        </div>
+                            
+                    `;
+
+
 
         this.renderTxnMessage({"status":3});
 
@@ -507,10 +525,10 @@ class buySellView{
 
     /** hide all shares */
     hideallbuy(){
-        document.getElementById("buydollarsformcontainer").style.visibility = "hidden";
-        document.getElementById("buydollarsbuttoncontainer").style.visibility = "hidden";
-        document.getElementById("buysharesformcontainer").style.visibility = "hidden";
-        document.getElementById("buysharesbuttoncontainer").style.visibility = "hidden";
+        document.getElementById("buydollarsformcontainer").style.display = "none";
+        document.getElementById("buydollarsbuttoncontainer").style.display = "none";
+        document.getElementById("buysharesformcontainer").style.display = "none";
+        document.getElementById("buysharesbuttoncontainer").style.display = "none";
     }
 
     /** hide all shares */
