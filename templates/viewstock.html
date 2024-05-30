@@ -28,13 +28,13 @@
 
                     <div class="buysellform-container" id="buydollarsformcontainer">
                         <div class="buysellform-container__form" id="buydollarsform">
-                            $<input class="buysellform-container__input" type="number" id="viewbuydollars" name="viewbuydollars" min='0' placeholder="0.00" oninput="validity.valid||(value='');">
+                            $<input class="buysellform-container__input" type="number" id="viewbuydollars" name="viewbuydollars" min='0' placeholder="0" oninput="validity.valid||(value='');">
                         </div>
                     </div>
 
                     <div class="buysellbutton-container" id="buydollarsbuttoncontainer">
                         <div class="buysellbutton-container__buttons" id="buydollarsbutton">
-                            <button onclick="buysellview.buyindollars()">Buy by Dollars</button>
+                            <button class="buysellbutton-container__buttons" onclick="buysellview.buyindollars()">Buy by Dollars</button>
                         </div>
                     </div>
 
@@ -51,7 +51,7 @@
                     <div class="buysellbutton-container" id="buysharesbuttoncontainer">
                         <div id="buysharesbutton">
 
-                            <button onclick="buysellview.buyinshares()">Buy by Shares</button>
+                            <button class="buysellbutton-container__buttons" onclick="buysellview.buyinshares()">Buy by Shares</button>
                         </div>
                     </div>
                 </section>
@@ -87,12 +87,12 @@
                     <div id="buystatus">
                     </div>
 
-                    </section>
+                </section>
 
                 <!-- buttons -->
-                <div>
-                    <button onclick="viewview.buy()">Buy</button>
-                    <button onclick="buysellview.closeBuySellMenu()">Cancel</button>
+                <div class="buysellbutton-container buysellbutton-container--order">
+                    <button class="buysellbutton-container__buttons buysellbutton-container__buttons--buy" onclick="viewview.buy()">Place Order</button>
+                    <button class="buysellbutton-container__buttons buysellbutton-container__buttons--close" onclick="buysellview.closeBuySellMenu()">Close</button>
                 </div>
             </div>
         </section>
