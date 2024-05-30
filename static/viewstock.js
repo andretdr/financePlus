@@ -397,18 +397,19 @@ class viewView{
     const dailypercent = (this.controllerRef.returnSmartlyP()).toFixed(2);
 
     let html = `
-            <div>
-                <data id="viewcurrentprice">$${currentprice}</data></br>
+            <div class="view-stockprice">
+                <div class="view-stockprice-cp" id="viewcurrentprice">$${currentprice}</div>
+                <div class="view-stockprice-drdp">
             `;
     if (parseFloat(dailyreturn) < 0)
-        html += `   <data id="viewdailyreturn" style='color:red;'>${dailyreturn}&darr; </data>
-                    <data id="viewdailypercent" style='color:red;'>(${dailypercent})&#37 &darr;</data>
+        html += `       <span id="viewdailyreturn" style='color:red;'>${dailyreturn}&darr;  (${dailypercent})&#37&darr; </span>
                     </div>
+                </div>
                 `;
     else
-        html += `   <data id="viewdailyreturn" style='color:green;'>${dailyreturn}&uarr;</data>
-                    <data id="viewdailypercent" style='color:green;'>(${dailypercent})&#37 &uarr;</data>
+        html += `       <span id="viewdailyreturn" style='color:green;'>${dailyreturn}&uarr;  (${dailypercent})&#37&uarr;</span>
                     </div>
+                </div>
                 `;
 
     document.getElementById("viewinfo").innerHTML = html;
@@ -455,13 +456,39 @@ class viewView{
         const pnl = (value - totalcost).toFixed(2);
 
         let html = `
-                <p>Holdings </p>
+                <div class="view-holdings__header">Holdings </div>
 
-                <p>Quantity : ${quantity} share(s)</p>
-                <p>Avg Cost : $ ${avgcost}</p>
-                <p>Market Value : $ ${value}</p>
+                <div class="view-holdings__lineitem">
+                    <div>Quantity :</div>
+                    <div class="view-holdings__resultcontainer">
+                        <div class="view-holdings__result">${quantity}</div>
+                    </div>
+                </div>
         
-                <p>P & L : $ ${pnl}</p>
+                <div class="view-holdings__lineitem">
+                    <div>Avg Cost :</div>                
+                    <div class="view-holdings__resultcontainer">
+                        <div class="view-holdings__unit">$</div>
+                        <div class="view-holdings__result">${avgcost}</div>
+                    </div>
+                </div>
+        
+                <div class="view-holdings__lineitem">
+                    <div>Market Value :</div>
+                    <div class="view-holdings__resultcontainer">
+                        <div class="view-holdings__unit">$</div>
+                        <div class="view-holdings__result">${value}</div>
+                    </div>
+        
+                </div>
+        
+                <div class="view-holdings__lineitem">
+                    <div>Unrealised P & L :</div>
+                    <div class="view-holdings__resultcontainer">
+                        <div class="view-holdings__unit">$</div>
+                        <div class="view-holdings__result">${pnl}</div>
+                    </div>
+                </div>
                 `;
                 
         document.getElementById("viewholdings").innerHTML=html;

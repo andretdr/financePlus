@@ -12,7 +12,7 @@
         </div>
     </section>
 
-    <div id="buyhideme">
+    <div id="buyhideme" style="display: none;">
         <div class="buysellmenu">
             BUY
             <div id="buydollarsformcontainer">
@@ -64,7 +64,7 @@
         </div>
     </div>
 
-    <div id="sellhideme">
+    <div id="sellhideme" style="display: none;">
         <div class="buysellmenu">
             SELL
             <div id="selldollarsformcontainer">
@@ -143,13 +143,49 @@
         <button class="view-buttons-graph" id="viewgraphyear" onclick="viewview.graphButton('1y')">1Y</button>
     </section>
 
-    <section class="view-info">
-        <div id="viewinfo">
+    <section class="view-info" id="viewinfo">
+        <div class="view-stockprice">
+            <div class="view-stockprice-cp" id="viewcurrentprice"></div>
+            <div class="view-stockprice-drdp">
+                <span id="viewdailyreturn"></span>
+            </div>
         </div>
     </section>
 
-    <section class="view-holdings">
-        <div id="viewholdings">
+    <section class="view-holdings" id="viewholdings">
+
+        <div class="view-holdings__header">Holdings </div>
+
+        <div class="view-holdings__lineitem">
+            <div>Quantity :</div>
+            <div>
+                <div class="view-holdings__result">result</div>
+            </div>
+        </div>
+
+        <div class="view-holdings__lineitem">
+            <div>Avg Cost :</div>                
+            <div>
+                <div class="view-holdings__result">result</div>
+                <div class="view-holdings__unit">$</div>
+            </div>
+        </div>
+
+        <div class="view-holdings__lineitem">
+            <div>Market Value :</div>
+            <div>
+                <div class="view-holdings__result">result</div>
+                <div class="view-holdings__unit">$</div>
+            </div>
+
+        </div>
+
+        <div class="view-holdings__lineitem">
+            <div>Unrealised P & L :</div>
+            <div>
+                <div class="view-holdings__result">result</div>
+                <div class="view-holdings__unit">$</div>
+            </div>
         </div>
     </section>
 
@@ -178,8 +214,8 @@
         viewview.renderpage();
 
         // refresh page every 3 secs
-        let interval = 3000;
-        const viewpageinterval = setInterval(()=>{viewview.refreshAPIDataServerV()}, interval);
+//        let interval = 3000;
+//        const viewpageinterval = setInterval(()=>{viewview.refreshAPIDataServerV()}, interval);
 
     </script>
 
