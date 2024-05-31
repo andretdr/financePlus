@@ -43,7 +43,8 @@
 /** view page overide **/
 .page-format--view {
     background-color: rgb(239, 246, 252);
-    height: 100%;
+
+    min-height: calc(100vh - 115px);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -816,7 +817,7 @@
 
 /** absolute menu page for buy/sell */
 .buysell-menu {
-    position: fixed;
+    position: absolute;
     max-width: 600px;
     width: 90%;
     height: 550px;
