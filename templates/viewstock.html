@@ -13,11 +13,10 @@
     </section>
 
     <!-- BUY PAGE -->
-    <section class="buysell-menu-container" id="buyhideme">
+    <div class="buysell-menu-container" id="buyhideme" visibility="visible">
 
         <div class="buysell-menu__page">
         </div>
-
         
         <section class="buysell-menu-section">
             <div class="buysell-menu">
@@ -98,7 +97,7 @@
                 </div>
             </div>
         </section>
-    </section>
+    </div>
 
     <!-- SELL PAGE -->
     <section class="buysell-menu-container" id="sellhideme">
@@ -149,7 +148,9 @@
                     </div>
 
                     <div class="sellcloseform-container" id="sellcloseformcontainer">
-                        <input type="checkbox" id="viewsellclose" name="viewsellclose" onclick="buysellview.updatesellclosepage()">
+                        <div class="buysellform-container__formcheckbox" id="sellcloseform">
+                            <input type="checkbox" id="viewsellclose" name="viewsellclose" onclick="buysellview.updatesellclosepage()">
+                        </div>
                         <div class="sellcloseform__text">Close position and sell all shares</div>
                     </div>
 

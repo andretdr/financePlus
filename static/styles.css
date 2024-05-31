@@ -443,7 +443,7 @@
 .view-body__heading h2{
     width: 100%;
     height: 100%;
-    padding: 5px 10px;
+    padding: 5px 10px 5px 5px;
     text-transform: uppercase;
     font-size: 30px;
     font-weight: 700;
@@ -454,6 +454,7 @@
 .view-chart {
     width: 100%;
     max-width: 700px;
+    padding: 5px 10px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -562,8 +563,8 @@
 /** view info container **/
 .view-info{
     width: 100%;
-    max-width: 600px;
-    padding: 20px 10px 5px 10px;
+    max-width: 640px;
+    padding: 20px 30px 5px 30px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -597,9 +598,9 @@
 /** view holdings container **/
 .view-holdings{
     width: 100%;
-    max-width: 450px;
+    max-width: 530px;
     height: 200px;
-    padding: 0px 10px;
+    padding: 0px 50px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -643,29 +644,18 @@
 
 
 
-/** graph 
-#viewgraph {
-    width: 100px
-/**    max-width: 700px; 
-}
-*/
-
-
-
 #buyhideme {
     visibility: hidden;
-    align-items: center;
 }
 
 #sellhideme {
     visibility: hidden;
-    align-items: center;
-}
 
+}
 
 /** hideme container for buy/sell */
 .buysell-menu-container{
-    width: 100%
+    width: 100%;
 }
 
 /** blank screen for opacity on the bg */
@@ -682,10 +672,7 @@
 
 /** to help center its child */
 .buysell-menu-section{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
+    display: relative;
 }
 
 /** absolute menu page for buy/sell */
@@ -693,7 +680,10 @@
     position: absolute;
     max-width: 600px;
     width: 90%;
-    height: 60%;
+    height: 550px;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     background: rgb(236, 247, 255);
     border-radius: 20px;
@@ -707,7 +697,7 @@
 
 /** absolute menu page sell overide*/
 .buysell-menu--sell {
-    height: 68%;
+    height: 670px;
 }
 
 /** buy sell header container */
@@ -814,6 +804,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    margin-bottom: 50px;
 }
 
 /** actual buttons order overide */
