@@ -12,19 +12,21 @@
         </div>
     </section>
 
-    <div class="buysell-menu-container" id="buyhideme">
+    <!-- BUY PAGE -->
+    <section class="buysell-menu-container" id="buyhideme">
 
         <div class="buysell-menu__page">
         </div>
 
-        <section class="container">
+        
+        <section class="buysell-menu-section">
             <div class="buysell-menu">
 
                 <div class="buysell__header-container">
                     <div class="buysell__header">Buy</div>
                 </div>
 
-                <section class="buysellform">
+                <section class="buyform">
 
                     <div class="buysellform-container" id="buydollarsformcontainer">
                         <div class="buysellform-container__form" id="buydollarsform">
@@ -42,7 +44,7 @@
                         or
                     </div>
 
-                    <div class="buysellform-container" class="buysellform-container" id="buysharesformcontainer">
+                    <div class="buysellform-container" id="buysharesformcontainer">
                         <div class="buysellform-container__form" id="buysharesform">
                             <input class="buysellform-container__input" type="number" id="viewbuyshares" name="viewbuyshares" min='0' placeholder="0" oninput="validity.valid||(value='');">share(s)
                         </div>
@@ -96,71 +98,112 @@
                 </div>
             </div>
         </section>
-    </div>
+    </section>
 
-    <div class="buysell-menu" id="sellhideme">
-        SELL
-        <div id="selldollarsformcontainer">
-            <div id="selldollarsform">
-                $<input type="number" id="viewselldollars" name="viewselldollars" min='0' placeholder="0.00" oninput="validity.valid||(value='');">
+    <!-- SELL PAGE -->
+    <section class="buysell-menu-container" id="sellhideme">
+
+        <div class="buysell-menu__page">
+        </div>
+
+        <section class="buysell-menu-section">
+            <div class="buysell-menu buysell-menu--sell">
+
+                <div class="buysell__header-container">
+                    <div class="buysell__header">Sell</div>
+                </div>
+       
+                <section class="sellform">
+
+                    <div class="buysellform-container" id="selldollarsformcontainer">
+                        <div class="buysellform-container__form" id="selldollarsform">
+                            $<input class="buysellform-container__input" type="number" id="viewselldollars" name="viewselldollars" min='0' placeholder="0" oninput="validity.valid||(value='');">
+                        </div>
+                    </div>
+
+                    <div class="buysellbutton-container" id="selldollarsbuttoncontainer">
+                        <div class="buysellbutton-container__buttons" id="selldollarsbutton">
+                            <button class="buysellbutton-container__buttons" onclick="buysellview.sellindollars()">Sell in Dollars</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        or
+                    </div>
+
+                    <div class="buysellform-container" id="sellsharesformcontainer">
+                        <div class="buysellform-container__form" id="sellsharesform">
+                            <input class="buysellform-container__input" type="number" id="viewsellshares" name="viewsellshares" min='0' placeholder="0" oninput="validity.valid||(value='');">share(s)
+                        </div>
+                    </div>
+
+                    <div class="buysellbutton-container" id="sellsharesbuttoncontainer">
+                        <div id="sellsharesbutton">
+
+                            <button class="buysellbutton-container__buttons" onclick="buysellview.sellinshares()">Sell in Shares</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        or
+                    </div>
+
+                    <div class="sellcloseform-container" id="sellcloseformcontainer">
+                        <input type="checkbox" id="viewsellclose" name="viewsellclose" onclick="buysellview.updatesellclosepage()">
+                        <div class="sellcloseform__text">Close position and sell all shares</div>
+                    </div>
+
+                    <div class="buysellbutton-container" id="sellclosebuttoncontainer">
+                        <div id="sellclosebutton">
+
+                            <button class="buysellbutton-container__buttons" onclick="buysellview.sellClose()">Close Position</button>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- holdings data -->
+                <section class="buysell-holdings">
+
+                    <div class="buysell-holdings__item">
+                        <div class="buysell-holdings__text">Current Price :</div>
+                        <div class="buysell-holdings__resultcontainer">
+                            <div class="buysell-holdings__unit">$</div>
+                            <div class="buysell-holdings__result" id="sellcurrentprice"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="buysell-holdings__item" id="selltype">
+                    </div>
+                    
+                    <div class="buysell-holdings__item">
+                        <div class="buysell-holdings__text">Shares in holdings : </div>
+                        <div class="buysell-holdings__resultcontainer">
+                            <div class="buysell-holdings__result" id="sellsharestotal"></div>
+                        </div>
+                    </div>
+
+                    <div class="buysell-holdings__item">
+                        <div class="buysell-holdings__text">Cash Available : </div>
+                        <div class="buysell-holdings__resultcontainer">
+                            <div class="buysell-holdings__unit">$</div>
+                            <data class="buysell-holdings__result" id="sellcashtotal"></data>
+                        </div>
+                    </div>
+
+                    <div id="sellstatus">
+                    </div>
+    
+                </section>
+
+                <!-- buttons -->
+                <div class="buysellbutton-container buysellbutton-container--order">
+                    <button class="buysellbutton-container__buttons buysellbutton-container__buttons--sell" onClick="viewview.sell()">Place Order</button>
+                    <button class="buysellbutton-container__buttons buysellbutton-container__buttons--close" onclick="buysellview.closeBuySellMenu()">Close</button>
+                </div>
             </div>
-        </div>
-        <div id="selldollarsbuttoncontainer">
-            <div id="selldollarsbutton">
-
-                <button onclick="buysellview.sellindollars()">Sell in Dollars</button>
-            </div>
-        </div>
-
-        <div>
-            ----------- or -------------
-        </div>
-
-        <div id="sellsharesformcontainer">
-            <div id="sellsharesform">
-                <input type="number" id="viewsellshares" name="viewsellshares" min='0' placeholder="0" oninput="validity.valid||(value='');">share(s)
-            </div>
-        </div>
-        <div id="sellsharesbuttoncontainer">
-            <div id="sellsharesbutton">
-
-                <button onclick="buysellview.sellinshares()">Sell in Shares</button>
-            </div>
-        </div>
-
-        <div>
-            ----------- or -------------
-        </div>
-
-        <div id="sellcloseformcontainer">
-            <div id="sellcloseform">
-                <input type="checkbox" id="viewsellclose" name="viewsellclose" onclick="buysellview.updatesellclosepage()"/> Close position and sell all shares
-            </div>
-        </div>
-        <div id="sellclosebuttoncontainer">
-            <div id="sellclosebutton">
-                <button onclick="buysellview.sellClose()">Close Position</button>
-            </div>
-        </div>
-
-        <div>
-            <div>
-                Current Price : $<data id="sellcurrentprice"></data></br>
-                
-                <div id="selltype">
-                </div></br>
-
-                <p>Shares in holdings : <data id="sellsharestotal"></data></p>
-                <p>Cash Available : $<data id="sellcashtotal"></data></p>
-
-                <div id="sellstatus"></div>
-            </div>
-        </div>
-        <button onClick="viewview.sell()">Sell</button>
-
-
-        <button onclick="buysellview.closeBuySellMenu()">Cancel</button>
-    </div>
+        </section>
+    </section>
 
     <section class="view-chart">
         <div id="viewcanvas">
@@ -184,6 +227,7 @@
         </div>
     </section>
 
+    <!-- holdings data -->
     <section class="view-holdings" id="viewholdings">
 
         <div class="view-holdings__header">Holdings </div>
@@ -221,6 +265,7 @@
         </div>
     </section>
 
+    <!-- buttons -->
     <section class="view-buttons--buysell">
         <button class="view-buttons-buysellmenu view-buttons-buysellmenu--buy" onclick="buysellview.showBuyMenu()">Buy</button> 
         <button class="view-buttons-buysellmenu view-buttons-buysellmenu--sell" id="viewsellbutton" onclick="buysellview.showSellMenu(states)">Sell</button>

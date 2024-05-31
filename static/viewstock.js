@@ -508,7 +508,7 @@ class viewView{
     /** handles the buy request */
     async buy(){
         const argstates = this.controllerRef.returnStates();
-        const cash = this.controllerRef.returnCash();
+        const cash = parseFloat(this.controllerRef.returnCash());
         const symbol = this.controllerRef.returnSymb();
         const currprice = parseFloat(this.controllerRef.returnCurrprice());
         let input = 0;
@@ -519,23 +519,31 @@ class viewView{
         if (argstates['byshares']){
             let inputshares = document.getElementById("viewbuyshares").value;
 
-            input = (inputshares * currprice).toFixed(2);
+            input = inputshares * currprice;
         }
 
+        let errorcolor='red';
+        
         // Client side check
         if (input > cash){
-            this.buysellviewRef.renderTxnMessage({'status':1})
+            this.buysellviewRef.renderTxnMessage({'status':1}, errorcolor)
+            return 1;
+        }
+        if (isNaN(inputshares) || input == 0){
+            this.buysellviewRef.renderTxnMessage({'status':4}, errorcolor)
             return 1;
         }
 
         // server POST
         let responseobj = await fetcher('/buy', 'POST', {'symbol':symbol, 'buyamt':input});
 
-        this.buysellviewRef.renderTxnMessage(responseobj[0]);
-
         // if all went well, refresh
-        if (responseobj[0]['status'] == 0)
+        if (responseobj[0]['status'] == 0){
+            errorcolor = 'black';
             this.updatePageHoldingsData(responseobj);
+        }
+
+        this.buysellviewRef.renderTxnMessage(responseobj[0], errorcolor);
     }
 
     /** handles the sell request */
@@ -555,10 +563,16 @@ class viewView{
         if (argstates['byshares'])
             inputshares = parseFloat(document.getElementById("viewsellshares").value);
 
+        let errorcolor='red';
 
         // Client side check
         if (inputshares > quantity){
-            this.buysellviewRef.renderTxnMessage({'status':2})
+            this.buysellviewRef.renderTxnMessage({'status':2}, errorcolor)
+            return 1;
+        }
+
+        if (isNaN(inputshares) || (inputshares == 0)){
+            this.buysellviewRef.renderTxnMessage({'status':4}, errorcolor)
             return 1;
         }
 
@@ -571,11 +585,13 @@ class viewView{
         // server POST
         let responseobj = await fetcher('/sell', 'POST', body);
 
-        this.buysellviewRef.renderTxnMessage(responseobj[0]);
-
         // if all went well, refresh
-        if (responseobj[0]['status'] == 0)
+        if (responseobj[0]['status'] == 0){
             this.updatePageHoldingsData(responseobj)
+            errorcolor = 'black'
+        }
+
+        this.buysellviewRef.renderTxnMessage(responseobj[0]);
     }
 
 

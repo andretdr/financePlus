@@ -681,17 +681,17 @@
 }
 
 /** to help center its child */
-.container{
+.buysell-menu-section{
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: flex-start;
 }
 
 /** absolute menu page for buy/sell */
 .buysell-menu {
     position: absolute;
     max-width: 600px;
-    top: 20%;
     width: 90%;
     height: 60%;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -703,6 +703,11 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+}
+
+/** absolute menu page sell overide*/
+.buysell-menu--sell {
+    height: 68%;
 }
 
 /** buy sell header container */
@@ -722,7 +727,13 @@
 }
 
 /** forms section on buysell menu **/
-.buysellform {
+.sellform {
+    width: 100%;
+    height: 300px;
+}
+
+/** forms section on buysell menu **/
+.buyform {
     width: 100%;
     height: 200px;
 }
@@ -740,6 +751,15 @@
 /** buy sell form */
 .buysellform-container__form{
     width: 200px;
+}
+
+/** buy sell form */
+.buysellform-container__formcheckbox{
+
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
 }
 
 /** input bar **/
@@ -879,6 +899,31 @@
     grid-column: 2/3;
     font-size: 18px;
     text-align: right;
+}
+
+/** buy forms container */
+.sellcloseform-container {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    visibility: inherit;
+}
+
+/** checkbox setting */
+#viewsellclose{
+    width: 30px;
+    height: 30px;
+    border-radius: 12px;
+}
+
+/** buysell holdings result */
+.sellcloseform__text {
+    width: 250px;
+    font-size: 15;
+    text-align: center;
 }
 
 .landing-container {
