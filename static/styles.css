@@ -7,7 +7,7 @@
 .page-layout {
     display: flex;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     flex-direction: column;
     justify-content: flex-start;
 }
@@ -51,11 +51,11 @@
 
 /** footer overide **/
 .page-format--footer {
-    position:fixed;
+    position : relative;
     bottom: 0;
 
     background-color: rgb(64, 161, 241);
-    height: 100px;
+    height: 35px;
 }
 
 /** navbar container **/
@@ -463,6 +463,97 @@
     text-align: right;
 }
 
+/** summary container*/
+.index-body__summary {
+    width: 100%;
+    height: 120px;
+    padding: 20px 20px;
+    text-decoration: none;
+    border-radius: 10px;
+    background-color: rgb(137, 227, 255);
+}
+
+/** summary item */
+.summary-item {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 150px 30px 80px;
+    grid-template-rows: 20px 20px 40px;
+    justify-content: center;
+}
+
+/** shared rules for each item **/
+.sitem__each {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    font-size: 10px;
+}
+
+/** position for cashtxt **/
+.sitem__each--cashtext {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+}
+
+/** position for cashunit **/
+.sitem__each--cashunit {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+}
+
+/** position for cash **/
+.sitem__each--cash {
+    grid-column: 4 / 5;
+    grid-row: 1 / 2;
+    font-size: 15px;
+}
+
+/** position for cashtxt **/
+.sitem__each--returntext {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+}
+
+/** position for cashunit **/
+.sitem__each--returnunit {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+}
+
+/** position for cash **/
+.sitem__each--return {
+    grid-column: 4 / 5;
+    grid-row: 2 / 3;
+    font-size: 15px;
+}
+
+/** position for cashtxt **/
+.sitem__each--equitytext {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+}
+
+/** position for cashunit **/
+.sitem__each--equityunit {
+    grid-column: 3 / 4;
+    grid-row: 3 / 4;
+}
+
+/** position for cash **/
+.sitem__each--equity {
+    grid-column: 4 / 5;
+    grid-row: 3 / 4;
+    font-size: 18px;
+}
+
+/** filler section **/
+.filler {
+    flex: 5;
+}
+
+
 /** sticky box bottom **/
 .index-body__sticky {
     width: 100%;
@@ -692,8 +783,6 @@
     text-align: right;
 }
 
-
-
 #buyhideme {
     visibility: hidden;
 }
@@ -710,7 +799,7 @@
 
 /** blank screen for opacity on the bg */
 .buysell-menu__page {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     height: 100%;

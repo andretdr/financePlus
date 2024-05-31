@@ -238,6 +238,7 @@ class buySellView{
         const currprice = this.controllerRef.returnCurrprice()
 
         document.getElementById("buyhideme").style.visibility = "visible";
+        document.getElementById("buysell-menu__page").style.visibility = "visible";
 
         // show and set buy in dollars state
         this.buyindollars();
@@ -256,6 +257,7 @@ class buySellView{
     /** show sell menu */
     showSellMenu(){
         document.getElementById("sellhideme").style.visibility = "visible";
+        document.getElementById("buysell-menu__page").style.visibility = "visible";
 
         // show and set sell in dollars state
         this.sellindollars();
@@ -526,11 +528,13 @@ class buySellView{
 
     /** hide buy sell menus */
     closeBuySellMenu(){
-        let buysellmenu = document.getElementById("buyhideme")
+        let buysellmenu = document.getElementById("buyhideme");
         buysellmenu.style.visibility = "hidden";
 
-        buysellmenu = document.getElementById("sellhideme")
+        buysellmenu = document.getElementById("sellhideme");
         buysellmenu.style.visibility = "hidden";
+
+        document.getElementById("buysell-menu__page").style.visibility = "hidden";
 
         this.hideallbuy();
         this.hideallsell();

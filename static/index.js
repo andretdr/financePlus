@@ -211,6 +211,10 @@ class indexView {
         let dataobj = this.controllerRef.returnData();
 
         let totalpnl = 0;
+        let equity = 0;
+
+        const green = "rgb(15, 175, 0)";
+        const red = "rgb(255, 57, 57)";
 
         if (dataobj.length > 0)
             html += `
@@ -236,12 +240,10 @@ class indexView {
             let pnl = (marketvalue - totalcost).toFixed(2);
 
             totalpnl += parseFloat(pnl);
+            equity += parseFloat(marketvalue);
 
             let dpnlhtml = ``;
             let pnlhtml = ``;
-
-            const green = "rgb(15, 175, 0)";
-            const red = "rgb(255, 57, 57)";
 
             if (parseFloat(dailypnl) < 0)
                 dpnlhtml = `<data style="color:${red}">(${dailypnl}&#37) &darr;</data>`
@@ -275,11 +277,41 @@ class indexView {
                     `       </div>
                         </div>
                     </a>    
-                    `
-                        
+                    `;
         }
+
+        let color = green;
+
+        const cash = this.controllerRef.returnCash();
+        if (totalpnl < 0){
+            color = red;
+        }
+
+        equity += parseFloat(cash);
+
+        html += `
+        <div class="filler">
+        </div>
+
+        <div class="index-body__summary">
+            <div class="summary-item">
+                <div class="sitem__each sitem__each--cashtext">Cash Available</div>
+                <div class="sitem__each sitem__each--cashunit">$</div>
+                <div class="sitem__each sitem__each--cash">${cash}</div>
+
+                <div class="sitem__each sitem__each--returntext">Total Unrealised Returns</div>
+                <div class="sitem__each sitem__each--returnunit">$</div>
+                <div class="sitem__each sitem__each--return" style="color:${color}">${totalpnl.toFixed(2)}</div>
+
+                <div class="sitem__each sitem__each--equitytext">Total Equity</div>
+                <div class="sitem__each sitem__each--equityunit">$</div>
+                <div class="sitem__each sitem__each--equity">${equity.toFixed(2)}</div>
+            </div>
+        </div>
+        `;
+
         document.getElementById("index-body__grid-insert").innerHTML = html;
 
-        this.updateFooter(this.controllerRef.returnCash(), totalpnl.toFixed(2));
+//        this.updateFooter(this.controllerRef.returnCash(), totalpnl.toFixed(2));
     }
 }

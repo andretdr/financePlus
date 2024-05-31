@@ -7,7 +7,6 @@
 {% block body %}
 <main class="page-format page-format--main" id="indexbody">
     <section class="index-body">
-        <input type="hidden" id="datadump" name="datadump" value="{{ data }}">
 
         <div class="index-body__heading">
             <h2>My Holdings</h2>
@@ -23,9 +22,13 @@
 
 {% block footer %}
     <section class="footer-bar">
+
+        <!-- 
         <div id="footer-bar__info"></div>
+        -->
     </section>
 
+    <input type="hidden" id="datadump" name="datadump" value="{{ data }}">
     <script>
 
         const controller = new indexController();
