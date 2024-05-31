@@ -280,20 +280,12 @@ class indexView {
                     `;
         }
 
-        let color = green;
-
+        // handling the summary box
+        let htmlsummary = ``;
         const cash = this.controllerRef.returnCash();
-        if (totalpnl < 0){
-            color = red;
-        }
-
         equity += parseFloat(cash);
 
-        html += `
-        <div class="filler">
-        </div>
-
-        <div class="index-body__summary">
+        htmlsummary += `
             <div class="summary-item">
                 <div class="sitem__each sitem__each--cashtext">Cash Available</div>
                 <div class="sitem__each sitem__each--cashunit">$</div>
@@ -301,17 +293,16 @@ class indexView {
 
                 <div class="sitem__each sitem__each--returntext">Total Unrealised Returns</div>
                 <div class="sitem__each sitem__each--returnunit">$</div>
-                <div class="sitem__each sitem__each--return" style="color:${color}">${totalpnl.toFixed(2)}</div>
+                <div class="sitem__each sitem__each--return">${totalpnl.toFixed(2)}</div>
 
                 <div class="sitem__each sitem__each--equitytext">Total Equity</div>
                 <div class="sitem__each sitem__each--equityunit">$</div>
                 <div class="sitem__each sitem__each--equity">${equity.toFixed(2)}</div>
             </div>
-        </div>
         `;
 
         document.getElementById("index-body__grid-insert").innerHTML = html;
-
+        document.getElementById("index-body__summary-insert").innerHTML = htmlsummary;
 //        this.updateFooter(this.controllerRef.returnCash(), totalpnl.toFixed(2));
     }
 }
