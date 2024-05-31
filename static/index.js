@@ -212,6 +212,17 @@ class indexView {
 
         let totalpnl = 0;
 
+        if (dataobj.length > 0)
+            html += `
+                    <div class="holding-item holding-item--header">
+                        <div class="hitem__headeach hitem__each--symbtext">symbol</div>
+                        <div class="hitem__headeach hitem__each--pricetext">price/qty</div>
+                        <div class="hitem__headeach hitem__each--dchangetext">1D % change</div>
+                        <div class="hitem__headeach hitem__each--valuetext">value</div>
+                        <div class="hitem__headeach hitem__each--pnltext">unrealised P&L</div>
+                    </div>
+                    `;
+
         for (let i = 0; i < dataobj.length; i++){
             let symb = dataobj[i]['symb'];
             let currprice = parseFloat(dataobj[i]['currprice']).toFixed(2);
