@@ -795,6 +795,7 @@
 
 /** hideme container for buy/sell */
 .buysell-menu-container{
+
     width: 100%;
 }
 
@@ -812,12 +813,12 @@
 
 /** to help center its child */
 .buysell-menu-section{
-    display: relative;
+    position: relative;
 }
 
 /** absolute menu page for buy/sell */
 .buysell-menu {
-    position: absolute;
+    position: fixed;
     max-width: 600px;
     width: 90%;
     height: 550px;
@@ -928,7 +929,7 @@
     border-radius: 8px;
     height: 50px;
     width: 140px;
-    font-size: 20px;
+    font-size: 18px;
     color:rgb(255, 255, 255);
 }
 

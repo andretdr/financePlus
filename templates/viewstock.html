@@ -16,6 +16,72 @@
         </div>
     </section>
 
+    <section class="view-chart">
+        <div id="viewcanvas">
+        </div>
+    </section>
+
+    <section class="view-buttons-container" id='viewgraphbuttons'>
+        <button class="view-buttons-graph" id="viewgraphday" onclick="viewview.graphButton('1d')">1D</button>
+        <button class="view-buttons-graph" id="viewgraphweek" onclick="viewview.graphButton('1w')">1W</button>
+        <button class="view-buttons-graph" id="viewgraphmonth" onclick="viewview.graphButton('1m')">1M</button>
+        <button class="view-buttons-graph" id="viewgraphthreem" onclick="viewview.graphButton('3m')">3M</button>
+        <button class="view-buttons-graph" id="viewgraphyear" onclick="viewview.graphButton('1y')">1Y</button>
+    </section>
+
+    <section class="view-info" id="viewinfo">
+        <div class="view-stockprice">
+            <div class="view-stockprice-cp" id="viewcurrentprice"></div>
+            <div class="view-stockprice-drdp">
+                <span id="viewdailyreturn"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- holdings data -->
+    <section class="view-holdings" id="viewholdings">
+
+        <div class="view-holdings__header">Holdings </div>
+
+        <div class="view-holdings__lineitem">
+            <div>Quantity :</div>
+            <div>
+                <div class="view-holdings__result">result</div>
+            </div>
+        </div>
+
+        <div class="view-holdings__lineitem">
+            <div>Avg Cost :</div>                
+            <div>
+                <div class="view-holdings__result">result</div>
+                <div class="view-holdings__unit">$</div>
+            </div>
+        </div>
+
+        <div class="view-holdings__lineitem">
+            <div>Market Value :</div>
+            <div>
+                <div class="view-holdings__result">result</div>
+                <div class="view-holdings__unit">$</div>
+            </div>
+
+        </div>
+
+        <div class="view-holdings__lineitem">
+            <div>Unrealised P & L :</div>
+            <div>
+                <div class="view-holdings__result">result</div>
+                <div class="view-holdings__unit">$</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- buttons -->
+    <section class="view-buttons--buysell">
+        <button class="view-buttons-buysellmenu view-buttons-buysellmenu--buy" onclick="buysellview.showBuyMenu()">Buy</button> 
+        <button class="view-buttons-buysellmenu view-buttons-buysellmenu--sell" id="viewsellbutton" onclick="buysellview.showSellMenu(states)">Sell</button>
+    </section>
+
     <!-- BUY PAGE -->
     <div class="buysell-menu-container" id="buyhideme">
 
@@ -207,71 +273,6 @@
         </section>
     </section>
 
-    <section class="view-chart">
-        <div id="viewcanvas">
-        </div>
-    </section>
-
-    <section class="view-buttons-container" id='viewgraphbuttons'>
-        <button class="view-buttons-graph" id="viewgraphday" onclick="viewview.graphButton('1d')">1D</button>
-        <button class="view-buttons-graph" id="viewgraphweek" onclick="viewview.graphButton('1w')">1W</button>
-        <button class="view-buttons-graph" id="viewgraphmonth" onclick="viewview.graphButton('1m')">1M</button>
-        <button class="view-buttons-graph" id="viewgraphthreem" onclick="viewview.graphButton('3m')">3M</button>
-        <button class="view-buttons-graph" id="viewgraphyear" onclick="viewview.graphButton('1y')">1Y</button>
-    </section>
-
-    <section class="view-info" id="viewinfo">
-        <div class="view-stockprice">
-            <div class="view-stockprice-cp" id="viewcurrentprice"></div>
-            <div class="view-stockprice-drdp">
-                <span id="viewdailyreturn"></span>
-            </div>
-        </div>
-    </section>
-
-    <!-- holdings data -->
-    <section class="view-holdings" id="viewholdings">
-
-        <div class="view-holdings__header">Holdings </div>
-
-        <div class="view-holdings__lineitem">
-            <div>Quantity :</div>
-            <div>
-                <div class="view-holdings__result">result</div>
-            </div>
-        </div>
-
-        <div class="view-holdings__lineitem">
-            <div>Avg Cost :</div>                
-            <div>
-                <div class="view-holdings__result">result</div>
-                <div class="view-holdings__unit">$</div>
-            </div>
-        </div>
-
-        <div class="view-holdings__lineitem">
-            <div>Market Value :</div>
-            <div>
-                <div class="view-holdings__result">result</div>
-                <div class="view-holdings__unit">$</div>
-            </div>
-
-        </div>
-
-        <div class="view-holdings__lineitem">
-            <div>Unrealised P & L :</div>
-            <div>
-                <div class="view-holdings__result">result</div>
-                <div class="view-holdings__unit">$</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- buttons -->
-    <section class="view-buttons--buysell">
-        <button class="view-buttons-buysellmenu view-buttons-buysellmenu--buy" onclick="buysellview.showBuyMenu()">Buy</button> 
-        <button class="view-buttons-buysellmenu view-buttons-buysellmenu--sell" id="viewsellbutton" onclick="buysellview.showSellMenu(states)">Sell</button>
-    </section>
 
     <!-- Storing the data for this stock page -->
     <input type="hidden" id="datadump" name="datadump" value="{{ data }}">
