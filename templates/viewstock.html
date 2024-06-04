@@ -8,7 +8,7 @@
 {% block body %}
 <main class="page-format page-format--view" id="indexbody">
 
-    <div class="buysell-menu__page" id="buysell-menu__page" style="visibility:hidden">
+    <div class="global__screen" id="buysell-menu__page" style="visibility:hidden">
     </div>
 
     <section class="view-body">
@@ -214,10 +214,8 @@
                         or
                     </div>
 
-                    <div class="sellcloseform-container" id="sellcloseformcontainer">
-                        <div class="buysellform-container__formcheckbox" id="sellcloseform">
-                            <input type="checkbox" id="viewsellclose" name="viewsellclose" onclick="buysellview.updatesellclosepage()">
-                        </div>
+                    <div class="sellcloseform-container" id="sellcloseformcontainer" onclick="buysellview.updatesellclosepage()">
+                        <input onclick="buysellview.updatesellclosepage()" class="buysellform-container__formcheckbox" type="checkbox" id="viewsellclose" name="viewsellclose" checked="false" >
                         <div class="sellcloseform__text">Close position and sell all shares</div>
                     </div>
 

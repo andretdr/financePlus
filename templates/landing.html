@@ -19,74 +19,93 @@
     </head>
 
     <body>
-
         <div class="landing-container">
-            <div class="landing-container__logo">
+            <section class="landing-container__logo">
                 <h1>finance +</h1>
-            </div>
-
-            <div class="landing-container__items">
-                <div class="landing-container__login">
-                    <div class="landing-container__login-form-hideme">
-                        
-                        <form id="loginform">
-                            <h2>Sign In</h2>
-                            <div>
-                                <input autocomplete='off' autofocus 'type='text' name='username' placeholder='Username' />
-                            </div>
-                            <div id="loginnamestatus">
-                                <p></p><p></p>
-                            </div>
-                            <div>
-                                <input autocomplete='off' autofocus 'type='text' name='password' placeholder='Password' />
-                            </div>
-                            <div id="loginpasswordstatus">
-                                <p></p><p></p>
-                            </div>
-                            <button>Submit</button>
-                        </form>
-
-                    </div>
-                    <div class="landing-container__login-button-hideme">
-
-                        <button class="btn btn-primary" id="loginstart" onclick="showlogin()">Login</button>
-                        
-                    </div>
+                <p class="landing-text">A full stack personal project developed using Flask/Python/Jinja2, HTML, CSS, JS.
+                    It gets and calculates real time market data from Yahoo's free APIs via yfinance.
+                     It is currently deployed on Heroku using mySQL as the backend database.</p>
+                <p class="landing-text landing-text--end">created by Andre Tong</p>
+                <div class="landing-container__padding">
                 </div>
-                <div class="landing-container__register">
-
-                    <div class="landing-container__register-form-hideme">
-                        <form id="registerform">
-                            <h2>Create Account</h2>
-                            <div>
-                                <input autocomplete='off' autofocus type='text' name='username' placeholder='Username' />
-                            </div>
-                            <div id="registernamestatus">
-                                <p></p><p></p>
-                            </div>
-                            <div>
-                                <input autocomplete='off' autofocus type='text' name='password' placeholder='Password' />
-                            </div>
-                            <div id="registerpasswordstatus">
-                                <p></p><p></p>
-                            </div>
-                            <div>
-                                <input autocomplete='off' autofocus type='text' name='confirmation' placeholder='Reconfirm Password' />
-                            </div>
-                            <div id="registerconfirmationstatus">
-                                <p></p><p></p>
-                            </div>
-
-                            <button>Submit</button>
-                        </form>
-                    </div>
                     
-                    <div class="landing-container__register-button-hideme">
-                        <button class="btn btn-primary" id="registerstart" onclick="showregister()">Create Account</button>
-                    </div>
-                
+            </section>
+
+            <section class="landing-container__items">
+
+                <div class="landing-container__login-form-hideme" id="landing-container__login-form-hideme" style="display: flex">
+                    <form class="landing-container__form" id="loginform">
+                        <h2>Sign In</h2>
+                        <div>
+                            <input autocomplete='off' autocorrect="off" autocapitalize="off" autofocus type='text' name='username' placeholder='Username' />
+                        </div>
+                        <div class="landing-container__status" id="loginnamestatus">
+                            <p></p><p></p>
+                        </div>
+                        <div>
+                            <input type='password' id='loginpw' name='password' placeholder='Password' autocomplete='off'autocorrect="off" autocapitalize="off" autofocus />
+                        </div>
+                        <div class="landing-container__showpw" onclick="togglePW('loginpw', 'loginpw_cb')">
+                            <input type="checkbox" id='loginpw_cb'>
+                            <p>show password</p>
+                        </div>
+                        <div class="landing-container__status" id="loginpasswordstatus">
+                            <p></p><p></p>
+                        </div>
+                        <button class="landing-container__submitbutton">Submit</button>
+                    </form>
                 </div>
-            </div>
+
+                <div class="landing-container__buttonlogin" id="landing-container__buttonlogin" style="display: none">
+                    <button class="landing-container__button" id="loginstart" onclick="showlogin()">Login</button>
+                </div>
+
+                <div class="landing-container__or">
+                    or
+                </div>
+
+                <div class="landing-container__register-form-hideme" id="landing-container__register-form-hideme" style="display: none">
+                    <form class="landing-container__form" id="registerform">
+                        <h2>Create Account</h2>
+                        <div>
+                            <input autocomplete='off' autocorrect="off" autocapitalize="off" autofocus type='text' name='username' placeholder='Username' />
+                        </div>
+                        <div class="landing-container__status" id="registernamestatus">
+                            <p></p><p></p>
+                        </div>
+                        <div>
+                            <input type='password' id='registerpw' name='password' placeholder='Password' autocomplete='off' autocorrect="off" autocapitalize="off" autofocus />
+                        </div>
+                        <div class="landing-container__showpw" onclick="togglePW('registerpw', 'registerpw_cb')">
+                            <input id="registerpw_cb" type="checkbox">
+                            <p >show password</p>
+                        </div>
+                        <div class="landing-container__status" id="registerpasswordstatus">
+                            <p></p><p></p>
+                        </div>
+                        <div>
+                            <input autofocus type='password' id='confirmationpw' name='confirmation' placeholder='Reconfirm Password' autocomplete='off' autocorrect="off" autocapitalize="off" />
+                        </div>
+                        <div class="landing-container__showpw" onclick="togglePW('confirmationpw', 'confirmationpw_cb')">
+                            <input id="confirmationpw_cb" type="checkbox">
+                            <p>show password</p>
+                        </div>
+                        <div class="landing-container__status" id="registerconfirmationstatus">
+                            <p></p><p></p>
+                        </div>
+
+                        <button class="landing-container__submitbutton">Submit</button>
+                    </form>
+                </div>
+                
+                <div class="landing-container__buttonregister" id="landing-container__buttonregister" style="display: flex">
+                    <button class="landing-container__button landing-container__button--register" id="registerstart" onclick="showregister()">Create Account</button>
+                </div>
+
+                <div class="landing-container__padding">
+                </div>
+                
+            </section>
         </div>
 
         <script>

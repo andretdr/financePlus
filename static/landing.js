@@ -1,13 +1,29 @@
 /** shows the login form on the landing page, hides login button */
 function showlogin(){
 
-    document.querySelector(".landing-container__login-form-hideme").style.visibility = "visible";
-    document.querySelector(".landing-container__login-button-hideme").style.visibility = "hidden";
+    document.getElementById("landing-container__login-form-hideme").style.display = "flex";
+    document.getElementById("landing-container__register-form-hideme").style.display = "none";
 
-    document.querySelector(".landing-container__register-form-hideme").style.visibility = "hidden";
-    document.querySelector(".landing-container__register-button-hideme").style.visibility = "visible";
+    document.getElementById("landing-container__buttonlogin").style.display = "none";
+    document.getElementById("landing-container__buttonregister").style.display = "flex";
     
 }
+
+
+/** toggle show password */
+function togglePW(param_id, param_cb){
+    let element = document.getElementById(param_id);
+    let checkbox = document.getElementById(param_cb)
+    if (element.type === 'password'){
+        element.type = 'text';
+        checkbox.checked = true;
+    }
+    else {
+        element.type = 'password';
+        checkbox.checked = false;
+    }
+}
+
 
 /** adds eventlistener to the login form */
 function addEL_loginform(){
@@ -66,11 +82,11 @@ function loginprintstatus(argstatusarr){
 /** shows the register form on the landing page, hides register button */
 function showregister(){
 
-    document.querySelector(".landing-container__login-form-hideme").style.visibility = "hidden";
-    document.querySelector(".landing-container__login-button-hideme").style.visibility = "visible";
+    document.getElementById("landing-container__login-form-hideme").style.display = "none";
+    document.getElementById("landing-container__register-form-hideme").style.display = "flex";
 
-    document.querySelector(".landing-container__register-form-hideme").style.visibility = "visible";
-    document.querySelector(".landing-container__register-button-hideme").style.visibility = "hidden";
+    document.getElementById("landing-container__buttonlogin").style.display = "flex";
+    document.getElementById("landing-container__buttonregister").style.display = "none";
 
 }
 

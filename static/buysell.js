@@ -355,6 +355,13 @@ class buySellView{
         
         this.updateAvailSharesTxnPage();
         this.refreshSellEstTotalClose();
+        // toggle check box
+
+        let el = document.getElementById('viewsellclose');
+        if (el.checked == true)
+            el.checked = false;
+        else
+        el.checked = true;
     }
 
 

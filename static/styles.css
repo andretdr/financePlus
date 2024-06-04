@@ -36,7 +36,6 @@
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
-    
 }
 
 /** header overide **/
@@ -931,6 +930,69 @@
     background: rgb(255, 255, 255);
 }
 
+/** blank screen for opacity on the bg */
+.global__screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 50%;
+    z-index: 1;
+    background-color: rgb(255, 255, 255);
+}
+
+/** about container */
+.about {
+    position: fixed;
+    max-width: 500px;
+    width: 90%;
+    height: 350px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    background-color: var(--darkblue);
+    border-radius: 20px;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 60px 25px;
+}
+
+/** about text rules */
+.about__text {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    font-size: 15px;
+    text-align: justify;
+    color: rgb(255, 255, 255);
+}
+
+/** about text override */
+.about__text--end {
+    text-align: right;
+}
+/** about button */
+.about__button {
+    width: 6rem;
+    height: 3rem;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 5px 7px;
+    margin-top: 20px;
+    background-color: var(--summary);
+    z-index: 2;
+}
+
 /** to help center its child */
 .buysell-menu-section{
     position: relative;
@@ -1006,11 +1068,9 @@
 
 /** buy sell form */
 .buysellform-container__formcheckbox{
-
     padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
     font-size: 22px;
+    z-index: 1;
 }
 
 /** input bar **/
@@ -1162,6 +1222,8 @@
     justify-content: center;
     align-items: center;
     visibility: inherit;
+    cursor: pointer;
+    z-index: 2;
 }
 
 /** checkbox setting */
@@ -1169,6 +1231,7 @@
     width: 30px;
     height: 30px;
     border-radius: 12px;
+    cursor: pointer;
 }
 
 /** buysell holdings result */
@@ -1176,92 +1239,252 @@
     width: 250px;
     font-size: 15;
     text-align: center;
+    z-index: 1;
 }
 
+/** container entire landing page */
 .landing-container {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row;
     justify-content: space-evenly;
     align-items: center;
     height: 100vh;
+    background-color: rgb(240, 249, 255);
 }
 
+/** container for text */
+.landing-text {
+    display: block;
+    width: 300px;
+    font-size: 15px;
+    text-align: justify;
+    color: white;
+}
+
+/** overide container for text end */
+.landing-text--end {
+    text-align: right;
+}
+
+/** container for text */
+@media only screen and (max-width: 650px){
+    .landing-text {
+        display: none;
+    }
+}
+
+/** container entire landing page */
+@media only screen and (max-width: 650px){
+    .landing-container {
+        display: flex;
+        flex-flow: column;
+        justify-content: space-evenly;
+        align-items: center;
+        height: 100vh;
+    }
+}
+
+/** container for FINANCE+ logo */
 .landing-container__logo {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 350px;
-    height: 100px;
+    width: 50vw;
+    height: 100vh;
+    border-radius: 15px;
+    background-color: var(--lightblue);
 }
 
+/** container for FINANCE+ logo */
+@media only screen and (max-width: 650px){
+    .landing-container__logo {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        max-height: 20vh;
+        border-radius: 0px;
+        background-color: var(--lightblue);
+    }
+}
+
+/** actual FINANCE+ logo */
 .landing-container__logo h1 {
     text-transform: uppercase;
     font-weight: 500;
     font-size: 55px;
+    color: white;
 }
 
+/** container for form items on landing page */
 .landing-container__items {
     display: flex;
-    flex-flow: column wrap;
-    justify-content: space-evenly;
+    flex-flow: column;
+    justify-content: center;
     align-items: center;
-    width: 300px;
-    height: 600px;
+    width: 50vw;
+    height: 100vh;
 }
 
-.landing-container__login {
-    text-align: center;
-    position: relative;
-    margin: auto;
-}
+/** container for FINANCE+ logo */
+@media only screen and (max-width: 650px){
+    .landing-container__items {
+        display: flex;
+        flex-flow: column;
+        justify-content: flex-start;
+        align-items: center;
+        width: 50vw;
+        height: 100vh;
+    }
+}    
 
-.landing-container__register {
-    text-align: center;
-    position: relative;
-    margin: auto
-}
-
+/** login form hideme */
 .landing-container__login-form-hideme {
-    visibility: visible;
-    width: 300px;
-    height: 250px;
-    position: absolute;
-    padding: 20px;
-    transform: translate(-50%, -50%);
-
-}
-
-.landing-container__login-button-hideme {
-    visibility: hidden;
-    position: absolute;
-    width: 300px;
-    height: 250px;
-    padding: 20px;
-    transform: translate(-50%, -50%);
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 250px;
+    padding: 20px;
 }
 
+/** register form hideme */
 .landing-container__register-form-hideme {
-    visibility: hidden;
-    position: absolute;
-    width: 300px;
-    height: 250px;
-    padding: 20px;
-    transform: translate(-50%, -50%);
-}
-
-.landing-container__register-button-hideme {
-    visibility: visible;
-    position: absolute;
-    width: 300px;
-    height: 250px;
-    padding: 20px;
-    transform: translate(-50%, -50%);
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
+    width: 300px;
+    height: 250px;
+    padding: 20px;
+}
+
+/** button container for hideme */
+.landing-container__buttonlogin {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 120px;
+}
+
+/** button container for hideme */
+.landing-container__buttonregister {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 120px;
+}
+
+/** actual login/register button rules */
+.landing-container__button {
+    width: 14rem;
+    height: 6rem;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 23px;
+    padding: 10px 15px;
+    background-color: var(--buttongreen);
+}
+
+/** hover color change */
+.landing-container__button:hover {
+    background-color: var(--buttongreenlight);
+}
+
+/** register button overide on color */
+.landing-container__button--register {
+    background-color: var(--buttonorange);
+}
+
+/** hover color change */
+.landing-container__button--register:hover {
+    background-color: var(--buttonorangelight);
+}
+
+/** actual submit button rules */
+.landing-container__submitbutton {
+    width: 6rem;
+    height: 3rem;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 5px 7px;
+    background-color: var(--summary);
+    z-index: 2;
+}
+
+/** actual submit button rules */
+.landing-container__submitbutton:hover {
+    background-color: var(--summarylight);
+}
+
+/** actual register form */
+.landing-container__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/** heading */
+.landing-container__form h2{
+    padding-top: 35px;
+}
+
+/** show hide pw */
+.landing-container__showpw {
+    width: 180px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/** check box */
+.landing-container__showpw input {
+    width: 15px;
+    height: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+/** show hide pw */
+.landing-container__showpw p {
+    width: 110px;
+    font-size: 14px;
+    padding: 2px;
+    margin: 0px;
+    text-align: center;
+    cursor: pointer;
+}
+
+/** status errors */
+.landing-container__status {
+    width: 250px;
+    font-size: 14px;
+    padding: 2px;
+    text-align: center;
+}
+
+/** rules for OR text */
+.landing-container__or {
+    font-size: 23px;
+    text-align: center;
+    padding: 5px;
+}
+
+/** padding under the forms section */
+.landing-container__padding{
+    padding: 50px;
 }
 
 #viewcurrentprice {

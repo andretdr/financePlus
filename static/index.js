@@ -1,3 +1,20 @@
+/** about pop up */
+function showAbout() {
+    let screen = document.getElementById('screen_about');
+    let about = document.getElementById('about');
+    screen.style.visibility = 'visible';
+    about.style.visibility = 'visible';
+}
+
+/** hide about pop up */
+function hideAbout() {
+    let screen = document.getElementById('screen_about');
+    let about = document.getElementById('about');
+    screen.style.visibility = 'hidden';
+    about.style.visibility = 'hidden';
+}
+
+
 /** log out **/
 function logout() {
     location.assign('/logout');

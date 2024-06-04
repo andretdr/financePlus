@@ -18,6 +18,20 @@
     </head>
 
     <body class="page-layout">
+        <!-- transluscent screen -->
+        <div class="global__screen" id="screen_about" style="visibility:hidden">
+        </div>
+
+        <div class="about" id="about" style="visibility: hidden">
+            <p class="about__text">A full stack personal project developed using Flask/Python/Jinja2, HTML, CSS, JS.
+                It gets and calculates real time market data from Yahoo's free APIs via yfinance.
+                 It is currently deployed on Heroku using mySQL as the backend database.</p>
+            <p class="about__text about__text--end">Created by Andre Tong</p>
+            <button class="about__button" onclick="hideAbout()">ok</button>
+        </div>
+
+
+
         <header class="page-format page-format--header">
             <section class="dashboard">
                 <!-- LOGO -->
@@ -42,6 +56,7 @@
 
             <section class="profile-menu">
                 <div class="profile-menu__page" id="profile-menu__page" style="display: none">
+                    <div class="profile-menu__item" onclick="showAbout()">about</div>
                     <div class="profile-menu__item" onclick="logout()">sign out</div>
                     <div class="profile-menu__item" id="profile-menu__del" onclick="showConfirmDel()">delete account</div>
                     <div class="profile-menu__item profile-menu__item--confirm" id="profile-menu__confirm">

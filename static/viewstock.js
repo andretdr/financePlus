@@ -568,8 +568,6 @@ class viewView{
 
         let errorcolor='red';
 
-        console.log(argstates);
-
         // Client side check
         // if not enough shares
         if (inputshares > quantity){
