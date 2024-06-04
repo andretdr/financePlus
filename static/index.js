@@ -1,3 +1,40 @@
+/** log out **/
+function logout() {
+    location.assign('/logout');
+}
+
+/** delete account **/
+async function deleteAccount() {
+    let body = {'message':'confirm'}
+    let confirm = await fetcher('/delete', 'POST', body)
+    if (confirm['message'] == 'confirm')
+        location.assign('/landing');
+}
+
+/**  toggles the profile menu on or off **/
+function toggleProfile() {
+    let el = document.getElementById("profile-menu__page");
+    if (el.style.display == 'none')
+        el.style.display = 'flex';
+    else
+    el.style.display = 'none';
+}
+
+/** show confirm delete account menu **/
+function showConfirmDel() {
+    let del_element = document.getElementById("profile-menu__del");
+    del_element.style.display = 'none';
+    let confirm_element = document.getElementById("profile-menu__confirm");
+    confirm_element.style.display = 'grid';
+}
+
+/** hide confirm delete account menu **/
+function hideConfirmDel() {
+    let del_element = document.getElementById("profile-menu__del");
+    del_element.style.display = 'flex';
+    let confirm_element = document.getElementById("profile-menu__confirm");
+    confirm_element.style.display = 'none';
+}
 
 /**  updates the search counter on the arrow keys. argdir accepts "up", "down" **/
 function updateSearchCounter(argcounter, arglength, argdir) {

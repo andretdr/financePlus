@@ -74,6 +74,20 @@ def returnquantity(argsymb, argdb):
     else:
         return row[0]['quantity']
 
+
+""" deletes all holdings for user """
+def deleteAccountHoldings(param_id, argdb):
+    executionStr = "DELETE FROM fin_holdings WHERE user_id = %s"
+    argdb.execute(executionStr, (param_id,))
+    
+
+
+""" deletes userid in fin_users """
+def deleteAccountUsers(param_id, argdb):
+    executionStr = "DELETE FROM fin_users WHERE id = %s"
+    argdb.execute(executionStr, (param_id,))
+
+
 """ enconding for json """
 class NpEncoder(json.JSONEncoder):
     def default(self, obj):

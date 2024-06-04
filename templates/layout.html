@@ -35,10 +35,23 @@
                 </div>
                 <!-- SETTINGS -->
                 <div class="dashboard__settings">
-                    <button class="dashboard__button"><a href=".\logout"><i class="fa fa-bars"></i></a></button>
+                    <button class="dashboard__button" onclick="toggleProfile()"><i class="fa fa-bars"></i></a></button>
                     </form>
                 </div>
             </section>
+
+            <section class="profile-menu">
+                <div class="profile-menu__page" id="profile-menu__page" style="display: none">
+                    <div class="profile-menu__item" onclick="logout()">sign out</div>
+                    <div class="profile-menu__item" id="profile-menu__del" onclick="showConfirmDel()">delete account</div>
+                    <div class="profile-menu__item profile-menu__item--confirm" id="profile-menu__confirm">
+                        <div class="profile-menu__confirmtext">confirm delete account?</div>
+                        <button class="profile-menu__button profile-menu__button--yes" onclick="deleteAccount()">yes</button>
+                        <button class="profile-menu__button profile-menu__button--cancel" onclick="hideConfirmDel()">cancel</button>
+                    </div>
+                </div>
+            </section>
+
         </header>
 
             {% block body %}{% endblock %}

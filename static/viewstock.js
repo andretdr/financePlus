@@ -518,10 +518,10 @@ class viewView{
             input = document.getElementById("viewbuydollars").value;
         if (argstates['byshares']){
             let inputshares = document.getElementById("viewbuyshares").value;
-
             input = inputshares * currprice;
         }
 
+        console.log(argstates);
         let errorcolor='red';
         
         // Client side check
@@ -529,7 +529,7 @@ class viewView{
             this.buysellviewRef.renderTxnMessage({'status':1}, errorcolor)
             return 1;
         }
-        if (isNaN(inputshares) || input == 0){
+        if (input == 0){
             this.buysellviewRef.renderTxnMessage({'status':4}, errorcolor)
             return 1;
         }
@@ -562,15 +562,21 @@ class viewView{
         }
         if (argstates['byshares'])
             inputshares = parseFloat(document.getElementById("viewsellshares").value);
+        
+        if (argstates['byclose'])
+            inputshares = quantity;
 
         let errorcolor='red';
 
+        console.log(argstates);
+
         // Client side check
+        // if not enough shares
         if (inputshares > quantity){
             this.buysellviewRef.renderTxnMessage({'status':2}, errorcolor)
             return 1;
         }
-
+        // if not enough shares
         if (isNaN(inputshares) || (inputshares == 0)){
             this.buysellviewRef.renderTxnMessage({'status':4}, errorcolor)
             return 1;

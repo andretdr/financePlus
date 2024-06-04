@@ -82,7 +82,6 @@ def retrievedata(argsymb):
     return finaldata
 
 
-
 def returnstartdate(argendate, delta):
     """ returns startdate given enddate datetime and delta """
     return argendate - datetime.timedelta(days=delta)

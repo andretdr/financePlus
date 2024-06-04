@@ -15,7 +15,6 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-
 conn = func.mysql_conn()
 # conn = conn_pool.get_connection()
 db = conn.cursor(dictionary = True)
@@ -51,12 +50,14 @@ def index():
         cashdict = []
         cashdict.append({"cash":0})
 
+        # checks what to do depending on the type of request
         if clienttype == 'full' or clienttype == 'cash':
             cash = func.returncash(db)
             cashdict[0]['cash'] = cash
 
         data = []
 
+        # checks what to do depending on the type of request
         if clienttype == 'full' or clienttype == 'holdings':
             data = viewf.dbReturnUserHoldingsDataALL(session['user_id'], db)
 
@@ -77,6 +78,29 @@ def landing():
     """ Login and Registration page """
     print(yf.__version__)
     return render_template("landing.html")
+
+
+@app.route('/delete', methods=['GET', 'POST'])
+@landf.loginRequired
+def delete():
+    """ Handles account deletion """
+    if request.method == 'GET':
+        return redirect("/")
+
+    # if gets here, its automatically a 'POST' method
+    data = request.get_json()
+
+    if data['message'] == 'confirm':
+        print('confirm!')
+        # delete account
+        func.deleteAccountHoldings(session['user_id'], db)
+        func.deleteAccountUsers(session['user_id'], db)
+        conn.commit()
+        
+        session.clear()
+
+        return jsonify({'message':'confirm'})
+
 
 @app.route('/login', methods=['POST'])
 def login():
