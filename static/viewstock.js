@@ -333,7 +333,7 @@ class viewView{
 
         let argdata = this.controllerRef.returnSmartGraphdata();
 
-        document.getElementById('viewcanvas').innerHTML = `<canvas id='viewgraph' style="width:100%; max-width:700px"></canvas>`;
+        document.getElementById('viewcanvas').innerHTML = `<canvas id='viewgraph' style="width:100%; max-width:700px;"></canvas>`;
 
         let xValues = [];
         let yValues = [];
@@ -426,7 +426,8 @@ class viewView{
             animation: {duration:0},
             layout: {
                 padding: {
-                    right: 20
+                    right: 5,
+                    bottom: 20
                 }
             }
         };

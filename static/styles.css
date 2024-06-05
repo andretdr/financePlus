@@ -753,8 +753,8 @@
 .view-chart {
     position: relative;
     max-width: 700px;
-    height: 35vh;
     width: 90vw;
+    height: 30vh;
 }
 
 /** actual graph rules
