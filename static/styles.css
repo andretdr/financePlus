@@ -630,7 +630,7 @@
     background-color: var(--summary);
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 650px) {
     .index-body__summary {
         margin-top: 0px;
     }
@@ -1072,6 +1072,13 @@
     height: 670px;
 }
 
+/** absolute menu page sell overide*/
+@media only screen and (max-width: 650px){
+    .buysell-menu--sell {
+        height: 620px;
+    }
+}
+
 /** buy sell header container */
 .buysell__header-container{
     display: flex;
@@ -1160,6 +1167,13 @@
     width: 140px;
     font-size: 18px;
     color:rgb(255, 255, 255);
+}
+
+@media only screen and (max-width: 650px){
+    /** actual buttons */
+    .buysellbutton-container__buttons{
+        font-size: 15px;
+    }
 }
 
 /** actual buttons */
@@ -1534,6 +1548,13 @@
 /** padding under the forms section */
 .landing-container__padding{
     padding: 50px;
+}
+
+/** padding under the forms section */
+@media only screen and (max-width: 650px){
+    .landing-container__padding{
+        padding: 0px;
+    }
 }
 
 #viewcurrentprice {
