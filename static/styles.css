@@ -758,9 +758,11 @@
 
 /** actual graph rules */
 #viewgraph{
-    width: 80vh;
     max-width: 700px;
+    width: 80vw;
     height: 35vh;
+
+
 }
 
 /** view buttons container **/

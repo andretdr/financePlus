@@ -29,55 +29,55 @@ def retrievedata(argsymb):
     status = []
     status.append({'status':10})
    
-#    try:
-    enddate = datetime.datetime.now()
+    try:
+        enddate = datetime.datetime.now()
 
-    symb = yf.Ticker(argsymb)
+        symb = yf.Ticker(argsymb)
 
-    dailydict = []
-    weeklydict = []
-    monthlydict = []
-    threemlydict = []
-    yearlydict = []
+        dailydict = []
+        weeklydict = []
+        monthlydict = []
+        threemlydict = []
+        yearlydict = []
 
-    dailydf = (symb.history(period="1d", interval="5m")).reset_index()
-    # convert column datetime into string time
-    dailydf['Range'] = dailydf['Datetime'].dt.strftime("%H:%M")
-    dailydict.append(dailydf[list({'Range', 'Close'})].to_dict('records'))
+        dailydf = (symb.history(period="1d", interval="5m")).reset_index()
+        # convert column datetime into string time
+        dailydf['Range'] = dailydf['Datetime'].dt.strftime("%H:%M")
+        dailydict.append(dailydf[list({'Range', 'Close'})].to_dict('records'))
 
-    weeklydf = (symb.history(start=returndatef(returnstartdate(enddate, 7)), end=returndatef(enddate), interval="60m")).reset_index()
-    # convert column datetime into string time
-    weeklydf['Range'] = weeklydf['Datetime'].dt.strftime("%a")
-    weeklydict.append(weeklydf[list({'Range', 'Close'})].to_dict('records'))
+        weeklydf = (symb.history(start=returndatef(returnstartdate(enddate, 7)), end=returndatef(enddate), interval="60m")).reset_index()
+        # convert column datetime into string time
+        weeklydf['Range'] = weeklydf['Datetime'].dt.strftime("%a")
+        weeklydict.append(weeklydf[list({'Range', 'Close'})].to_dict('records'))
 
-    monthlydf = (symb.history(start=returndatef(returnstartdate(enddate, 30)), end=returndatef(enddate), interval="1d")).reset_index()
-    # convert column datetime into string date
-    monthlydf['Range'] = monthlydf['Date'].dt.strftime("%d %b")
-    monthlydict.append(monthlydf[list({'Range', 'Close'})].to_dict('records'))
+        monthlydf = (symb.history(start=returndatef(returnstartdate(enddate, 30)), end=returndatef(enddate), interval="1d")).reset_index()
+        # convert column datetime into string date
+        monthlydf['Range'] = monthlydf['Date'].dt.strftime("%d %b")
+        monthlydict.append(monthlydf[list({'Range', 'Close'})].to_dict('records'))
 
-    threemlydf = (symb.history(start=returndatef(returnstartdate(enddate, 90)), end=returndatef(enddate), interval="1d")).reset_index()
-    # convert column datetime into string date
-    threemlydf['Range'] = threemlydf['Date'].dt.strftime("%d %b")
-    threemlydict.append(threemlydf[list({'Range', 'Close'})].to_dict('records'))
+        threemlydf = (symb.history(start=returndatef(returnstartdate(enddate, 90)), end=returndatef(enddate), interval="1d")).reset_index()
+        # convert column datetime into string date
+        threemlydf['Range'] = threemlydf['Date'].dt.strftime("%d %b")
+        threemlydict.append(threemlydf[list({'Range', 'Close'})].to_dict('records'))
 
 
-    yearlydf = (symb.history(start=returndatef(returnstartdate(enddate, 365)), end=returndatef(enddate), interval="1wk")).reset_index()
-    # convert column datetime into string date
-    yearlydf['Range'] = yearlydf['Date'].dt.strftime("%d %b")
-    yearlydict.append(yearlydf[list({'Range', 'Close'})].to_dict('records'))
+        yearlydf = (symb.history(start=returndatef(returnstartdate(enddate, 365)), end=returndatef(enddate), interval="1wk")).reset_index()
+        # convert column datetime into string date
+        yearlydf['Range'] = yearlydf['Date'].dt.strftime("%d %b")
+        yearlydict.append(yearlydf[list({'Range', 'Close'})].to_dict('records'))
 
-    # get prev info
-    prevdayclose = returnprevinfo(symb, '1d')
-    prevweekclose = returnprevinfo(symb, '1w')
-    prevmonthclose = returnprevinfo(symb, '1m')
-    prevthreemclose = returnprevinfo(symb, '3m')
-    prevyearclose = returnprevinfo(symb, '1y')
+        # get prev info
+        prevdayclose = returnprevinfo(symb, '1d')
+        prevweekclose = returnprevinfo(symb, '1w')
+        prevmonthclose = returnprevinfo(symb, '1m')
+        prevthreemclose = returnprevinfo(symb, '3m')
+        prevyearclose = returnprevinfo(symb, '1y')
 
-    # get current price
-    currentprice = [{'currentPrice': symb.info['currentPrice']}]
+        # get current price
+        currentprice = [{'currentPrice': symb.info['currentPrice']}]
 
-#    except: # if error reading symb
-#        return status
+    except: # if error reading symb
+        return status
 
     # setting up bookmarks for easy navigation
     status[0]['status'] = 0

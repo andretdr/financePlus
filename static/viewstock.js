@@ -386,7 +386,7 @@ class viewView{
         };
         
         const options = {
-            responsive: false,
+            responsive: true,
             maintainAspectRatio: true,
             plugins: {
                 legend: {
