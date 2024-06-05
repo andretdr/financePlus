@@ -397,7 +397,7 @@ class viewView{
                 y: {
                     ticks: {
                         // forces step size to be 50 units
-                        stepSize: 0.2,
+                        stepSize: 0.05,
                         maxTicksLimit: 6,
                         // Include a dollar sign in the ticks
                         callback: function(value, index, ticks) {
