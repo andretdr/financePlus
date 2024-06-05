@@ -1,23 +1,4 @@
 
-
-/** OOBSOLETE>>??????????????????????????????????? */
-/** takes in dictionary with 'symbol':symbol, 'status':status and prints error */
-
-
-/** OBSOLETE */
-/** render graph and stock info  */
-function refreshGraphInfo(argstockrecords, argrange){
-
-    // draw graph
-    renderGraph(argstockrecords, argrange);
-
-    // retrieve current prcce, range returns, percentage return, last close
-    const stockdata = returnstockdata(argstockrecords);
-
-    // render info
-}
-
-
 /** Handles the controller logic and stores states */
 class viewController{
     // methods
@@ -66,11 +47,11 @@ class viewController{
 
         this.currprice = argrawdata[j-1]['currentPrice'];
 
-        this.daygraph.push({'prevclose':argrawdata[j]['prevdayclose'], 'prevdate':argrawdata[j]['prevclosedate']});
-        this.weekgraph.push({'prevclose':argrawdata[j+1]['prevweekclose'], 'prevdate':argrawdata[j+1]['prevclosedate']});
-        this.monthgraph.push({'prevclose':argrawdata[j+2]['prevmonthclose'], 'prevdate':argrawdata[j+2]['prevclosedate']});
-        this.threemgraph.push({'prevclose':argrawdata[j+3]['prevthreemclose'], 'prevdate':argrawdata[j+3]['prevclosedate']});
-        this.yeargraph.push({'prevclose':argrawdata[j+4]['prevyearclose'], 'prevdate':argrawdata[j+4]['prevclosedate']});
+        this.daygraph.push({'prevclose':argrawdata[j]['prevdayclose'], 'open':argrawdata[j]['dayopen'], 'prevdate':argrawdata[j]['prevclosedate']});
+        this.weekgraph.push({'open':argrawdata[j+1]['prevweekopen'], 'prevdate':argrawdata[j+1]['prevclosedate']});
+        this.monthgraph.push({'open':argrawdata[j+2]['prevmonthopen'], 'prevdate':argrawdata[j+2]['prevclosedate']});
+        this.threemgraph.push({'open':argrawdata[j+3]['prevthreemopen'], 'prevdate':argrawdata[j+3]['prevclosedate']});
+        this.yeargraph.push({'open':argrawdata[j+4]['prevyearopen'], 'prevdate':argrawdata[j+4]['prevclosedate']});
 
         for (let i = 0; i<argrawdata.length; i++){
                 if (argrawdata[i]['bm'] == 'DAY'){
@@ -90,20 +71,22 @@ class viewController{
                 }
         }
 
+        console.log(this.monthgraph);
+
         this.dailyreturn = this.currprice-argrawdata[j]['prevdayclose'];
         this.dailypercent = this.dailyreturn/argrawdata[j]['prevdayclose']*100;
 
-        this.weeklyreturn = this.currprice-argrawdata[j+1]['prevweekclose'];
-        this.weeklypercent = this.weeklyreturn/argrawdata[j+1]['prevweekclose']*100;
+        this.weeklyreturn = this.currprice-argrawdata[j+1]['prevweekopen'];
+        this.weeklypercent = this.weeklyreturn/argrawdata[j+1]['prevweekopen']*100;
 
-        this.monthlyreturn = this.currprice-argrawdata[j+2]['prevmonthclose'];
-        this.monthlypercent = this.monthlyreturn/argrawdata[j+2]['prevmonthclose']*100;
+        this.monthlyreturn = this.currprice-argrawdata[j+2]['prevmonthopen'];
+        this.monthlypercent = this.monthlyreturn/argrawdata[j+2]['prevmonthopen']*100;
 
-        this.threemreturn = this.currprice-argrawdata[j+3]['prevthreemclose'];
-        this.threempercent = this.threemreturn/argrawdata[j+3]['prevthreemclose']*100;
+        this.threemreturn = this.currprice-argrawdata[j+3]['prevthreemopen'];
+        this.threempercent = this.threemreturn/argrawdata[j+3]['prevthreemopen']*100;
 
-        this.yearlyreturn = this.currprice-argrawdata[j+4]['prevyearclose'];
-        this.yearlypercent = this.yearlyreturn/argrawdata[j+4]['prevyearclose']*100;
+        this.yearlyreturn = this.currprice-argrawdata[j+4]['prevyearopen'];
+        this.yearlypercent = this.yearlyreturn/argrawdata[j+4]['prevyearopen']*100;
     }
 
     async refreshAPIDataServer(){
@@ -355,37 +338,108 @@ class viewView{
         let xValues = [];
         let yValues = [];
 
+        yValues.push(argdata[0]['open']);
+        xValues.push(argdata[0]['prevdate']);
+
         for (let i=1; i<argdata.length; i++){
             yValues.push(argdata[i]['Close']);
-            xValues.push(i);
+            xValues.push(argdata[i]['Range']);
         }
 
         // determining color of graph
         let ylength = yValues.length;
-        let graphcolor = '';
+        let bordercolor;
+        let fillcolor;
 
-        if (yValues[0] <= yValues[ylength-1])
-            graphcolor = 'green';
-        else
-            graphcolor = 'red';
+        // dynamically determining scale of graph
+        let fontsize = 12
+        let w = window.innerWidth;
+        if (w < 650)
+            fontsize = 9
+        console.log(w);
+
+
+        if (yValues[0] <= yValues[ylength-1]){
+            bordercolor = '#65cb45'; //rgb(101, 228, 69);
+            fillcolor = '#dbffd2'; //rgb(219, 255, 210);
+        }
+        else {
+            bordercolor = '#ec4959'; //rgb(236, 73, 89);
+            fillcolor = 'rgb(255, 210, 215)';
+        }
+
+        // prepping data
+        const data = {
+            labels: xValues,
+            datasets: [{
+                data: yValues,
+                fill: true,
+                backgroundColor: fillcolor,
+                borderColor: bordercolor,
+                borderWidth: 2,
+                pointStyle: false,
+                pointRadius: 0,
+                pointHoverRadius: 0,
+                pointHitRadius: 0,
+                tension: 0
+            }]
+        };
+        
+        const options = {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            },
+            scales: {
+                y: {
+                    ticks: {
+                        // forces step size to be 50 units
+                        stepSize: 0.2,
+                        maxTicksLimit: 6,
+                        // Include a dollar sign in the ticks
+                        callback: function(value, index, ticks) {
+                            return ('$' + value.toFixed(2));
+                        },
+                        font: {
+                            size: fontsize
+                        }
+                      },
+                    grid: {
+                    display: false
+                    }
+                },
+                x: {
+                    ticks: {
+                        // forces step size to be 50 units
+                        maxTicksLimit: 6,
+
+                        font: {
+                            size: fontsize
+                        }
+                    },
+                    grid: {
+                        display: false
+                    }
+                }
+            },
+            animation: {duration:0},
+            layout: {
+                padding: {
+                    right: 20,
+                    bottom: 20
+                }
+            }
+        };
 
         // drawing the chart
-        let chart = new Chart("viewgraph", {
-            type: "line",
-            data:{
-                labels: xValues,
-                datasets: [{
-                    backgroundColor: "white",
-                    borderColor: graphcolor,
-                    data: yValues
-                }]
-            },
-            pointRadius: "0",
-            animation:{duration:0},
-            options: {
-                legend: {display: false},
-                animation:{duration:0}
-            }
+        new Chart("viewgraph", {
+            type: 'line',
+            data: data,
+            spanGaps: true,
+            options: options
         });
     }
 

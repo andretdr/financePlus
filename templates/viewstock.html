@@ -16,6 +16,7 @@
         </div>
     </section>
 
+    <!-- chart -->
     <section class="view-chart">
         <div id="viewcanvas">
         </div>
@@ -214,8 +215,8 @@
                         or
                     </div>
 
-                    <div class="sellcloseform-container" id="sellcloseformcontainer" onclick="buysellview.updatesellclosepage()">
-                        <input onclick="buysellview.updatesellclosepage()" class="buysellform-container__formcheckbox" type="checkbox" id="viewsellclose" name="viewsellclose" checked="false" >
+                    <div class="sellcloseform-container" id="sellcloseformcontainer" onclick="buysellview.checkAndUpdateClose()">
+                        <input onclick="buysellview.checkAndUpdateClose()" class="buysellform-container__formcheckbox" type="checkbox" id="viewsellclose" name="viewsellclose" checked="false" >
                         <div class="sellcloseform__text">Close position and sell all shares</div>
                     </div>
 

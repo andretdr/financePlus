@@ -258,6 +258,7 @@ class buySellView{
     showSellMenu(){
         document.getElementById("sellhideme").style.visibility = "visible";
         document.getElementById("buysell-menu__page").style.visibility = "visible";
+        document.getElementById("viewsellclose").checked = false;
 
         // show and set sell in dollars state
         this.sellindollars();
@@ -348,22 +349,30 @@ class buySellView{
         this.refreshSellEstTotal(color);
     }
 
-
-    /** dynamically updates color for avilshares n refreshes est total 
-     *  based on curr price updates and input */
-    updatesellclosepage(){
-        
-        this.updateAvailSharesTxnPage();
-        this.refreshSellEstTotalClose();
+    /** toggles the close position */
+    toggleClosePosition(){
         // toggle check box
-
         let el = document.getElementById('viewsellclose');
+        console.log("before"+el.checked)
         if (el.checked == true)
             el.checked = false;
         else
         el.checked = true;
+        console.log("after"+el.checked)
     }
 
+    /** dynamically updates color for avilshares n refreshes est total 
+     *  based on curr price updates and input */
+    updatesellclosepage(){
+        this.updateAvailSharesTxnPage();
+        this.refreshSellEstTotalClose();
+    }
+
+    /** runs close position, then updates the sell page */
+    checkAndUpdateClose(){
+        this.toggleClosePosition();
+        this.updatesellclosepage();
+    }
 
     /** main refresher of buysell data */
     renderBuySellData(){

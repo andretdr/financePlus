@@ -29,40 +29,55 @@ def retrievedata(argsymb):
     status = []
     status.append({'status':10})
    
-    try:
-        enddate = datetime.datetime.now()
+#    try:
+    enddate = datetime.datetime.now()
 
-        symb = yf.Ticker(argsymb)
+    symb = yf.Ticker(argsymb)
 
-        dailydict = []
-        weeklydict = []
-        monthlydict = []
-        threemlydict = []
-        yearlydict = []
+    dailydict = []
+    weeklydict = []
+    monthlydict = []
+    threemlydict = []
+    yearlydict = []
 
-        dailydf = (symb.history(period="1d", interval="5m"))[list({'Close'})]
-        dailydict.append(dailydf.to_dict('records'))
-        weeklydf = (symb.history(start=returndatef(returnstartdate(enddate, 7)), end=returndatef(enddate), interval="60m"))[list({'Close'})]
-        weeklydict.append(weeklydf.to_dict('records'))
-        monthlydf = (symb.history(start=returndatef(returnstartdate(enddate, 30)), end=returndatef(enddate), interval="1d"))[list({'Close'})]
-        monthlydict.append(monthlydf.to_dict('records'))
-        threemlydf = (symb.history(start=returndatef(returnstartdate(enddate, 90)), end=returndatef(enddate), interval="1d"))[list({'Close'})]
-        threemlydict.append(threemlydf.to_dict('records'))
-        yearlydf = (symb.history(start=returndatef(returnstartdate(enddate, 365)), end=returndatef(enddate), interval="1wk"))[list({'Close'})]
-        yearlydict.append(yearlydf.to_dict('records'))
+    dailydf = (symb.history(period="1d", interval="5m")).reset_index()
+    # convert column datetime into string time
+    dailydf['Range'] = dailydf['Datetime'].dt.strftime("%H:%M")
+    dailydict.append(dailydf[list({'Range', 'Close'})].to_dict('records'))
 
-        # get closing info
-        prevdayclose = returnprevclose(symb, '1d')
-        prevweekclose = returnprevclose(symb, '1w')
-        prevmonthclose = returnprevclose(symb, '1m')
-        prevthreemclose = returnprevclose(symb, '3m')
-        prevyearclose = returnprevclose(symb, '1y')
+    weeklydf = (symb.history(start=returndatef(returnstartdate(enddate, 7)), end=returndatef(enddate), interval="60m")).reset_index()
+    # convert column datetime into string time
+    weeklydf['Range'] = weeklydf['Datetime'].dt.strftime("%a")
+    weeklydict.append(weeklydf[list({'Range', 'Close'})].to_dict('records'))
 
-        # get current price
-        currentprice = [{'currentPrice': symb.info['currentPrice']}]
+    monthlydf = (symb.history(start=returndatef(returnstartdate(enddate, 30)), end=returndatef(enddate), interval="1d")).reset_index()
+    # convert column datetime into string date
+    monthlydf['Range'] = monthlydf['Date'].dt.strftime("%d %b")
+    monthlydict.append(monthlydf[list({'Range', 'Close'})].to_dict('records'))
 
-    except: # if error reading symb
-        return status
+    threemlydf = (symb.history(start=returndatef(returnstartdate(enddate, 90)), end=returndatef(enddate), interval="1d")).reset_index()
+    # convert column datetime into string date
+    threemlydf['Range'] = threemlydf['Date'].dt.strftime("%d %b")
+    threemlydict.append(threemlydf[list({'Range', 'Close'})].to_dict('records'))
+
+
+    yearlydf = (symb.history(start=returndatef(returnstartdate(enddate, 365)), end=returndatef(enddate), interval="1wk")).reset_index()
+    # convert column datetime into string date
+    yearlydf['Range'] = yearlydf['Date'].dt.strftime("%d %b")
+    yearlydict.append(yearlydf[list({'Range', 'Close'})].to_dict('records'))
+
+    # get prev info
+    prevdayclose = returnprevinfo(symb, '1d')
+    prevweekclose = returnprevinfo(symb, '1w')
+    prevmonthclose = returnprevinfo(symb, '1m')
+    prevthreemclose = returnprevinfo(symb, '3m')
+    prevyearclose = returnprevinfo(symb, '1y')
+
+    # get current price
+    currentprice = [{'currentPrice': symb.info['currentPrice']}]
+
+#    except: # if error reading symb
+#        return status
 
     # setting up bookmarks for easy navigation
     status[0]['status'] = 0
@@ -84,7 +99,9 @@ def retrievedata(argsymb):
 
 def returnstartdate(argendate, delta):
     """ returns startdate given enddate datetime and delta """
-    return argendate - datetime.timedelta(days=delta)
+    startdate = argendate - datetime.timedelta(days=delta)
+    returndate = datetime.datetime(startdate.year, startdate.month, startdate.day, 9, 30, 0)
+    return returndate
 
 
 def returndatef(argdate):
@@ -93,12 +110,12 @@ def returndatef(argdate):
 
 def returndatef2(argdate):
     """ returns date in MONTH DD format given datetime """
-    return argdate.strftime("%B %d")
+    return argdate.strftime("%d %B")
 
 
-def returnprevclose(argsymb, argrange):
+def returnprevinfo(argsymb, argrange):
     """ returns a list of dict of the prevrange closing and price in the format
-        'prevdayclose':pc or 'prevweekclose':pw or 'prevmonthclose':pm or 'prevthreemclose':pt or 'prevyearclose':py
+        'prevdayclose':pc or 'prevweekopen':pw or 'prevmonthopen':pm or 'prevthreemopen':pt or 'prevyearopen':py
         takes in argrange of '1d', '1w', '1m', '3m', '1y'
     """    
     
@@ -108,35 +125,32 @@ def returnprevclose(argsymb, argrange):
         case '1d':
             startdate = returnstartdate(enddate, 2)
             varname = 'prevdayclose'
-            range = '2d'
         case '1w':
             startdate = returnstartdate(enddate, 8)
-            varname = 'prevweekclose'
-            range = '8d'
+            varname = 'prevweekopen'
         case '1m':
             startdate = returnstartdate(enddate, 31)
-            varname = 'prevmonthclose'
-            range = '31d'
+            varname = 'prevmonthopen'
         case '3m':
             startdate = returnstartdate(enddate, 91)
-            varname = 'prevthreemclose'
-            range = '91d'
+            varname = 'prevthreemopen'
         case '1y':
             startdate = returnstartdate(enddate, 366)
-            varname = 'prevyearclose'
-            range = '366d'
+            varname = 'prevyearopen'
 
-#    print(f"endate : {returndatef(enddate)} startdate: {returndatef(startdate)}")
+    prevclose = []
 
     if (argrange == '1d'):
-        prevclosedf = argsymb.history(period=range)
+        prevclosedf = argsymb.history(period='2d')
+        newdf = prevclosedf.reset_index()
+
+        prevclose.append({'prevdayclose':newdf.iloc[0]['Close'], 'dayopen':newdf.iloc[1]['Open'], 'prevclosedate':returndatef2(newdf.iloc[0]['Date'])})
         
     else: 
         prevclosedf = argsymb.history(start=returndatef(startdate), end=returndatef(enddate))
-    
-    prevclose = []
+        newdf = prevclosedf.reset_index()
 
-    prevclose.append({varname:prevclosedf.iloc[0]['Close'], 'prevclosedate':returndatef2(returnstartdate(startdate, -1))})
+        prevclose.append({varname:newdf.iloc[1]['Open'], 'prevclosedate':returndatef2(newdf.iloc[1]['Date'])})
 
     return prevclose
 
@@ -147,7 +161,6 @@ def dbReturnUserHoldingsData(argid, argsymb, argdb):
     argdb.execute("SELECT cash FROM fin_users WHERE fin_users.id = %s", (argid,))
     rows = argdb.fetchall()
     cash = str(rows[0]['cash'])
-
 
     symbid = buysell.lookupSymbol(argsymb, argdb)
     data = []
@@ -169,12 +182,9 @@ def dbReturnUserHoldingsData(argid, argsymb, argdb):
 def dbReturnUserHoldingsDataALL(argid, argdb):
     
     # execute seperately incase the row doesnt exist, if new transaction
-#    print("1")
     executionstr = "SELECT fin_holdings.quantity, fin_holdings.avgcost, fin_symbs.symb FROM (fin_holdings INNER JOIN fin_symbs ON fin_symbs.id = fin_holdings.symb_id) WHERE fin_holdings.user_id = %s ORDER BY fin_symbs.symb ASC"
     argdb.execute(executionstr, (argid,))
     rows = argdb.fetchall()
-#    print("2")
-#    print("3")
     
     return rows
 

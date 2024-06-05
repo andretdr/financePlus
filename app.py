@@ -178,10 +178,12 @@ def viewstock():
 
     if request.method == "GET" :
         symbol = request.args.get('q')
+        # API call
         data_a = viewf.retrievedata(symbol)
+        # database call
         data_b = viewf.dbReturnUserHoldingsData(session['user_id'], symbol, db)
 
-        returndata = json.dumps(data_b + data_a, cls=func.NpEncoder)
+        returndata = json.dumps(data_b + data_a)
 
         if data_a[0]["status"] == 10:
             return render_template("error.html", data = "Symbol not found")
@@ -191,8 +193,10 @@ def viewstock():
     else:
         clientdata = request.get_json()
         typedata = clientdata['type']
+        # API call        
         if typedata == 'stock':
             data = viewf.retrievedata(clientdata['symbol'])
+        # database call
         if typedata == 'holdings':
             data = viewf.dbReturnUserHoldingsData(session['user_id'], clientdata['symbol'], db)
 
