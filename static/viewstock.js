@@ -356,8 +356,6 @@ class viewView{
         let w = window.innerWidth;
         if (w < 650)
             fontsize = 9
-        console.log(w);
-
 
         if (yValues[0] <= yValues[ylength-1]){
             bordercolor = '#65cb45'; //rgb(101, 228, 69);
@@ -387,7 +385,7 @@ class viewView{
         
         const options = {
             responsive: true,
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
                     display: false,
@@ -428,8 +426,7 @@ class viewView{
             animation: {duration:0},
             layout: {
                 padding: {
-                    right: 20,
-                    bottom: 20
+                    right: 20
                 }
             }
         };
