@@ -33,6 +33,7 @@ def mysql_connpool():
             host="ol5tz0yvwp930510.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
             port=3306,
             database="rl3utnqw5gapzw4n",
+            autocommit=True,
         )
     except mysql.connector.Error as e:
         print(f"Error connecting to database: {e}")

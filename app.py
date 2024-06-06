@@ -50,8 +50,6 @@ def index():
 
         returndata = json.dumps(cashdict + data)
 
-        db.fetchall()
-
         return render_template("index.html", data = returndata)
 
     if request.method == 'POST':
@@ -81,8 +79,6 @@ def index():
     
         returndata = cashdict + data
 
-        db.fetchall()
-
         return jsonify(returndata)
     
 
@@ -96,6 +92,10 @@ def landing():
 @app.route('/delete', methods=['GET', 'POST'])
 @landf.loginRequired
 def delete():
+    # handles DB connection
+    conn = connClass.getConn()
+    db = conn.cursor(dictionary=True, buffered=True)
+
     """ Handles account deletion """
     if request.method == 'GET':
         return redirect("/")

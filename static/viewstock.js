@@ -71,8 +71,6 @@ class viewController{
                 }
         }
 
-        console.log(this.monthgraph);
-
         this.dailyreturn = this.currprice-argrawdata[j]['prevdayclose'];
         this.dailypercent = this.dailyreturn/argrawdata[j]['prevdayclose']*100;
 
@@ -89,6 +87,7 @@ class viewController{
         this.yearlypercent = this.yearlyreturn/argrawdata[j+4]['prevyearopen']*100;
     }
 
+    /** get server side stock/API data, updates it */
     async refreshAPIDataServer(){
         const data = await this.getAPIData();
         this.refreshStockData(data);
@@ -482,6 +481,7 @@ class viewView{
         if (argdata !== null){
         // controller update data
             this.controllerRef.setQuantity(argdata[0]['quantity']);
+            console.log('qty = '+ this.controllerRef.returnQuantity());
             this.controllerRef.setAvgCost(argdata[0]['avgcost']);
             this.controllerRef.setCash(argdata[0]['cash']);
         }   
@@ -490,8 +490,8 @@ class viewView{
         this.disableSellButton();
 
         // these 2 values dont need dynamic refreshing in the buy/sell menu
-        this.buysellviewRef.updateAvailSharesTxnPage();
-        this.buysellviewRef.updateCashTxnPage();
+//        this.buysellviewRef.updateAvailSharesTxnPage();
+//        this.buysellviewRef.updateCashTxnPage();
 
         // calling buysellviewRef function is used for refreshing data in the buy/sell menu
         this.buysellviewRef.renderBuySellData();
@@ -667,6 +667,7 @@ class viewView{
         if (responseobj[0]['status'] == 0){
             this.resetSellInput();
             this.updatePageHoldingsData(responseobj)
+            this.buysellviewRef.
             errorcolor = 'black'
         }
 

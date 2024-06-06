@@ -381,31 +381,37 @@ class buySellView{
         if (argstates['buy']){
             // update curr price buy page
             this.refreshbuypagecurrprice();
+            this.updateAvailSharesTxnPage();
     
             if (argstates['bydollars'])
                 // update est shares buy page
-                this.refreshEstShares();
+                this.updatebuydollarspage();    
+            //this.refreshEstShares();
     
             if (argstates['byshares'])
                 // update est cost buy page
-                this.refreshEstDollars();
+                //this.refreshEstDollars();
+                this.updatebuysharespage();
         }
         
         if (argstates['sell']){
             // update curr price sell page
             this.refreshsellpagecurrprice();
+            this.updateCashTxnPage();
     
             if (argstates['bydollars'])
                 // update est shares sell page
-                this.refreshSellEstShares();
+                //this.refreshSellEstShares();
+                this.updateselldollarspage();
     
             if (argstates['byshares'])
                 // update est cost sell page
-                this.refreshSellEstTotal();
+                //this.refreshSellEstTotal();
+                this.updatesellsharespage();
     
-            if (argstates['close'])
+            if (argstates['byclose'])
                 // update est cost sell page
-                this.refreshSellEstTotalClose();
+                this.updatesellclosepage();
         }
     }
 
@@ -495,6 +501,9 @@ class buySellView{
         let color = 'black';
 
         let esttotal = 0;
+
+        console.log('currprice = '+ argcurrprice)
+        console.log('qty = '+ availshares)
 
         if (sellid.checked == true){
             esttotal = argcurrprice*availshares;
