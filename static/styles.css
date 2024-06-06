@@ -476,7 +476,6 @@
     padding: 10px 20px;
     text-decoration: none;
     border-radius: 10px;
-
 }
 
 /** link on holdings item state */
@@ -1185,6 +1184,12 @@
 /** actual buttons */
 .buysellbutton-container__buttons:hover{
     background-color: rgb(136, 194, 241);
+}
+
+/** actual buttons */
+.buysellbutton-container__buttons:disabled{
+    background-color: var(--grey);
+    cursor: not-allowed;
 }
 
 /** place order overide */

@@ -12,7 +12,6 @@ def loginRequired(f):
         return f(*args, **kwargs)
     return innerFunction
 
-
 def validatename(argname):
     """ validate name to be alpha numeric ONLY, given the string argname """
     if not (re.match('^[0-9a-zA-Z]+$', argname)):
@@ -77,3 +76,5 @@ def signinuser(argusername, argdb):
     rows = argdb.fetchall()
 
     session['user_id'] = rows[0]['id']
+
+

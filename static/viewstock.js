@@ -557,6 +557,20 @@ class viewView{
             sellbutton.disabled = false;
     }
 
+    /** resets all input values in buy page */
+    resetBuyInput(){
+        document.getElementById('viewbuydollars').value = '';
+        document.getElementById('viewbuyshares').value = '';
+    }
+
+    /** resets all input values in buy page */
+    resetSellInput(){
+        document.getElementById('viewselldollars').value = '';
+        document.getElementById('viewsellshares').value = '';
+        document.getElementById('viewsellclose').checked = false;
+        document.getElementById("sellesttotal").innerHTML = `0.00`;
+    }
+
     /** handles the buy request */
     async buy(){
         const argstates = this.controllerRef.returnStates();
@@ -573,7 +587,6 @@ class viewView{
             input = inputshares * currprice;
         }
 
-        console.log(argstates);
         let errorcolor='red';
         
         // Client side check
@@ -586,12 +599,17 @@ class viewView{
             return 1;
         }
 
+        // Good to transact
+        // disable button
+        document.getElementById("buy-button").disabled = true;
+        setTimeout(()=>{document.getElementById("buy-button").disabled = false;}, 4000);
         // server POST
         let responseobj = await fetcher('/buy', 'POST', {'symbol':symbol, 'buyamt':input});
 
         // if all went well, refresh
         if (responseobj[0]['status'] == 0){
             errorcolor = 'black';
+            this.resetBuyInput();
             this.updatePageHoldingsData(responseobj);
         }
 
@@ -638,16 +656,22 @@ class viewView{
         if (argstates['byclose'])
             body['close'] = true;
 
+        // Good to transact
+        // disable button for 3 secs
+        document.getElementById("sell-button").disabled = true;
+        setTimeout(()=>{document.getElementById("sell-button").disabled = false;}, 4000);
         // server POST
         let responseobj = await fetcher('/sell', 'POST', body);
 
         // if all went well, refresh
         if (responseobj[0]['status'] == 0){
+            this.resetSellInput();
             this.updatePageHoldingsData(responseobj)
             errorcolor = 'black'
         }
 
-        this.buysellviewRef.renderTxnMessage(responseobj[0]);
+        this.buysellviewRef.renderTxnMessage(responseobj[0], errorcolor);
+        
     }
 
 

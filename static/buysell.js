@@ -492,14 +492,18 @@ class buySellView{
         const argcurrprice = this.controllerRef.returnCurrprice();
         const availshares = this.controllerRef.returnQuantity();
         let sellid = document.getElementById("viewsellclose");
-    
+        let color = 'black';
+
         let esttotal = 0;
 
         if (sellid.checked == true){
             esttotal = argcurrprice*availshares;
+            if (esttotal == 0)
+                color = 'red';
         }
         // update est total on sell page
         document.getElementById("sellesttotal").innerHTML = `${esttotal.toFixed(2)}`;
+        document.getElementById("sellesttotal").style.color = color;
     }
 
     /** add EL to input field buy in dollars */

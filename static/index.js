@@ -260,6 +260,17 @@ class indexView {
         this.refreshHoldingsPage()
     }
 
+    /** disables index body for 1 sec */
+    disableSelf(param_id) {
+        let el = document.getElementById(param_id);
+        el.style.pointerEvents="none";
+
+        setTimeout(()=>{el.style.pointerEvents="auto";}, 1000);
+    }
+
+
+
+    /** main index page renderer */
     refreshHoldingsPage() {
         let html = ``;
         let dataobj = this.controllerRef.returnData();
@@ -310,7 +321,7 @@ class indexView {
                 pnlhtml = `<data style="color:${green}">$${pnl}&uarr;</data>`
     
             html += `
-                    <a href="/viewstock?q=${symb}">
+                    <a href="/viewstock?q=${symb}" id="id-${symb}" onclick="view.disableSelf('id-${symb}')">
                         <div class="holding-item">
                             <div class="hitem__each hitem__each--symb"><data>${symb}</data></div>
                             <div class="hitem__each hitem__each--cp"><data>$${currprice}</data></div>

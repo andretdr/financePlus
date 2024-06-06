@@ -158,7 +158,7 @@
 
                 <!-- buttons -->
                 <div class="buysellbutton-container buysellbutton-container--order">
-                    <button class="buysellbutton-container__buttons buysellbutton-container__buttons--buy" onclick="viewview.buy()">Place Order</button>
+                    <button class="buysellbutton-container__buttons buysellbutton-container__buttons--buy" id="buy-button" onclick="viewview.buy()">Place Order</button>
                     <button class="buysellbutton-container__buttons buysellbutton-container__buttons--close" onclick="buysellview.closeBuySellMenu()">Close</button>
                 </div>
             </div>
@@ -263,7 +263,7 @@
 
                 <!-- buttons -->
                 <div class="buysellbutton-container buysellbutton-container--order">
-                    <button class="buysellbutton-container__buttons buysellbutton-container__buttons--sell" onClick="viewview.sell()">Place Order</button>
+                    <button id="sell-button" class="buysellbutton-container__buttons buysellbutton-container__buttons--sell" onClick="viewview.sell()">Place Order</button>
                     <button class="buysellbutton-container__buttons buysellbutton-container__buttons--close" onclick="buysellview.closeBuySellMenu()">Close</button>
                 </div>
             </div>
@@ -291,8 +291,8 @@
         viewview.renderpage();
 
         // refresh page every 3 secs
-//        let interval = 3000;
-//        const viewpageinterval = setInterval(()=>{viewview.refreshAPIDataServerV()}, interval);
+        let interval = 3000;
+        const viewpageinterval = setInterval(()=>{viewview.refreshAPIDataServerV()}, interval);
 
     </script>
 

@@ -103,3 +103,72 @@ class NpEncoder(json.JSONEncoder):
                 return obj.astype(str).tolist()
             return obj.tolist()
         return super(NpEncoder, self).default(obj)
+    
+
+# connection class
+class CC:
+    def __init__(this):
+        # initialise pool
+        this.conn_pool = mysql_connpool()
+        this.conn_list = []
+        this.conn_list.append(this.conn_pool.get_connection())
+        this.conn_list.append(this.conn_pool.get_connection())
+        this.conn_list.append(this.conn_pool.get_connection())
+
+        this.index = 0
+
+    def getConn(this):
+        print(this.index)
+        newConn = this.conn_list[this.index]
+        this.nextIndex()
+        return newConn
+
+    def reconnect(this):
+        this.conn_pool = mysql_connpool()
+        this.conn_list = []
+        this.conn_list.append(this.conn_pool.get_connection())
+        this.conn_list.append(this.conn_pool.get_connection())
+        this.conn_list.append(this.conn_pool.get_connection())
+
+    def closeConn(this):
+        if this.conn.is_connected():
+            this.conn.close()
+            this.db.close()
+
+    def nextIndex(this):
+        this.index = (this.index + 1) % 3
+
+
+
+
+
+
+# connection class
+#class CC:
+#    def __init__(this):
+#        this.conn = mysql_conn()
+#        this.db = this.conn.cursor(dictionary=True, buffered=True)
+#        this.index = 0
+
+#    def reconnect(this):
+#        # if its not connected, reconnect
+#        if not this.conn.is_connected():
+#            this.conn = mysql_conn()
+#            this.db = this.conn.cursor(dictionary=True, buffered=True)
+#            this.nextIndex()
+
+#    def close(this):
+#        if this.conn.is_connected():
+#            this.conn.close()
+#            this.db.close()
+
+#    def nextIndex(this):
+#        this.index = (this.index + 1) % 3
+#        print(this.index)
+
+#    def returnConn(this):
+#        print(f'Is connected? {this.conn.is_connected()}')
+#        return this.conn
+    
+#    def returnDB(this):
+#        return this.db
