@@ -545,6 +545,7 @@ class buySellView{
     addELselldollars(){
 
         let sellid = document.getElementById("viewselldollars");
+        sellid.focus({preventScroll:true});
         sellid.addEventListener('keyup', () => {
             this.updateselldollarspage();
             this.renderTxnMessage({"status":3});

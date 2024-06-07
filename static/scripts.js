@@ -99,15 +99,6 @@ function disableScroll() {
     
     elindex.style.overflowY = 'hidden';
     elview.style.overflowY = 'hidden';
-    elindex.addEventListener('touchmove', disableDefault);
-    elview.addEventListener('touchmove', disableDefault);
-
-    //classList.add("disable-scrolling");
-    
-}
-
-function disableDefault(p_event){
-    p_event.preventDefault();
 }
 
 function enableScroll() {
@@ -117,8 +108,7 @@ function enableScroll() {
     
     elindex.style.overflowY = 'auto';
     elview.style.overflowY = 'auto';
-    elindex.removeEventListener('touchmove', disableDefault);
-    elview.removeEventListener('touchmove', disableDefault);
+
     //classList.remove("disable-scrolling");
 }
 
