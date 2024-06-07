@@ -11,6 +11,7 @@
 
         <!-- ingest search bar data from stock_info.js -->
         <script src="../static/stock_info.js"></script>
+        <script src="../static/about.js"></script>
         <script src="../static/scripts.js"></script>
         <script src="../static/index.js"></script>
 
@@ -26,14 +27,16 @@
         </div>
 
         <div class="about" id="about" style="visibility: hidden">
-            <p class="about__text">A full stack personal project developed using Flask/Python/Jinja2, HTML, CSS, JS.
-                It gets and calculates real time market data from Yahoo's free APIs via yfinance.
-                 It is currently deployed on Heroku using mySQL as the backend database.</p>
+            <p class="about__text" id="about__text"></p>
             <p class="about__text about__text--end">Created by Andre Tong</p>
             <button class="about__button" onclick="hideAbout()">ok</button>
         </div>
 
-
+        <div class="about about--start" id="about-start" style="visibility: hidden">
+            <p class="about__text about__text--start">Credited 10 000k into this account!</p>
+            <p class="about__text about__text--start">Start by searching for stock to buy</p>
+            <button class="about__button" onclick="hideAboutStart()">ok</button>
+        </div>
 
         <header class="page-format page-format--header">
             <section class="dashboard">

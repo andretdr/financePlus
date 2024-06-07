@@ -37,9 +37,13 @@ def index():
     """ Main page """
     if request.method == 'GET':
 
+        startMsg = request.args.get('q')
+
         cash = func.returncash(db)
         cashdict = [{} for _ in range(1)]
         cashdict[0]['cash'] = str(cash)
+        # for initial start message        
+        cashdict[0]['start'] = startMsg
 
         data = viewf.dbReturnUserHoldingsDataALL(session['user_id'], db)
 
@@ -186,12 +190,13 @@ def register():
         return jsonify(statusarr)
 
     # if all is good, create account
-#    db.execute("INSERT INTO fin_users (username, hash) VALUES (%s, %s)", (cdusername.upper(), cdhash,))
-#    conn.commit()
+    db.execute("INSERT INTO fin_users (username, hash) VALUES (%s, %s)", (cdusername.upper(), cdhash,))
+    conn.commit()
 
     # sign in the user
     landf.signinuser(cdusername, db)
 
+    print(statusarr)
     return jsonify(statusarr)
 
 
@@ -213,22 +218,23 @@ def viewstock():
         returndata = json.dumps(data_b + data_a)
 
         if data_a[0]["status"] == 10:
-            return render_template("error.html", data = "Symbol not found")
+            return render_template("error.html", data = symbol.upper() + ' not found')
 
         return render_template("viewstock.html", data = returndata)
     
     else:
         clientdata = request.get_json()
         typedata = clientdata['type']
+        symbol = clientdata['symbol']
         # API call        
         if typedata == 'stock':
-            data = viewf.retrievedata(clientdata['symbol'])
+            data = viewf.retrievedata(symbol)
         # database call
         if typedata == 'holdings':
-            data = viewf.dbReturnUserHoldingsData(session['user_id'], clientdata['symbol'], db)
+            data = viewf.dbReturnUserHoldingsData(session['user_id'], symbol, db)
 
         if data[0]["status"] == 10:
-            return render_template("error.html", data = "Symbol not found")
+            return render_template("error.html", data = symbol.upper() + ' not found')
 
         return jsonify(data)
 

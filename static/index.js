@@ -1,5 +1,6 @@
 /** about pop up */
 function showAbout() {
+    updateWriteUp("about__text");
     let screen = document.getElementById('screen_about');
     let about = document.getElementById('about');
     screen.style.visibility = 'visible';
@@ -14,6 +15,22 @@ function hideAbout() {
     about.style.visibility = 'hidden';
 }
 
+/** aboutstart pop up */
+function showAboutStart() {
+    let screen = document.getElementById('screen_about');
+    let aboutstart = document.getElementById('about-start');
+    screen.style.visibility = 'visible';
+    aboutstart.style.visibility = 'visible';
+}
+
+
+/** aboutstart pop up */
+function hideAboutStart(){
+    let screen = document.getElementById('screen_about');
+    let aboutstart = document.getElementById('about-start');
+    screen.style.visibility = 'hidden';
+    aboutstart.style.visibility = 'hidden';
+}
 
 /** log out **/
 function logout() {
@@ -172,7 +189,11 @@ class indexController {
 
         this.cash = this.getCashFromRawData(rawdata);
         this.data = this.getDataFromRawData(rawdata);
-        
+
+        this.aboutstart = false;
+        if (rawdata[0]['start'] == 'start')
+            this.aboutstart = true;
+       
     }
 
     /** read html for data, parse to obj */
@@ -197,13 +218,9 @@ class indexController {
         return data;
     }
 
-    returnCash() {
-        return this.cash;
-    }
-
-    returnData() {
-        return this.data;
-    }
+    returnAboutStart(){return this.aboutstart;}
+    returnCash() {return this.cash;}
+    returnData() {return this.data;}
 
     async updateRawData() {
         // type = full, cash, holdings, sort = symb, quantity, avgcost
@@ -223,6 +240,13 @@ class indexView {
         // initialise
         this.controllerRef = argController;
 
+        if (this.controllerRef.returnAboutStart() == true)
+            this.renderAboutStart();
+    }
+
+    /** shows about start */
+    renderAboutStart(){
+        showAboutStart();
     }
 
     // update footer with info

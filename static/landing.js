@@ -126,8 +126,7 @@ function addEL_registerform(){
         registerprintstatus(addmessage(responseobj));
 
         if (isvalid(responseobj)){
-            console.log(responseobj)
-            window.location.href = "/";
+            window.location.href = "/?q=start";
         }
 
     });

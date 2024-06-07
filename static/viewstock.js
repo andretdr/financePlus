@@ -14,7 +14,8 @@ class viewController{
         this.symb = rawdata[0]['symb'];
         this.refreshVars(rawdata);
         this.refreshStockData(rawdata);
-        this.viewdata = '1d';    
+        this.viewdata = '1d';
+
     }
 
     /** updates and mantains all the dynamic holdings data on the view and buy/sell page */
@@ -205,8 +206,6 @@ class viewController{
         return switcher[this.viewdata];
     }
 
-
-
     returnStates(){return this.states;}
     returnStatus(){return this.status;}
     returnAvgcost(){return this.avgcost;}
@@ -244,6 +243,7 @@ class viewView{
         // initialise
         this.controllerRef = argController;
         this.buysellviewRef = argBuySellView;
+
     }
 
     /** main logic, renderpage. arg can be type='full', 'api', 'hdata'. */
@@ -274,6 +274,7 @@ class viewView{
     renderSymbol(){
         document.getElementById("viewlogo").innerHTML = `<h2>${this.controllerRef.returnSymb()}<h2>`;
     }
+
 
     /** takes in dictionary with 'symbol':symbol, 'status':status and prints error */
     renderviewpageError(argstatus){

@@ -91,6 +91,12 @@ async function fetcher(argroute, argmethod, argbody){
     return responseobj;
 }
 
+/** update given element with writeup from ./static/about.js */
+function updateWriteUp(param_id){
+    document.getElementById(param_id).innerHTML = aboutWriteUp;
+}
+
+
 function disableScroll() {
     // Get the current page scroll position
     let elindex = document.getElementById("page-layout");

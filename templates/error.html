@@ -1,8 +1,15 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<section>
-    <p> {{ data }} </p>
-</section>
+<main class="page-format page-format--error">
+    <div class="error-heading">
+        <p class="error-heading__item">{{ data }}</p>
+    </div>
+    <div class="error-body">
+        <div class="error-image">
+            <img src="../static/images/notfound.png" class="error-image__item">
+        </div>
+    </div>
+</main>
 {% endblock %}
 
