@@ -94,12 +94,32 @@ async function fetcher(argroute, argmethod, argbody){
 
 function disableScroll() {
     // Get the current page scroll position
-    document.getElementById("page-layout").classList.add("disable-scrolling");
+    let elindex = document.getElementById("page-layout");
+    let elview = document.getElementById("indexbody");
+    
+    elindex.style.overflowY = 'hidden';
+    elview.style.overflowY = 'hidden';
+    elindex.addEventListener('touchmove', disableDefault);
+    elview.addEventListener('touchmove', disableDefault);
+
+    //classList.add("disable-scrolling");
     
 }
 
+function disableDefault(p_event){
+    p_event.preventDefault();
+}
+
 function enableScroll() {
-    document.getElementById("page-layout").classList.remove("disable-scrolling");
+    // Get the current page scroll position
+    let elindex = document.getElementById("page-layout");
+    let elview = document.getElementById("indexbody");
+    
+    elindex.style.overflowY = 'auto';
+    elview.style.overflowY = 'auto';
+    elindex.removeEventListener('touchmove', disableDefault);
+    elview.removeEventListener('touchmove', disableDefault);
+    //classList.remove("disable-scrolling");
 }
 
 
