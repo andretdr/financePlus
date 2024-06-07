@@ -1130,7 +1130,7 @@
     .sellform {
         height: 300px;
         margin-top: 20px;
-        margin-bottom: 80px;
+        margin-bottom: 50px;
     }
 }
 
@@ -1147,7 +1147,7 @@
     .buyform {
         height: 180px;
         margin-top: 20px;
-        margin-bottom: 80px;
+        margin-bottom: 50px;
     }
 }
 
@@ -1193,15 +1193,16 @@
 @media only screen and (max-width: 650px){
 /** input bar **/
     .buysellform-container__input{
-        height: 60%;
+        height: 70%;
+        font-size: 28px;
     }
 }
-
 
 /** input bar **/
 .buysell__input:focus {
     border: 2px solid rgb(193, 232, 255);
     background-color: white;
+    
 }
 
 /** buy buttons container */
