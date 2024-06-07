@@ -41,14 +41,10 @@
         let interval = 3000;
         let count = 0;
         const indexpageinterval = setInterval(()=>{
-            console.log('repeating');
+
             view.refreshHoldingsPageV();
             // after 30s, increase interval to 6 secs
-            if (count == 10){
-                interval = 6000;
-            }
-            // after another minute terminal 
-            if (count == 20){
+            if (count == 30){
                 clearInterval(indexpageinterval);
             }
             count++;
