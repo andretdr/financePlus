@@ -33,8 +33,6 @@ def sellshares(argid, argsymb, argsharesamt, argclose, argdb, conn):
     #make sale
     status = sellsharesDB(argid, argsymb, argsharesamt, argclose, argdb, conn)
 
-    print(f"sellshares {status}")
-
     return status
 
 
@@ -143,8 +141,6 @@ def sellsharesDB(argid, argsymb, argsharesamt, argclose, argdb, conn):
 
     data = []
     data.append({'quantity':newquant, 'avgcost':avgcost, 'symbol':argsymb, 'cash':newcash, 'status':0})
-
-    print(data)
 
     return data
 

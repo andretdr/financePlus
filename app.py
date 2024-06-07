@@ -90,7 +90,6 @@ def index():
 @app.route('/landing')
 def landing():
     """ Login and Registration page """
-    print(yf.__version__)
     return render_template("landing.html")
 
 
@@ -109,7 +108,6 @@ def delete():
     data = request.get_json()
 
     if data['message'] == 'confirm':
-        print('confirm!')
         # delete account
         func.deleteAccountHoldings(session['user_id'], db)
         func.deleteAccountUsers(session['user_id'], db)
@@ -196,7 +194,6 @@ def register():
     # sign in the user
     landf.signinuser(cdusername, db)
 
-    print(statusarr)
     return jsonify(statusarr)
 
 
@@ -252,7 +249,6 @@ def buy():
 
     record = buysell.buyshares(session['user_id'], clientsymb, clientbuyamt, db, conn)
 
-    print(record)
     return jsonify(record)
 
 

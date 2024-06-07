@@ -120,16 +120,15 @@ class CC:
 
     def getConn(this):
         #returns a new connection, if connection is closed reconnects
-        try:
-            print(this.index)
-            newConn = this.conn_list[this.index]
-            this.nextIndex()
-            return newConn
-        except:
-            this.reconnect()
-            newConn = this.conn_list[this.index]
-            this.nextIndex()
-            return newConn
+#        try:
+        newConn = this.conn_list[this.index]
+        this.nextIndex()
+        return newConn
+ #       except:
+ #           this.reconnect()
+ #           newConn = this.conn_list[this.index]
+ #           this.nextIndex()
+ #           return newConn
 
     def reconnect(this):
         this.conn_pool = mysql_connpool()

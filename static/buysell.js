@@ -357,12 +357,10 @@ class buySellView{
     toggleClosePosition(){
         // toggle check box
         let el = document.getElementById('viewsellclose');
-        console.log("before"+el.checked)
         if (el.checked == true)
             el.checked = false;
         else
         el.checked = true;
-        console.log("after"+el.checked)
     }
 
     /** dynamically updates color for avilshares n refreshes est total 
@@ -515,9 +513,6 @@ class buySellView{
         let color = 'black';
 
         let esttotal = 0;
-
-        console.log('currprice = '+ argcurrprice)
-        console.log('qty = '+ availshares)
 
         if (sellid.checked == true){
             esttotal = argcurrprice*availshares;

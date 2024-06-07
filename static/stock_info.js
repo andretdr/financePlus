@@ -18,7 +18,7 @@ const stocklist = [
 ["AAP", "Advance Auto Parts Inc."], 
 ["AAPL", "Apple Inc. Common Stock"], 
 ["AAT", "American Assets Trust Inc. Common Stock"], 
-["AB", "AllianceBernstein Holding L.P.  Units"], 
+["AB", "AllianceBernstein Holding L.P.  Units"],
 ["ABAT", "American Battery Technology Company Common Stock"], 
 ["ABBV", "AbbVie Inc. Common Stock"], 
 ["ABCB", "Ameris Bancorp Common Stock"], 

@@ -110,7 +110,6 @@ class viewController{
     /** gets the raw data from HTML and returns an obj */
     getRawDataFromHTML(){
         let data = document.getElementById("datadump").value;
-        console.log(data);
         let dataobj = JSON.parse(data);
         return dataobj;
     }
@@ -482,7 +481,6 @@ class viewView{
         if (argdata !== null){
         // controller update data
             this.controllerRef.setQuantity(argdata[0]['quantity']);
-            console.log('qty = '+ this.controllerRef.returnQuantity());
             this.controllerRef.setAvgCost(argdata[0]['avgcost']);
             this.controllerRef.setCash(argdata[0]['cash']);
         }   

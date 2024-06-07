@@ -86,7 +86,7 @@ function updateSearchCounter(argcounter, arglength, argdir) {
         else
             counter += 1;
     }
-    console.log("counter aa:"+counter)
+
     return counter;
 }
 
@@ -227,7 +227,6 @@ class indexController {
         let argtype = "holdings"
         let dataobj = await fetcher('/', 'POST', {'status':'request', 'type':argtype});
         this.data = this.getDataFromRawData(dataobj);
-        console.log(this.data);
     }
     
 }
