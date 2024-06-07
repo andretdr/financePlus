@@ -234,9 +234,6 @@ class buySellView{
 
     /** show buy menu */
     showBuyMenu(){
-        // disable scrolling
-        disableScroll();
-
         const argstates = this.controllerRef.returnStates();
         const currprice = this.controllerRef.returnCurrprice()
 
@@ -247,6 +244,8 @@ class buySellView{
         this.buyindollars();
 
         //refresh page data
+        this.refreshbuysellsymbol();
+
         this.refreshbuypagecurrprice();
         this.refreshEstShares();
 
@@ -259,9 +258,6 @@ class buySellView{
 
     /** show sell menu */
     showSellMenu(){
-        // disable scrolling
-        disableScroll();
-
         document.getElementById("sellhideme").style.visibility = "visible";
         document.getElementById("buysell-menu__page").style.visibility = "visible";
         document.getElementById("viewsellclose").checked = false;
@@ -270,6 +266,8 @@ class buySellView{
         this.sellindollars();
 
         //refresh page data
+        this.refreshbuysellsymbol();
+
         this.refreshsellpagecurrprice();
         this.refreshSellEstShares();
         
@@ -433,6 +431,16 @@ class buySellView{
         document.getElementById("sellcurrentprice").innerHTML = `${argcurrprice.toFixed(2)}`
     }
 
+    /** refresh buysell page symbol */
+    refreshbuysellsymbol(){
+        let argsymbol = this.controllerRef.returnSymb();
+        let argstate = this.controllerRef.returnStates();
+        if (argstate['sell'] == true)
+            document.getElementById("sellsymbol").innerHTML = `${argsymbol}`;
+        else
+            document.getElementById("buysymbol").innerHTML = `${argsymbol}`;
+    }
+
     /** refresh est shares */
     refreshEstShares(){
         let argcurrprice = this.controllerRef.returnCurrprice();
@@ -545,7 +553,6 @@ class buySellView{
     addELselldollars(){
 
         let sellid = document.getElementById("viewselldollars");
-        sellid.focus({preventScroll:true});
         sellid.addEventListener('keyup', () => {
             this.updateselldollarspage();
             this.renderTxnMessage({"status":3});

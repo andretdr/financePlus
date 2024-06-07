@@ -91,7 +91,6 @@ async function fetcher(argroute, argmethod, argbody){
     return responseobj;
 }
 
-
 function disableScroll() {
     // Get the current page scroll position
     let elindex = document.getElementById("page-layout");
