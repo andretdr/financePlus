@@ -300,8 +300,23 @@
         viewview.renderpage();
 
         // refresh page every 8 secs
-        let interval = 6000;
-        const viewpageinterval = setInterval(()=>{viewview.refreshAPIDataServerV()}, interval);
+        let interval = 3000;
+        let count = 0;
+        const viewpageinterval = setInterval(()=>{
+            console.log('repeating');
+            viewview.refreshAPIDataServerV();
+            // after 30s, increase interval to 6 secs
+            if (count == 10){
+                interval = 6000;
+            }
+            // after another minute terminal 
+            if (count == 20){
+                clearInterval(viewpageinterval);
+            }
+            count++;
+            }, interval);
+
+
 
     </script>
 

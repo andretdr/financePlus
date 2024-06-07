@@ -1,1 +1,1 @@
-web: waitress-serve --port=$PORT --call app:create_app --threads=12
+web: waitress-serve --port=$PORT --threads ${WEB_CONCURRENCY:-12} --call app:create_app
