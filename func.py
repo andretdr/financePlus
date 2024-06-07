@@ -119,10 +119,17 @@ class CC:
         this.index = 0
 
     def getConn(this):
-        print(this.index)
-        newConn = this.conn_list[this.index]
-        this.nextIndex()
-        return newConn
+        #returns a new connection, if connection is closed reconnects
+        try:
+            print(this.index)
+            newConn = this.conn_list[this.index]
+            this.nextIndex()
+            return newConn
+        except:
+            this.reconnect()
+            newConn = this.conn_list[this.index]
+            this.nextIndex()
+            return newConn
 
     def reconnect(this):
         this.conn_pool = mysql_connpool()
@@ -130,6 +137,8 @@ class CC:
         this.conn_list.append(this.conn_pool.get_connection())
         this.conn_list.append(this.conn_pool.get_connection())
         this.conn_list.append(this.conn_pool.get_connection())
+
+        this.index = 0
 
     def closeConn(this):
         if this.conn.is_connected():

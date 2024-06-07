@@ -29,6 +29,7 @@ connClass = func.CC()
 @landf.loginRequired
 def index():
 
+    
     # handles DB connection
     conn = connClass.getConn()
     db = conn.cursor(dictionary=True, buffered=True)
