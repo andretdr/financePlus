@@ -1055,17 +1055,17 @@
 
 /** absolute menu page for buy/sell */
 .buysell-menu {
-    position: fixed;
+    position: absolute;
     max-width: 600px;
     width: 90%;
     height: 550px;
-    top: 50%;
+    top: 50vh;
     left: 50%;
-    transform: translate(-50%, -55%);
+    transform: translate(-50%, -50%);
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     background-color: var(--buysellmenuBG);
     border-radius: 20px;
-    z-index: 2;
+    z-index: 3;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -1076,6 +1076,8 @@
 /** absolute menu page sell overide*/
 @media only screen and (max-width: 650px){
     .buysell-menu {
+        top: 50vh;
+        left: 50%;
         transform: translate(-50%, -55%);
     }
 }
@@ -1089,7 +1091,6 @@
 @media only screen and (max-width: 650px){
     .buysell-menu--sell {
         height: 620px;
-        transform: translate(-50%, -51%);
     }
 }
 
