@@ -234,6 +234,9 @@ class buySellView{
 
     /** show buy menu */
     showBuyMenu(){
+        // disable scrolling
+        disableScroll();
+
         const argstates = this.controllerRef.returnStates();
         const currprice = this.controllerRef.returnCurrprice()
 
@@ -256,6 +259,9 @@ class buySellView{
 
     /** show sell menu */
     showSellMenu(){
+        // disable scrolling
+        disableScroll();
+
         document.getElementById("sellhideme").style.visibility = "visible";
         document.getElementById("buysell-menu__page").style.visibility = "visible";
         document.getElementById("viewsellclose").checked = false;
@@ -557,6 +563,9 @@ class buySellView{
 
     /** hide buy sell menus */
     closeBuySellMenu(){
+        // enable scrolling
+        enableScroll();
+
         let buysellmenu = document.getElementById("buyhideme");
         buysellmenu.style.visibility = "hidden";
 

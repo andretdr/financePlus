@@ -573,6 +573,7 @@ class viewView{
 
     /** handles the buy request */
     async buy(){
+
         const argstates = this.controllerRef.returnStates();
         const cash = parseFloat(this.controllerRef.returnCash());
         const symbol = this.controllerRef.returnSymb();

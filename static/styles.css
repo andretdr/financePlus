@@ -18,6 +18,13 @@
 	box-sizing: border-box;
 }
 
+/** disables scrolling **/
+.disable-scrolling{
+    height: 100%;
+    overflow: hidden;
+}
+
+
 /** handles vertical layout of the page **/
 .page-layout {
     display: flex;

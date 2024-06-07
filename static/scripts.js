@@ -92,6 +92,18 @@ async function fetcher(argroute, argmethod, argbody){
 }
 
 
+function disableScroll() {
+    // Get the current page scroll position
+    document.getElementById("page-layout").classList.add("disable-scrolling");
+    
+}
+
+function enableScroll() {
+    document.getElementById("page-layout").classList.remove("disable-scrolling");
+}
+
+
+
 
 
 
