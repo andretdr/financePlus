@@ -33,6 +33,7 @@ def mysql_connpool():
             host="ol5tz0yvwp930510.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
             port=3306,
             database="rl3utnqw5gapzw4n",
+#            connect_timeout=10,
             autocommit=True,
         )
     except mysql.connector.Error as e:
@@ -111,27 +112,29 @@ class CC:
     def __init__(this):
         # initialise pool
         this.conn_pool = mysql_connpool()
-        this.conn_list = []
-        this.conn_list.append(this.conn_pool.get_connection())
-        this.conn_list.append(this.conn_pool.get_connection())
-        this.conn_list.append(this.conn_pool.get_connection())
+#        this.conn_list = []
+        #this.conn_list.append(this.conn_pool.get_connection())
+        #this.conn_list.append(this.conn_pool.get_connection())
+        #this.conn_list.append(this.conn_pool.get_connection())
 
         this.index = 0
 
     def getConn(this):
         #returns a new connection, if connection is closed reconnects
-#        try:
-        newConn = this.conn_list[this.index]
-        this.nextIndex()
-        return newConn
- #       except:
- #           this.reconnect()
- #           newConn = this.conn_list[this.index]
- #           this.nextIndex()
- #           return newConn
+        try:
+            print("trying")
+            newConn = this.conn_list[this.index]
+            this.nextIndex()
+            return newConn
+        except:
+            print("reconnecting")
+            this.reconnect()
+            newConn = this.conn_list[this.index]
+            this.nextIndex()
+            return newConn
 
     def reconnect(this):
-        this.conn_pool = mysql_connpool()
+        #re-get connections
         this.conn_list = []
         this.conn_list.append(this.conn_pool.get_connection())
         this.conn_list.append(this.conn_pool.get_connection())
