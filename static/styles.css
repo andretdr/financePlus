@@ -1093,7 +1093,7 @@
     max-width: 600px;
     width: 90%;
     height: 550px;
-    top: 50vh;
+    top: 40vh;
     left: 50%;
     transform: translate(-50%, -50%);
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -1169,7 +1169,6 @@
     }
 }
 
-
 /** forms section on buysell menu **/
 .buyform {
     width: 100%;
@@ -1185,7 +1184,6 @@
         margin-bottom: 50px;
     }
 }
-
 
 /** buy forms container */
 .buysellform-container {

@@ -285,35 +285,36 @@
 
 </main>
 
+{% endblock %}
 
-    <script src="../static/viewstock.js"></script>
-    <script src="../static/buysell.js"></script>
-    <script>
+{% block script %}
 
-        const viewcontroller = new viewController();
-        const buysellview = new buySellView(viewcontroller);
-        const viewview = new viewView(viewcontroller, buysellview);
+<script src="../static/viewstock.js"></script>
+<script src="../static/buysell.js"></script>
+<script>
 
-        // initialise states
-        let states = {'buy':false, 'sell':false, 'bydollars':false, 'byshares':false};
+    const viewcontroller = new viewController();
+    const buysellview = new buySellView(viewcontroller);
+    const viewview = new viewView(viewcontroller, buysellview);
 
-        viewview.renderpage();
+    // initialise states
+    let states = {'buy':false, 'sell':false, 'bydollars':false, 'byshares':false};
 
-        // refresh page every 8 secs
-        let interval = 3000;
-        let count = 0;
-        const viewpageinterval = setInterval(()=>{
+    viewview.renderpage();
 
-            viewview.refreshAPIDataServerV();
-            // after 30s, increase interval to 6 secs
-            if (count == 30){
-                clearInterval(viewpageinterval);
-            }
-            count++;
-            }, interval);
+    // refresh page every 8 secs
+    let interval = 3000;
+    let count = 0;
+    const viewpageinterval = setInterval(()=>{
 
+        viewview.refreshAPIDataServerV();
+        // after 30s, increase interval to 6 secs
+        if (count == 30){
+            clearInterval(viewpageinterval);
+        }
+        count++;
+        }, interval);
 
-
-    </script>
+</script>
 
 {% endblock %}

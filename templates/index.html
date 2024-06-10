@@ -12,10 +12,10 @@
             <h2>My Holdings</h2>
         </div>
 
-        <div class="index-body__holdings" id="index-body__grid-insert">
+        <div class="index-body__holdings" id="index-body__grid-insert" style='visibility:hidden'>
         </div>
 
-        <div class="index-body__summary"  id="index-body__summary-insert">
+        <div class="index-body__summary"  id="index-body__summary-insert" style='visibility:hidden'>
         </div>
 
     </section>
@@ -31,26 +31,30 @@
     </section>
 
     <input type="hidden" id="datadump" name="datadump" value="{{ data }}">
-    <script>
-
-        const controller = new indexController();
-        const view = new indexView(controller);
-        view.refreshHoldingsPage();
-    
-        // refresh page every 8 secs
-        let interval = 3000;
-        let count = 0;
-        const indexpageinterval = setInterval(()=>{
-
-            view.refreshHoldingsPageV();
-            // after 30s, increase interval to 6 secs
-            if (count == 30){
-                clearInterval(indexpageinterval);
-            }
-            count++;
-            }, interval);
-
-
-    </script>
 {% endblock %}
 
+{% block script %}
+<script>
+
+    const controller = new indexController();
+    const view = new indexView(controller);
+    // show the elements only now so they dont pop as much
+    document.getElementById("index-body__grid-insert").style.visibility = "visible";
+    document.getElementById("index-body__summary-insert").style.visibility = "visible";
+    view.refreshHoldingsPage();
+
+    // refresh page every 8 secs
+    let interval = 3000;
+    let count = 0;
+    const indexpageinterval = setInterval(()=>{
+
+        view.refreshHoldingsPageV();
+        // after 30s, increase interval to 6 secs
+        if (count == 30){
+            clearInterval(indexpageinterval);
+        }
+        count++;
+        }, interval);
+
+</script>
+{% endblock %}
