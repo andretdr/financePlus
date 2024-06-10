@@ -114,7 +114,6 @@ function enableScroll() {
     elindex.style.overflowY = 'auto';
     elview.style.overflowY = 'auto';
 
-    //classList.remove("disable-scrolling");
 }
 
 

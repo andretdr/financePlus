@@ -28,7 +28,9 @@ def sellshares(argid, argsymb, argsharesamt, argclose, argdb, conn):
 
     #validation if its not a close
     if (not enoughSellingPower(totalquantity, argsharesamt)) and (not argclose):
-        return status
+        data = []
+        data.append(status)
+        return data
 
     #make sale
     status = sellsharesDB(argid, argsymb, argsharesamt, argclose, argdb, conn)
@@ -38,7 +40,7 @@ def sellshares(argid, argsymb, argsharesamt, argclose, argdb, conn):
 
 """ validate if user has enough money to buy """
 def enoughBuyingPower(argtotalcash, argcashamt):
-    if float(argtotalcash) > float(argcashamt):
+    if float(argtotalcash) >= float(argcashamt):
         return True
     else:
         return False
@@ -46,7 +48,7 @@ def enoughBuyingPower(argtotalcash, argcashamt):
 
 """ validate if user has enough money to buy """
 def enoughSellingPower(argtotalquantity, argsharesamt):
-    if float(argtotalquantity) > float(argsharesamt):
+    if float(argtotalquantity) >= float(argsharesamt):
         return True
     else:
         return False
@@ -127,7 +129,7 @@ def sellsharesDB(argid, argsymb, argsharesamt, argclose, argdb, conn):
     symbid = lookupSymbol(argsymb, argdb)
 
     # if holdings entry not found
-    if argclose: #remove entry
+    if newquant == 0: #remove entry
         executionstr = "DELETE FROM fin_holdings WHERE user_id = %s AND symb_id = %s"
         argdb.execute(executionstr, (argid, symbid))
     # if not, just update

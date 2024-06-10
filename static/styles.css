@@ -94,6 +94,7 @@
 .page-format--error {
     background-color: var(--mainBG);
     height: calc(100vh - 115px);
+    width: 100vw;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -759,8 +760,8 @@
     width: 100%;
     max-width: 700px;
     display: flex;
-    flex-flow: column;
-    justify-content: flex-start;
+    flex-flow: row;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -783,6 +784,30 @@
     color: rgb(96, 174, 238)
 }
 
+/** view heading container **/
+.view-body__market {
+    padding: 2px 2px;
+    width: 150px;
+    height: 50px;
+}
+
+/** market status */
+.market__status{
+    width: 100%;
+    height: 100%;
+    padding: 5px 10px 5px 0px;
+    text-transform: uppercase;
+    text-align: right;
+    font-size: 12px;
+}
+
+@media only screen and (max-width: 650px) {
+    /** market status */
+    .market__status{
+        font-size: 10px;
+    }
+}
+
 /** view buttons container **/
 .view-chart {
     position: relative;
@@ -790,10 +815,6 @@
     width: 90vw;
     height: 30vh;
 }
-
-/** actual graph rules
-#viewgraph{
-} */
 
 /** view buttons container **/
 .view-buttons-container {
@@ -1713,7 +1734,7 @@
 
 /** error heading container*/
 .error-heading{
-    width: 600px;
+    width: 100vw;
     height: 50px;
     display: flex;
     flex-direction: row;
@@ -1746,7 +1767,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 40px 0px 100px 0px
+    margin: 40px 10px 100px 10px
 }
 
 /** error heading container*/
@@ -1755,52 +1776,8 @@
     height: 100%
 }
 
-#viewcurrentprice {
-    font-size: x-large;
-}
-
-#viewdailyreturn {
-    font-size: medium;
-}
-
-#viewdailypercent {
-    font-size: medium;
-}
-
-#viewlogo {
-    font-size: xx-large;
-}
-
-.viewbuttonbuy {
-    font-size: xx-large;
-}
-
-.viewbuttonsell {
-    font-size: xx-large;
-}
-
-
-
-
-
-#buydollarsbuttoncontainer {
-    visibility: inherit;
-}
-
-#buysharesformcontainer {
-    visibility: inherit;
-}
-
-#buysharesbuttoncontainer {
-    visibility: inherit;
-}
-
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
-}
-
-input[type=number] {
-    -moz-appearance:textfield;
 }

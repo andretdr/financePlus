@@ -16,6 +16,8 @@ class viewController{
         this.refreshStockData(rawdata);
         this.viewdata = '1d';
 
+        this.getMarketStatus();
+
     }
 
     /** updates and mantains all the dynamic holdings data on the view and buy/sell page */
@@ -136,6 +138,26 @@ class viewController{
     }
 
 
+    /** records current market status */
+    getMarketStatus(){
+        const open = new Date();
+        open.setUTCHours(13);
+        open.setUTCMinutes(30);
+
+        const close = new Date();
+        close.setUTCHours(20);
+        open.setUTCMinutes(0);
+
+        const now = new Date();
+        if ((open <= now) && (now <= close)){
+            this.market_status = 'open';
+        }
+        else{
+            this.market_status = 'close';        
+        }
+    }
+    
+
     /** sets the buy page state */
     setState(buy, sell, dollars, shares, close){
 
@@ -205,6 +227,7 @@ class viewController{
         return switcher[this.viewdata];
     }
 
+    returnMarketStatus(){return this.market_status;}
     returnStates(){return this.states;}
     returnStatus(){return this.status;}
     returnAvgcost(){return this.avgcost;}
@@ -259,6 +282,8 @@ class viewView{
         // render Symbol
         this.renderSymbol();
 
+        this.renderMarketStatus();
+
         this.renderGraph(this.controllerRef.returnViewdata);
 
         this.disableGraphButton();
@@ -271,7 +296,7 @@ class viewView{
 
     /** renders symbol on page */
     renderSymbol(){
-        document.getElementById("viewlogo").innerHTML = `<h2>${this.controllerRef.returnSymb()}<h2>`;
+        document.getElementById("viewlogo").innerHTML = `<h2>${this.controllerRef.returnSymb()}</h2>`;
     }
 
 
@@ -488,10 +513,6 @@ class viewView{
         // disable sell button if no holdings
         this.disableSellButton();
 
-        // these 2 values dont need dynamic refreshing in the buy/sell menu
-//        this.buysellviewRef.updateAvailSharesTxnPage();
-//        this.buysellviewRef.updateCashTxnPage();
-
         // calling buysellviewRef function is used for refreshing data in the buy/sell menu
         this.buysellviewRef.renderBuySellData();
 
@@ -567,7 +588,12 @@ class viewView{
         document.getElementById('viewselldollars').value = '';
         document.getElementById('viewsellshares').value = '';
         document.getElementById('viewsellclose').checked = false;
-        document.getElementById("sellesttotal").innerHTML = `0.00`;
+        const argstate = this.controllerRef.returnStates();
+        if (argstate['bydollars'])
+            this.buysellviewRef.refreshSellEstShares();
+        if (argstate['byshares'])
+            this.buysellviewRef.refreshSellEstTotal();
+        //document.getElementById('sellesttotal').innerHTML = '0.00';
     }
 
     /** handles the buy request */
@@ -667,7 +693,6 @@ class viewView{
         if (responseobj[0]['status'] == 0){
             this.resetSellInput();
             this.updatePageHoldingsData(responseobj)
-            this.buysellviewRef.
             errorcolor = 'black'
         }
 
@@ -675,5 +700,23 @@ class viewView{
         
     }
 
+    renderMarketStatus(){
+        const argmarket_status = this.controllerRef.returnMarketStatus();
+        let market_status;
+        let color;
+
+        if (argmarket_status == 'open'){
+            market_status = 'MARKET OPEN';
+            color = 'green';
+        }
+        else{
+            market_status = 'MARKET CLOSE';
+            color = 'red';
+        }
+
+        let el = document.getElementById("market__status");
+        el.innerHTML = market_status;
+        el.style.color = color;        
+    }
 
 }

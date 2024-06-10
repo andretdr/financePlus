@@ -193,22 +193,6 @@ class buySellView{
         this.refreshEstShares();
     }
 
-    /** update cash buy page */
-    updateCashTxnPage(argcolor='black'){
-        const argstates = this.controllerRef.returnStates();
-        const cash = returnCash()
-    
-        if (argstates['buy']){
-            document.getElementById("buycash").innerHTML=`${parseFloat(cash).toFixed(2)}`;
-            document.getElementById("buycash").style.color = argcolor;
-        }
-
-        if (argstates['sell']){
-            document.getElementById("sellcashtotal").innerHTML=`${parseFloat(cash).toFixed(2)}`;
-        }
-
-    }
-
     /** dynamically updates color for cash n refreshes est dollars 
      *  based on curr price updates and input */
     updatebuysharespage(){

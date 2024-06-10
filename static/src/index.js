@@ -193,7 +193,9 @@ class indexController {
         this.aboutstart = false;
         if (rawdata[0]['start'] == 'start')
             this.aboutstart = true;
-       
+
+        this.getMarketStatus();
+
     }
 
     /** read html for data, parse to obj */
@@ -218,6 +220,26 @@ class indexController {
         return data;
     }
 
+    /** records current market status */
+    getMarketStatus(){
+        const open = new Date();
+        open.setUTCHours(13);
+        open.setUTCMinutes(30);
+
+        const close = new Date();
+        close.setUTCHours(20);
+        open.setUTCMinutes(0);
+
+        const now = new Date();
+        if ((open <= now) && (now <= close)){
+            this.market_status = 'open';
+        }
+        else{
+            this.market_status = 'close';        
+        }
+    }
+
+    returnMarketStatus(){return this.market_status;}
     returnAboutStart(){return this.aboutstart;}
     returnCash() {return this.cash;}
     returnData() {return this.data;}
@@ -290,8 +312,6 @@ class indexView {
 
         setTimeout(()=>{el.style.pointerEvents="auto";}, 1000);
     }
-
-
 
     /** main index page renderer */
     refreshHoldingsPage() {
@@ -391,6 +411,6 @@ class indexView {
 
         document.getElementById("index-body__grid-insert").innerHTML = html;
         document.getElementById("index-body__summary-insert").innerHTML = htmlsummary;
-//        this.updateFooter(this.controllerRef.returnCash(), totalpnl.toFixed(2));
+
     }
 }

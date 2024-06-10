@@ -213,6 +213,9 @@
     <section class="view-body">
         <div class="view-body view-body__heading" id="viewlogo">
         </div>
+        <div class="view-body view-body__market">
+            <div class="market__status" id="market__status"></div>
+        </div>
     </section>
 
     <!-- chart -->
@@ -289,10 +292,12 @@
 
 {% block script %}
 
-<script src="../static/viewstock.js"></script>
-<script src="../static/buysell.js"></script>
+<!--
+<script src="../static/src/viewstock.js"></script>
+<script src="../static/src/buysell.js"></script>-->
 <script>
 
+   
     const viewcontroller = new viewController();
     const buysellview = new buySellView(viewcontroller);
     const viewview = new viewView(viewcontroller, buysellview);
@@ -302,18 +307,20 @@
 
     viewview.renderpage();
 
-    // refresh page every 8 secs
-    let interval = 3000;
-    let count = 0;
-    const viewpageinterval = setInterval(()=>{
+    if (viewcontroller.returnMarketStatus() == 'open'){
+        // refresh page every 8 secs
+        let interval = 3000;
+        let count = 0;
+        const viewpageinterval = setInterval(()=>{
 
-        viewview.refreshAPIDataServerV();
-        // after 30s, increase interval to 6 secs
-        if (count == 30){
-            clearInterval(viewpageinterval);
-        }
-        count++;
-        }, interval);
+            viewview.refreshAPIDataServerV();
+            // after 30s, increase interval to 6 secs
+            if (count == 30){
+                clearInterval(viewpageinterval);
+            }
+            count++;
+            }, interval);
+    }
 
 </script>
 
