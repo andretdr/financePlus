@@ -650,6 +650,7 @@ class viewView{
         const symbol = this.controllerRef.returnSymb();
 
         let inputshares = 0;
+        let errorcolor='red';
 
         // get the input depending on the state
         if (argstates['bydollars']){
@@ -660,9 +661,12 @@ class viewView{
             inputshares = parseFloat(document.getElementById("viewsellshares").value);
         
         if (argstates['byclose'])
-            inputshares = quantity;
-
-        let errorcolor='red';
+            if (!this.buysellviewRef.checkClosePosition()){
+                this.buysellviewRef.renderTxnMessage({'status':4}, errorcolor)
+                return 1;
+            }
+            else
+                inputshares = quantity;
 
         // Client side check
         // if not enough shares

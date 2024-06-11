@@ -115,9 +115,3 @@ function enableScroll() {
     elview.style.overflowY = 'auto';
 
 }
-
-
-
-
-
-

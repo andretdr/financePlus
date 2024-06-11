@@ -337,6 +337,16 @@ class buySellView{
         this.refreshSellEstTotal(color);
     }
 
+    /** returns if close position is checked or not */
+    checkClosePosition(){
+        // if its a by close state, then
+        if ((this.controllerRef.returnStates())['byclose']){
+            let el = document.getElementById('viewsellclose');
+            return el.checked;
+        } // if not, return false
+        else return false
+    }
+
     /** toggles the close position */
     toggleClosePosition(){
         // toggle check box

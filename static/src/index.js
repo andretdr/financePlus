@@ -105,7 +105,7 @@ function setActiveSearch(argcounter) {
 function onHoverSearch(argcounter) {
     setActiveSearch(argcounter);
     // changing page var
-    searchcounter = argcounter;
+    searchbarEvents.searchcounter = argcounter;
 }
 
 
