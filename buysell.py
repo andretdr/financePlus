@@ -3,7 +3,7 @@ import func, viewf
 """ handles the buying shares """
 def buyshares(argid, argsymb, argcashamt, argdb, conn):
 
-    totalcash = func.returncash(argdb)
+    totalcash = func.returncash(argdb, argid)
 
     #assume status is erroneous
     status = {'status':1}
@@ -59,7 +59,7 @@ def buysharesDB(argid, argsymb, argcashamt, argdb, conn):
 
     quantity = 0
     avgcost = 0
-    cash = func.returncash(argdb)
+    cash = func.returncash(argdb, argid)
 
     # retrieving USER holdings data
     rows = viewf.dbReturnUserHoldingsData(argid, argsymb, argdb)
@@ -111,7 +111,7 @@ def sellsharesDB(argid, argsymb, argsharesamt, argclose, argdb, conn):
     avgcost = rows[0]['avgcost']
 
     # calculate new cash, new quanity in holdings
-    cash = func.returncash(argdb)
+    cash = func.returncash(argdb, argid)
     currprice = viewf.returncurrprice(argsymb)
     delta = 0
 

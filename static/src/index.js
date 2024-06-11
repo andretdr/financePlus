@@ -305,6 +305,27 @@ class indexView {
         this.refreshHoldingsPage()
     }
 
+    /** displays the market status based on this.controllerRef.returnMarketStatus() */
+    renderMarketStatus(){
+        const argmarket_status = this.controllerRef.returnMarketStatus();
+        let market_status;
+        let color;
+
+        if (argmarket_status == 'open'){
+            market_status = 'MARKET OPEN';
+            color = 'green';
+        }
+        else{
+            market_status = 'MARKET CLOSE';
+            color = 'red';
+        }
+
+        let el = document.getElementById("holdings__market");
+        el.innerHTML = market_status;
+        el.style.color = color;        
+    }
+
+
     /** disables index body for 1 sec */
     disableSelf(param_id) {
         let el = document.getElementById(param_id);

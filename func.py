@@ -52,13 +52,13 @@ def returnUserName(argid, argdb):
 
 
 """ returns cash of current user """
-def returncash(argdb):
+def returncash(argdb, pid):
 
 #    with argdb:
 #        with argdb.cursor() as cursor:
 #            cursor.execute("SELECT cash FROM fin_users WHERE id = %s", (session['user_id'],))
 
-    argdb.execute("SELECT cash FROM fin_users WHERE id = %s", (session['user_id'],))
+    argdb.execute("SELECT cash FROM fin_users WHERE id = %s", (pid,))
     row = argdb.fetchall()
 #    row = cursor.fetchall()
 
@@ -117,14 +117,30 @@ class CC:
     def getConn(this):
         #returns a new connection, if connection is closed reconnects
         try:
+            print('trying...')
             newConn = this.conn_list[this.index]
+            if not newConn.is_connected():
+                print('not connected, reconnecting...')
+                this.reconnect()
+                newConn = this.conn_list[this.index]
             this.nextIndex()
             return newConn
         except:
-            this.reconnect()
-            newConn = this.conn_list[this.index]
-            this.nextIndex()
-            return newConn
+            try:
+                print('reconnecting...')
+                this.reconnect()
+                newConn = this.conn_list[this.index]
+                this.nextIndex()
+                return newConn
+            except:
+                print('reinitialising pool...')
+                this.conn_pool = mysql_connpool()
+                this.index = 0
+                this.reconnect()
+                newConn = this.conn_list[this.index]
+                this.nextIndex()
+                return newConn
+
 
     def reconnect(this):
         #re-get connections

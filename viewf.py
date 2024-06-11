@@ -1,7 +1,8 @@
 from flask import session
-import datetime, time
+import datetime, time, math
 import func, buysell
 import pandas as pd
+import threading
 
 import yfinance as yf
 """ https://aroussi.com/post/python-yahoo-finance """
@@ -27,56 +28,105 @@ def retrievedata(argsymb):
     """
 
     status = []
-    status.append({'status':10})
-   
-    try:
-        enddate = datetime.datetime.now()
+    status.append({'status':0})
 
-        symb = yf.Ticker(argsymb)
+    enddate = datetime.datetime.now()
 
-        dailydict = []
-        weeklydict = []
-        monthlydict = []
-        threemlydict = []
-        yearlydict = []
+    symb = yf.Ticker(argsymb)
 
-        dailydf = (symb.history(period="1d", interval="5m")).reset_index()
-        # convert column datetime into string time
-        dailydf['Range'] = dailydf['Datetime'].dt.strftime("%H:%M")
-        dailydict.append(dailydf[list({'Range', 'Close'})].to_dict('records'))
+    dailydict = []
+    weeklydict = []
+    monthlydict = []
+    threemlydict = []
+    yearlydict = []
 
-        weeklydf = (symb.history(start=returndatef(returnstartdate(enddate, 7)), end=returndatef(enddate), interval="60m")).reset_index()
-        # convert column datetime into string time
-        weeklydf['Range'] = weeklydf['Datetime'].dt.strftime("%a")
-        weeklydict.append(weeklydf[list({'Range', 'Close'})].to_dict('records'))
+    prevdayclose = []
+    prevweekclose = []
+    prevmonthclose = []
+    prevthreemclose = []
+    prevyearclose = [] 
 
-        monthlydf = (symb.history(start=returndatef(returnstartdate(enddate, 30)), end=returndatef(enddate), interval="1d")).reset_index()
-        # convert column datetime into string date
-        monthlydf['Range'] = monthlydf['Date'].dt.strftime("%d %b")
-        monthlydict.append(monthlydf[list({'Range', 'Close'})].to_dict('records'))
+    currentprice = []
 
-        threemlydf = (symb.history(start=returndatef(returnstartdate(enddate, 90)), end=returndatef(enddate), interval="1d")).reset_index()
-        # convert column datetime into string date
-        threemlydf['Range'] = threemlydf['Date'].dt.strftime("%d %b")
-        threemlydict.append(threemlydf[list({'Range', 'Close'})].to_dict('records'))
+    def block_a(p_daily, p_weekly, pstatus):
+        try:
+            dailydf = (symb.history(period="1d", interval="5m")).reset_index()
+            # convert column datetime into string time
+            dailydf['Range'] = dailydf['Datetime'].dt.strftime("%H:%M")
+            p_daily.append(dailydf[list({'Range', 'Close'})].to_dict('records'))
+
+            weeklydf = (symb.history(start=returndatef(returnstartdate(enddate, 7)), end=returndatef(enddate), interval="60m")).reset_index()
+            # convert column datetime into string time
+            weeklydf['Range'] = weeklydf['Datetime'].dt.strftime("%a")
+            p_weekly.append(weeklydf[list({'Range', 'Close'})].to_dict('records'))
+        except:
+            pstatus[0]['status'] = 10
 
 
-        yearlydf = (symb.history(start=returndatef(returnstartdate(enddate, 365)), end=returndatef(enddate), interval="1wk")).reset_index()
-        # convert column datetime into string date
-        yearlydf['Range'] = yearlydf['Date'].dt.strftime("%d %b")
-        yearlydict.append(yearlydf[list({'Range', 'Close'})].to_dict('records'))
+    def block_b(p_monthly, p_threem, pstatus):
+        try:
+            monthlydf = (symb.history(start=returndatef(returnstartdate(enddate, 30)), end=returndatef(enddate), interval="1d")).reset_index()
+            # convert column datetime into string date
+            monthlydf['Range'] = monthlydf['Date'].dt.strftime("%d %b")
+            p_monthly.append(monthlydf[list({'Range', 'Close'})].to_dict('records'))
 
+            threemlydf = (symb.history(start=returndatef(returnstartdate(enddate, 90)), end=returndatef(enddate), interval="1d")).reset_index()
+            # convert column datetime into string date
+            threemlydf['Range'] = threemlydf['Date'].dt.strftime("%d %b")
+            p_threem.append(threemlydf[list({'Range', 'Close'})].to_dict('records'))
+        except:
+            pstatus[0]['status'] = 10
+
+
+    def block_c(p_yearly, pstatus):
+        try:
+            yearlydf = (symb.history(start=returndatef(returnstartdate(enddate, 365)), end=returndatef(enddate), interval="1wk")).reset_index()
+            # convert column datetime into string date
+            yearlydf['Range'] = yearlydf['Date'].dt.strftime("%d %b")
+            p_yearly.append(yearlydf[list({'Range', 'Close'})].to_dict('records'))
+        except:
+            pstatus[0]['status'] = 10
+
+
+    def block_d(p_day, p_week, p_month, pstatus):
         # get prev info
-        prevdayclose = returnprevinfo(symb, '1d')
-        prevweekclose = returnprevinfo(symb, '1w')
-        prevmonthclose = returnprevinfo(symb, '1m')
-        prevthreemclose = returnprevinfo(symb, '3m')
-        prevyearclose = returnprevinfo(symb, '1y')
+        try:
+            p_day += returnprevinfo(symb, '1d')
+            p_week += returnprevinfo(symb, '1w')
+            p_month += returnprevinfo(symb, '1m')
+        except:
+            pstatus[0]['status'] = 10
+    
+    
+    def block_e(p_threem, p_year, cp, pstatus):
+        try:
+            p_threem += returnprevinfo(symb, '3m')
+            p_year += returnprevinfo(symb, '1y')
+            cp += [{'currentPrice': symb.info['currentPrice']}]
+        except:
+            pstatus[0]['status'] = 10
+        
+    # multi threading to speed up processing
+#        start = time.time()
+    blocka_thread = threading.Thread(target=block_a, args=(dailydict, weeklydict, status,))
+    blockb_thread = threading.Thread(target=block_b, args=(monthlydict, threemlydict, status,))
+    blockc_thread = threading.Thread(target=block_c, args=(yearlydict, status,))
+    blockd_thread = threading.Thread(target=block_d, args=(prevdayclose, prevweekclose, prevmonthclose, status,))
+    blocke_thread = threading.Thread(target=block_e, args=(prevthreemclose, prevyearclose, currentprice, status,))
 
-        # get current price
-        currentprice = [{'currentPrice': symb.info['currentPrice']}]
+    blocka_thread.start()
+    blockb_thread.start()
+    blockc_thread.start()
+    blockd_thread.start()
+    blocke_thread.start()
 
-    except: # if error reading symb
+    blocka_thread.join()
+    blockb_thread.join()
+    blockc_thread.join()
+    blockd_thread.join()
+    blocke_thread.join()
+
+    if status[0]['status'] != 0:
         return status
 
     # setting up bookmarks for easy navigation
@@ -94,6 +144,8 @@ def retrievedata(argsymb):
 
     finaldata = status + currentprice + prevdayclose + prevweekclose + prevmonthclose + prevthreemclose + prevyearclose + daybm + dailydict + weekbm + weeklydict + monthbm + monthlydict + threembm + threemlydict + yearbm + yearlydict
     
+
+
     return finaldata
 
 
@@ -157,22 +209,34 @@ def returnprevinfo(argsymb, argrange):
 
 """ return stock quantity, avgcost, cash, symb data from db given userid and db """
 def dbReturnUserHoldingsData(argid, argsymb, argdb):
-    
-    argdb.execute("SELECT cash FROM fin_users WHERE fin_users.id = %s", (argid,))
-    rows = argdb.fetchall()
-    cash = str(rows[0]['cash'])
 
-    symbid = buysell.lookupSymbol(argsymb, argdb)
+    rows = []
+
+    # get cash from db
+    def block_a(pid, pdb):
+        pdb.execute("SELECT cash FROM fin_users WHERE fin_users.id = %s", (pid,))
+        rows = pdb.fetchall()
+        return str(rows[0]['cash'])
+
+    # get rest of info from db
+    def block_b(prows, pid, psymb, pdb):
+        # execute seperately incase the row doesnt exist, if new transaction
+        symbid = buysell.lookupSymbol(psymb, pdb)
+
+        pdb.execute("SELECT quantity, avgcost, cash FROM fin_holdings INNER JOIN fin_users ON fin_holdings.user_id = fin_users.id WHERE user_id = %s AND symb_id = %s", (pid, symbid,))
+
+#        pdb.execute("SELECT quantity, avgcost FROM fin_holdings WHERE user_id = %s AND symb_id = %s", (pid, symbid,))
+        prows += argdb.fetchall()
+    
+    block_b(rows, argid, argsymb, argdb)
+
     data = []
-
-    # execute seperately incase the row doesnt exist, if new transaction
-    argdb.execute("SELECT quantity, avgcost FROM fin_holdings WHERE user_id = %s AND symb_id = %s", (argid, symbid,))
-    rows = argdb.fetchall()
-    
     # handles null cases
     if len(rows) == 0:
+        cash = block_a(argid, argdb)
         data.append({'avgcost':0, 'quantity':0, 'symb':argsymb, 'cash':cash, 'status':9})
     else:
+        cash = str(rows[0]['cash'])
         data.append({'avgcost':rows[0]['avgcost'], 'quantity':rows[0]['quantity'], 'symb':argsymb, 'cash':cash, 'status':0})
     
     return data

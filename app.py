@@ -6,6 +6,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 import buysell, func, landf, viewf, mysql.connector
 import yfinance as yf
+import threading
 
 # Configure application
 app = Flask(__name__)
@@ -39,19 +40,33 @@ def index():
 
         startMsg = request.args.get('q')
 
-        cash = func.returncash(db)
         cashdict = [{} for _ in range(1)]
-        cashdict[0]['cash'] = str(cash)
         # for initial start message        
         cashdict[0]['start'] = startMsg
 
         data = viewf.dbReturnUserHoldingsDataALL(session['user_id'], db)
 
-        apidata = viewf.returnCPPC(data)
+        # db call
+        def block_a(pdb, pcashdict, pid):
+            cash = func.returncash(pdb, pid)
+            pcashdict[0]['cash'] = str(cash)
 
-        for i in range(len(data)):
-            data[i]['currprice'] = apidata[i]['currprice']
-            data[i]['prevclose'] = apidata[i]['prevclose']
+        # API call
+        def block_b(pdata):
+            apidata = viewf.returnCPPC(pdata)
+
+            for i in range(len(pdata)):
+                pdata[i]['currprice'] = apidata[i]['currprice']
+                pdata[i]['prevclose'] = apidata[i]['prevclose']
+
+        blocka_thread = threading.Thread(target=block_a, args=(db, cashdict, session['user_id'],))
+        blockb_thread = threading.Thread(target=block_b, args=(data,))
+
+        blocka_thread.start()
+        blockb_thread.start()
+
+        blocka_thread.join()
+        blockb_thread.join()
 
         returndata = json.dumps(cashdict + data)
 
@@ -66,7 +81,7 @@ def index():
 
         # checks what to do depending on the type of request
         if clienttype == 'full' or clienttype == 'cash':
-            cash = func.returncash(db)
+            cash = func.returncash(db, session['user_id'])
             cashdict[0]['cash'] = cash
 
         data = []
@@ -207,10 +222,29 @@ def viewstock():
 
     if request.method == "GET" :
         symbol = request.args.get('q')
+        data_a = []
+        data_b = []
+        
         # API call
-        data_a = viewf.retrievedata(symbol)
+        def block_a(p_dataa, psymbol):
+            p_dataa += viewf.retrievedata(psymbol)
+
         # database call
-        data_b = viewf.dbReturnUserHoldingsData(session['user_id'], symbol, db)
+        def block_b(p_datab, p_id, psymbol, pdb):
+            p_datab += viewf.dbReturnUserHoldingsData(p_id, psymbol, pdb)
+
+#        start = time.time()
+        blocka_thread = threading.Thread(target=block_a, args=(data_a, symbol,))
+        blockb_thread = threading.Thread(target=block_b, args=(data_b, session['user_id'], symbol, db,))
+
+        blocka_thread.start()
+        blockb_thread.start()
+
+        blocka_thread.join()
+        blockb_thread.join()
+
+#        end = time.time()
+#        print(f'total : {end-start}')
 
         returndata = json.dumps(data_b + data_a)
 

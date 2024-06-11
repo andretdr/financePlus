@@ -10,6 +10,7 @@
 
         <div class="index-body__heading">
             <h2>My Holdings</h2>
+            <div class="market__status" id="holdings__market"></div>
         </div>
 
         <div class="index-body__holdings" id="index-body__grid-insert" style='visibility:hidden'>
@@ -41,6 +42,8 @@
     // show the elements only now so they dont pop as much
     document.getElementById("index-body__grid-insert").style.visibility = "visible";
     document.getElementById("index-body__summary-insert").style.visibility = "visible";
+
+    view.renderMarketStatus();
     view.refreshHoldingsPage();
 
     if (controller.returnMarketStatus() == 'open'){

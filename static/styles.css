@@ -472,16 +472,19 @@
 
 /** index body heading container **/
 .index-body__heading {
-    align-self: flex-start;
-    width: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
     height: 65px;
 }
 
 /** index body heading **/
 .index-body__heading h2{
-    width: 100%;
-    height: 100%;
-    margin: 20px 30px;
+    width: 230px;
+    height: 50px;
+    margin: 0px 0px;
     text-transform: uppercase;
     font-size: 30px;
     font-weight: 700;
@@ -786,16 +789,16 @@
 
 /** view heading container **/
 .view-body__market {
-    padding: 2px 2px;
-    width: 150px;
+    padding: 2px 0px;
+    width: 110px;
     height: 50px;
 }
 
 /** market status */
 .market__status{
-    width: 100%;
-    height: 100%;
-    padding: 5px 10px 5px 0px;
+    width: 100px;
+    height: 40px;
+    padding: 5px 8px 5px 0px;
     text-transform: uppercase;
     text-align: right;
     font-size: 12px;
