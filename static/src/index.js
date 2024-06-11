@@ -70,86 +70,58 @@ function hideConfirmDel() {
     confirm_element.style.display = 'none';
 }
 
-/**  updates the search counter on the arrow keys. argdir accepts "up", "down" **/
-function updateSearchCounter(argcounter, arglength, argdir) {
-    let counter = argcounter;
-
-    if (argdir == "up"){
-        if (counter <= 0)
-            counter = arglength-1;
-        else
-            counter -= 1;
-    }
-    if (argdir == "down"){ // if "down"
-        if (counter >= arglength-1)
-            counter = 0;
-        else
-            counter += 1;
-    }
-
-    return counter;
-}
-
-/**  set color **/
-function setActiveSearch(argcounter) {
-    searchlist = document.getElementsByClassName("search-menu__items");
-    // reset color on all items
-    for (let i = 0; i < searchlist.length; i++)
-        searchlist[i].style.backgroundColor="rgb(227, 245, 255)";
-
-    // highlight the selected item
-    searchlist[argcounter].style.backgroundColor="rgb(233, 127, 137)";
-}
-
-/** on hover, set the new highlight, return new counter **/
-function onHoverSearch(argcounter) {
-    setActiveSearch(argcounter);
-    // changing page var
-    searchbarEvents.searchcounter = argcounter;
-}
-
-
 /** nested function for closure on variables */
-function searchbarEvents(){
-    let searchcounter = -1; // keeps track of current search item
-    let newlist = true; // keeps track if list is new
+class searchBarClass {
 
+    constructor(){
+        this.searchcounter = -1; // keeps track of current search item
+        this.newlist = true; // keeps track if list is new
+
+        this.searchbarEL = document.getElementById("searchbar");
+
+        // catch up, down or enter key on search results
+        this.searchbarEL.addEventListener('keydown', event => {this.Keydown(event)});
+    
+        // catch search logic on any other key
+        this.searchbarEL.addEventListener('keyup', event => {this.Keyup(event)});
+
+    }
     /** on search bar keydown run this **/
-    function Keydown(event) {
+    Keydown(event) {
 
         const key = event.key;
         // reset list if not up, down or enter key
         if ((key !== "ArrowUp") && (key !== "ArrowDown") && (key !== "Enter")){
-            newlist = true;
+            this.newlist = true;
             return;
         }
 
-        if (newlist)
-            searchcounter = -1 // initialise searchcounter
+        if (this.newlist)
+            this.searchcounter = -1 // initialise searchcounter
 
         const searchlist = document.getElementsByClassName("search-menu__items");
         const listlength = searchlist.length;
         
         if (key === "ArrowUp")
-            searchcounter = updateSearchCounter(searchcounter, listlength, "up");
+            this.searchcounter = this.updateSearchCounter(this.searchcounter, listlength, "up");
 
         if (key === "ArrowDown")
-            searchcounter = updateSearchCounter(searchcounter, listlength, "down");
+            this.searchcounter = this.updateSearchCounter(this.searchcounter, listlength, "down");
         
         if (key === "Enter")
-            searchlist[searchcounter].click();
+            searchlist[this.searchcounter].click();
 
-        setActiveSearch(searchcounter);
+        this.setActiveSearch(this.searchcounter);
         
-        newlist = false; // using the same list until it resets
+        this.newlist = false; // using the same list until it resets
     };
 
     /** on search bar keyup run this **/
-    function Keyup(event) {
+    Keyup(event) {
 
-        let input = searchbar.value;
+        let input = this.searchbarEL.value;
         // dont proceed if there is no new list to generate
-        if (!newlist) 
+        if (!this.newlist) 
             return;
 
         let html = `<section class="search-menu">`;
@@ -162,7 +134,7 @@ function searchbarEvents(){
                 if (stock[0].startsWith(input)){
                     html += `
                             <a class="search-menu__items" href="/viewstock?q=${stock[0]}" 
-                            onmouseover="onHoverSearch(${counter})">
+                            onmouseover="searchClass.onHoverSearch(${counter})">
                             <div> ${stock[0]} | ${stock[1]} </div></a>`;
                     counter ++;
                     // if we list 6 already then break
@@ -175,7 +147,46 @@ function searchbarEvents(){
         document.getElementById("searchstatus").innerHTML = html;
     };
 
-    return {Keyup, Keydown}
+    /** on hover, set the new highlight, return new counter **/
+    onHoverSearch(argcounter) {
+        this.setActiveSearch(argcounter);
+        // changing page var
+        this.searchcounter = argcounter;
+    }
+
+    /**  set color **/
+    setActiveSearch(argcounter) {
+        let searchlist = document.getElementsByClassName("search-menu__items");
+        // reset color on all items
+        for (let i = 0; i < searchlist.length; i++)
+            searchlist[i].style.backgroundColor="rgb(227, 245, 255)";
+
+        // highlight the selected item
+        searchlist[argcounter].style.backgroundColor="rgb(233, 127, 137)";
+    }
+
+    /**  updates the search counter on the arrow keys. argdir accepts "up", "down" **/
+    updateSearchCounter(argcounter, arglength, argdir) {
+        let counter = argcounter;
+
+        if (argdir == "up"){
+            if (counter <= 0)
+                counter = arglength-1;
+            else
+                counter -= 1;
+        }
+        if (argdir == "down"){ // if "down"
+            if (counter >= arglength-1)
+                counter = 0;
+            else
+                counter += 1;
+        }
+
+        return counter;
+    }
+
+
+
 }
 
 

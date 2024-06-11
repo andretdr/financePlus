@@ -76,30 +76,24 @@
 </html>
 
 <!-- ingest search bar data from stock_info.js -->
-
+<!--
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="../static/src/stock_info.js"></script>
 <script src="../static/src/about.js"></script>
 <script src="../static/src/scripts.js"></script>
-<script src="../static/src/index.js"></script>
+<script src="../static/src/index.js"></script>-->
 
-<!--
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="../static/dist/main.js"></script>-->
+<script src="../static/dist/main.js"></script>
 
 <!-- chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% block script %}{% endblock %}
 
 <script>
-    // searchbar script
-    let searchbar = document.getElementById("searchbar");
 
-    const searchevents = searchbarEvents();
+    const searchClass = new searchBarClass();
 
-    // catch up, down or enter key on search results
-    searchbar.addEventListener('keydown', event => {searchevents.Keydown(event)});
-    
-    // catch search logic on any other key
-    searchbar.addEventListener('keyup', event => {searchevents.Keyup(event)});
+
 </script>
