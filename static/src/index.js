@@ -428,18 +428,18 @@ class indexView {
         // handling the summary box
         let htmlsummary = ``;
         const cash = this.controllerRef.returnCash();
-        equity += parseFloat(cash);
+        //equity += parseFloat(cash);
         let totalvalue = parseFloat(cash) + equity;
 
         htmlsummary += `
             <div class="summary-item">
-                <div class="sitem__each sitem__each--cashtext">Cash Available</div>
-                <div class="sitem__each sitem__each--cashunit">$</div>
-                <div class="sitem__each sitem__each--cash">${cash}</div>
-
                 <div class="sitem__each sitem__each--returntext">Unrealised Returns</div>
                 <div class="sitem__each sitem__each--returnunit">$</div>
                 <div class="sitem__each sitem__each--return">${totalpnl.toFixed(2)}</div>
+
+                <div class="sitem__each sitem__each--cashtext">Cash Available</div>
+                <div class="sitem__each sitem__each--cashunit">$</div>
+                <div class="sitem__each sitem__each--cash">${cash}</div>
 
                 <div class="sitem__each sitem__each--equitytext">Equity</div>
                 <div class="sitem__each sitem__each--equityunit">$</div>

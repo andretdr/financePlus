@@ -23,7 +23,7 @@ document.getElementById("viewsellclose").checked&&(d=a*b,0==d&&(c="red"));docume
 this.renderTxnMessage({status:3});this.controllerRef.setState(!1,!1,!1,!1,!1)}hideallbuy(){document.getElementById("buydollarsformcontainer").style.display="none";document.getElementById("buydollarsbuttoncontainer").style.display="none";document.getElementById("buysharesformcontainer").style.display="none";document.getElementById("buysharesbuttoncontainer").style.display="none"}hideallsell(){document.getElementById("selldollarsformcontainer").style.display="none";document.getElementById("selldollarsbuttoncontainer").style.display=
 "none";document.getElementById("sellsharesformcontainer").style.display="none";document.getElementById("sellsharesbuttoncontainer").style.display="none";document.getElementById("sellcloseformcontainer").style.display="none";document.getElementById("sellclosebuttoncontainer").style.display="none"}}function showAbout(){updateWriteUp("about__text");let a=document.getElementById("screen_about"),b=document.getElementById("about");a.style.visibility="visible";b.style.visibility="visible"}
 function hideAbout(){let a=document.getElementById("screen_about"),b=document.getElementById("about");a.style.visibility="hidden";b.style.visibility="hidden"}function showAboutStart(){let a=document.getElementById("screen_about"),b=document.getElementById("about-start");a.style.visibility="visible";b.style.visibility="visible"}function hideAboutStart(){let a=document.getElementById("screen_about"),b=document.getElementById("about-start");a.style.visibility="hidden";b.style.visibility="hidden"}
-function linkDisable(a){let el=document.getElementById(a);el.classList.add("link__disable")}function logout(){location.assign("/logout")}async function deleteAccount(){"confirm"==(await fetcher("/delete","POST",{message:"confirm"})).message&&location.assign("/landing")}function toggleProfile(){let a=document.getElementById("profile-menu__page");a.style.display="none"==a.style.display?"flex":"none"}
+function linkDisable(a){document.getElementById(a).classList.add("link__disable")}function logout(){location.assign("/logout")}async function deleteAccount(){"confirm"==(await fetcher("/delete","POST",{message:"confirm"})).message&&location.assign("/landing")}function toggleProfile(){let a=document.getElementById("profile-menu__page");a.style.display="none"==a.style.display?"flex":"none"}
 function showConfirmDel(){document.getElementById("profile-menu__del").style.display="none";document.getElementById("profile-menu__confirm").style.display="grid"}function hideConfirmDel(){document.getElementById("profile-menu__del").style.display="flex";document.getElementById("profile-menu__confirm").style.display="none"}
 class searchBarClass{constructor(){this.searchcounter=-1;this.newlist=!0;this.searchbarEL=document.getElementById("searchbar");this.searchbarEL.addEventListener("keydown",a=>{this.Keydown(a)});this.searchbarEL.addEventListener("keyup",a=>{this.Keyup(a)})}Keydown(a){a=a.key;if("ArrowUp"!==a&&"ArrowDown"!==a&&"Enter"!==a)this.newlist=!0;else{this.newlist&&(this.searchcounter=-1);var b=document.getElementsByClassName("search-menu__items"),c=b.length;"ArrowUp"===a&&(this.searchcounter=this.updateSearchCounter(this.searchcounter,
 c,"up"));"ArrowDown"===a&&(this.searchcounter=this.updateSearchCounter(this.searchcounter,c,"down"));"Enter"===a&&b[this.searchcounter].click();this.setActiveSearch(this.searchcounter);this.newlist=!1}}Keyup(a){a=this.searchbarEL.value;if(this.newlist){var b='<section class="search-menu">';if(a){a=a.toUpperCase();let c=0;for(let d of stocklist)if(d[0].startsWith(a)&&(b+=`
@@ -56,15 +56,15 @@ a+=`
                             </div>
                             <div class="hitem__each hitem__each--value"><data class="hitem__data">$${h}</data></div>
                             <div class="hitem__each hitem__each--pnl">
-                    `+g+"       </div>\n                        </div>\n                    </a>\n                    "}b="";e=this.controllerRef.returnCash();d+=parseFloat(e);f=parseFloat(e)+d;b+=`
+                    `+g+"       </div>\n                        </div>\n                    </a>\n                    "}b="";e=this.controllerRef.returnCash();f=parseFloat(e)+d;b+=`
             <div class="summary-item">
-                <div class="sitem__each sitem__each--cashtext">Cash Available</div>
-                <div class="sitem__each sitem__each--cashunit">$</div>
-                <div class="sitem__each sitem__each--cash">${e}</div>
-
                 <div class="sitem__each sitem__each--returntext">Unrealised Returns</div>
                 <div class="sitem__each sitem__each--returnunit">$</div>
                 <div class="sitem__each sitem__each--return">${c.toFixed(2)}</div>
+
+                <div class="sitem__each sitem__each--cashtext">Cash Available</div>
+                <div class="sitem__each sitem__each--cashunit">$</div>
+                <div class="sitem__each sitem__each--cash">${e}</div>
 
                 <div class="sitem__each sitem__each--equitytext">Equity</div>
                 <div class="sitem__each sitem__each--equityunit">$</div>
