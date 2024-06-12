@@ -465,6 +465,25 @@ class viewView{
         });
     }
 
+    /** timed refresh for holdings page */
+    timedRefresh(){
+        if (controller.returnMarketStatus() == 'open')
+        {
+            // refresh page every 8 secs
+            let interval = 3000;
+            let count = 0;
+            const indexpageinterval = setInterval(()=>{
+
+                this.refreshAPIDataServerV();
+                // after 30s, increase interval to 6 secs
+                if (count == 30){
+                    clearInterval(indexpageinterval);
+                }
+                count++;
+                }, interval);
+        }
+    }
+
     /** render the stock data */
     renderviewinfo(){
 
@@ -628,16 +647,17 @@ class viewView{
         // Good to transact
         // disable button
         document.getElementById("buy-button").disabled = true;
-        setTimeout(()=>{document.getElementById("buy-button").disabled = false;}, 4000);
+        this.buysellviewRef.renderTxnMessage({'status':5});
         // server POST
         let responseobj = await fetcher('/buy', 'POST', {'symbol':symbol, 'buyamt':input});
 
         // if all went well, refresh
         if (responseobj[0]['status'] == 0){
-            errorcolor = 'black';
+            errorcolor = 'green';
             this.resetBuyInput();
             this.updatePageHoldingsData(responseobj);
         }
+        document.getElementById("buy-button").disabled = false;
 
         this.buysellviewRef.renderTxnMessage(responseobj[0], errorcolor);
     }
@@ -689,7 +709,8 @@ class viewView{
         // Good to transact
         // disable button for 3 secs
         document.getElementById("sell-button").disabled = true;
-        setTimeout(()=>{document.getElementById("sell-button").disabled = false;}, 4000);
+        this.buysellviewRef.renderTxnMessage({'status':5});
+
         // server POST
         let responseobj = await fetcher('/sell', 'POST', body);
 
@@ -697,8 +718,9 @@ class viewView{
         if (responseobj[0]['status'] == 0){
             this.resetSellInput();
             this.updatePageHoldingsData(responseobj)
-            errorcolor = 'black'
+            errorcolor = 'green'
         }
+        document.getElementById("sell-button").disabled = false;
 
         this.buysellviewRef.renderTxnMessage(responseobj[0], errorcolor);
         

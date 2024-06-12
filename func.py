@@ -147,7 +147,7 @@ class CC:
         this.conn_list = []
         this.conn_list.append(this.conn_pool.get_connection())
         this.conn_list.append(this.conn_pool.get_connection())
-        this.conn_list.append(this.conn_pool.get_connection())
+#        this.conn_list.append(this.conn_pool.get_connection())
 
         this.index = 0
 
@@ -157,5 +157,5 @@ class CC:
             this.db.close()
 
     def nextIndex(this):
-        this.index = (this.index + 1) % 3
+        this.index = (this.index + 1) % 2#3
 

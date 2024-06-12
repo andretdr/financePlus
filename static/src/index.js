@@ -23,13 +23,18 @@ function showAboutStart() {
     aboutstart.style.visibility = 'visible';
 }
 
-
 /** aboutstart pop up */
 function hideAboutStart(){
     let screen = document.getElementById('screen_about');
     let aboutstart = document.getElementById('about-start');
     screen.style.visibility = 'hidden';
     aboutstart.style.visibility = 'hidden';
+}
+
+/** disable logo **/
+function linkDisable(p_id){
+    let el = document.getElementById(p_id);
+    el.classList.add("link__disable");
 }
 
 /** log out **/
@@ -133,8 +138,8 @@ class searchBarClass {
             for (let stock of stocklist) {
                 if (stock[0].startsWith(input)){
                     html += `
-                            <a class="search-menu__items" href="/viewstock?q=${stock[0]}" 
-                            onmouseover="searchClass.onHoverSearch(${counter})">
+                            <a class="search-menu__items" id="search-${counter}"href="/viewstock?q=${stock[0]}" 
+                            onmouseover="searchClass.onHoverSearch(${counter})" onclick="linkDisable('search-${counter}')">
                             <div> ${stock[0]} | ${stock[1]} </div></a>`;
                     counter ++;
                     // if we list 6 already then break
@@ -373,7 +378,7 @@ class indexView {
             let quantity = dataobj[i]['quantity'];
             let avgcost = dataobj[i]['avgcost'];
             let prevclose = dataobj[i]['prevclose'];
-            let dailypnl = ((currprice - prevclose)/prevclose).toFixed(2);
+            let dailypnl = ((currprice - prevclose)/prevclose * 100).toFixed(2);
 
             let marketvalue = (currprice*quantity).toFixed(2);
             let totalcost = (avgcost*quantity).toFixed(2);
@@ -396,7 +401,7 @@ class indexView {
                 pnlhtml = `<data style="color:${green}">$${pnl}&uarr;</data>`
     
             html += `
-                    <a href="/viewstock?q=${symb}" id="id-${symb}" onclick="view.disableSelf('id-${symb}')">
+                    <a href="/viewstock?q=${symb}" id="id-${symb}" onclick="linkDisable('id-${symb}')">
                         <div class="holding-item">
                             <div class="hitem__each hitem__each--symb"><data>${symb}</data></div>
                             <div class="hitem__each hitem__each--cp"><data>$${currprice}</data></div>
@@ -424,6 +429,7 @@ class indexView {
         let htmlsummary = ``;
         const cash = this.controllerRef.returnCash();
         equity += parseFloat(cash);
+        let totalvalue = parseFloat(cash) + equity;
 
         htmlsummary += `
             <div class="summary-item">
@@ -431,13 +437,18 @@ class indexView {
                 <div class="sitem__each sitem__each--cashunit">$</div>
                 <div class="sitem__each sitem__each--cash">${cash}</div>
 
-                <div class="sitem__each sitem__each--returntext">Total Unrealised Returns</div>
+                <div class="sitem__each sitem__each--returntext">Unrealised Returns</div>
                 <div class="sitem__each sitem__each--returnunit">$</div>
                 <div class="sitem__each sitem__each--return">${totalpnl.toFixed(2)}</div>
 
-                <div class="sitem__each sitem__each--equitytext">Total Equity</div>
+                <div class="sitem__each sitem__each--equitytext">Equity</div>
                 <div class="sitem__each sitem__each--equityunit">$</div>
                 <div class="sitem__each sitem__each--equity">${equity.toFixed(2)}</div>
+
+                <div class="sitem__each sitem__each--valuetext">Total Value</div>
+                <div class="sitem__each sitem__each--valueunit">$</div>
+                <div class="sitem__each sitem__each--value">${totalvalue.toFixed(2)}</div>
+
             </div>
         `;
 
@@ -445,4 +456,25 @@ class indexView {
         document.getElementById("index-body__summary-insert").innerHTML = htmlsummary;
 
     }
+
+    /** timed refresh for holdings page */
+    timedRefresh(){
+        if (controller.returnMarketStatus() == 'open')
+        {
+            // refresh page every 8 secs
+            let interval = 3000;
+            let count = 0;
+            const indexpageinterval = setInterval(()=>{
+
+                this.refreshHoldingsPageV();
+                // after 30s, increase interval to 6 secs
+                if (count == 30){
+                    clearInterval(indexpageinterval);
+                }
+                count++;
+                }, interval);
+        }
+    }
+
 }
+

@@ -46,20 +46,7 @@
     view.renderMarketStatus();
     view.refreshHoldingsPage();
 
-    if (controller.returnMarketStatus() == 'open'){
-        // refresh page every 8 secs
-        let interval = 3000;
-        let count = 0;
-        const indexpageinterval = setInterval(()=>{
-
-            view.refreshHoldingsPageV();
-            // after 30s, increase interval to 6 secs
-            if (count == 30){
-                clearInterval(indexpageinterval);
-            }
-            count++;
-            }, interval);
-    }
+    view.timedRefresh();
 
 </script>
 {% endblock %}

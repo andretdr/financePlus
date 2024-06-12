@@ -4,7 +4,8 @@ const transactionStatus =   [   "Transaction Made",
                                 "Insufficient Funds available",
                                 "Insufficient Shares available",
                                 "",
-                                "Input cannot be zero"
+                                "Input cannot be zero",
+                                "Placing Order..."
                             ];
 
 class buySellView{

@@ -108,7 +108,6 @@
     }
 }
 
-
 /** navbar container **/
 .dashboard {
     width: 100%;
@@ -158,6 +157,11 @@
     text-align: center;
     font-weight: 500;
     font-size: 100%;
+}
+
+/** for disable link **/
+.link__disable{
+    pointer-events: none;
 }
 
 /** navbar searchbar container **/
@@ -660,7 +664,7 @@
     position: sticky;
     bottom: 0;
     width: 100%;
-    height: 100px;
+    height: 110px;
     padding: 10px 20px;
     margin-top: 80px;
     text-decoration: none;
@@ -680,7 +684,7 @@
     height: 100%;
     display: grid;
     grid-template-columns: 1fr 150px 30px 80px;
-    grid-template-rows: 23px 23px 30px;
+    grid-template-rows: 21px 21px 21px 28px;
     justify-content: center;
 }
 
@@ -689,7 +693,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-size: 12px;
+    font-size: 11px;
     color:rgb(255, 255, 255);
 }
 
@@ -709,7 +713,7 @@
 .sitem__each--cash {
     grid-column: 4 / 5;
     grid-row: 1 / 2;
-    font-size: 17px;
+    font-size: 16px;
     justify-content: flex-end;
 }
 
@@ -729,7 +733,7 @@
 .sitem__each--return {
     grid-column: 4 / 5;
     grid-row: 2 / 3;
-    font-size: 17px;
+    font-size: 16px;
     justify-content: flex-end;
 }
 
@@ -749,10 +753,29 @@
 .sitem__each--equity {
     grid-column: 4 / 5;
     grid-row: 3 / 4;
-    font-size: 20px;
+    font-size: 16px;
     justify-content: flex-end;
 }
 
+/** position for valuetxt **/
+.sitem__each--valuetext {
+    grid-column: 2 / 3;
+    grid-row: 4 / 5;
+}
+
+/** position for valueunit **/
+.sitem__each--valueunit {
+    grid-column: 3 / 4;
+    grid-row: 4 / 5;
+}
+
+/** position for value **/
+.sitem__each--value {
+    grid-column: 4 / 5;
+    grid-row: 4 / 5;
+    font-size: 18px;
+    justify-content: flex-end;
+}
 /** filler section **/
 .filler {
     flex: 5;

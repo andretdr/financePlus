@@ -306,21 +306,7 @@
     let states = {'buy':false, 'sell':false, 'bydollars':false, 'byshares':false};
 
     viewview.renderpage();
-
-    if (viewcontroller.returnMarketStatus() == 'open'){
-        // refresh page every 8 secs
-        let interval = 3000;
-        let count = 0;
-        const viewpageinterval = setInterval(()=>{
-
-            viewview.refreshAPIDataServerV();
-            // after 30s, increase interval to 6 secs
-            if (count == 30){
-                clearInterval(viewpageinterval);
-            }
-            count++;
-            }, interval);
-    }
+    viewview.timedRefresh();
 
 </script>
 
