@@ -46,6 +46,8 @@ def index():
 
         data = viewf.dbReturnUserHoldingsDataALL(session['user_id'], db)
 
+#        print(f"data : {data}")
+
         # db call
         def block_a(pdb, pcashdict, pid):
             cash = func.returncash(pdb, pid)

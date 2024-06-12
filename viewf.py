@@ -175,7 +175,7 @@ def returnprevinfo(argsymb, argrange):
     
     match argrange:
         case '1d':
-            startdate = returnstartdate(enddate, 2)
+            startdate = returnstartdate(enddate, 3)
             varname = 'prevdayclose'
         case '1w':
             startdate = returnstartdate(enddate, 8)
@@ -193,10 +193,10 @@ def returnprevinfo(argsymb, argrange):
     prevclose = []
 
     if (argrange == '1d'):
-        prevclosedf = argsymb.history(period='2d')
+        prevclosedf = argsymb.history(period='3d')
         newdf = prevclosedf.reset_index()
 
-        prevclose.append({'prevdayclose':newdf.iloc[0]['Close'], 'dayopen':newdf.iloc[1]['Open'], 'prevclosedate':returndatef2(newdf.iloc[0]['Date'])})
+        prevclose.append({'prevdayclose':newdf.iloc[len(newdf)-2]['Close'], 'dayopen':newdf.iloc[len(newdf)-1]['Open'], 'prevclosedate':returndatef2(newdf.iloc[0]['Date'])})
         
     else: 
         prevclosedf = argsymb.history(start=returndatef(startdate), end=returndatef(enddate))
@@ -265,7 +265,11 @@ def returnCPPC(argholdingsdata):
         symbstr += item['symb'] + ' '
 
     # initialise API
-    data = yf.download(symbstr, period='2d')
+    data = yf.download(symbstr, period='3d')
+
+# turns out yfinance drops rows once in awhile, causing errors on occasion.
+# for example, 2024-06-11 and 2024-05-27
+#    print(f'API data {data}')
 
     # initialise list of dict
     returndata = [{} for _ in range(len(argholdingsdata))]
@@ -277,8 +281,8 @@ def returnCPPC(argholdingsdata):
             closeinfo = data['Close']
         else:
             closeinfo = data['Close'][symb]
-        returndata[i]['currprice'] = closeinfo.iloc[1]
-        returndata[i]['prevclose'] = closeinfo.iloc[0]
+        returndata[i]['currprice'] = closeinfo.iloc[len(closeinfo) - 1]
+        returndata[i]['prevclose'] = closeinfo.iloc[len(closeinfo) - 2]
 
     return returndata
 
