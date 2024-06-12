@@ -23,7 +23,8 @@ Please feel free to ping me if you ever want to try it out!
 
 ## Design and development
 The app is developed using Flask/Python/Jinja2, HTML, CSS, JS.  
-It is designed based on the MVC design pattern. It abstracts server side Python and MySQL to the Model, and on the client side uses JS classes which handle updating view content and controller logic separately.
+
+It is designed based on the MVC design pattern. It abstracts server side Python and MySQL to the Model, and on the client side uses JS classes which handle updating view content and controller logic separately.  
 
 CSS is organised in the BEM methodology.  
 JS files are compressed using google closure compiler.  
