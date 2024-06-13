@@ -15,6 +15,7 @@ class viewController{
         this.refreshVars(rawdata);
         this.refreshStockData(rawdata);
         this.viewdata = '1d';
+        this.apierror = rawdata[0]['apierror'];
 
         this.getMarketStatus();
 
@@ -112,7 +113,18 @@ class viewController{
     /** gets the raw data from HTML and returns an obj */
     getRawDataFromHTML(){
         let data = document.getElementById("datadump").value;
-        let dataobj = JSON.parse(data);
+        let dataobj;
+        // if there is NAN API errors, flag API errors true
+        try{
+            dataobj = JSON.parse(data);
+        }
+        catch{
+            dataobj = JSON.parse(data.replace(/\bNaN\b/g, "0"));//JSON.parse(data);
+            dataobj[0]['apierror'] = true;
+        }
+        if (!dataobj[0]['apierror'])
+            dataobj[0]['apierror'] = false;
+
         return dataobj;
     }
 
@@ -227,6 +239,7 @@ class viewController{
         return switcher[this.viewdata];
     }
 
+    returnAPIerror(){return this.apierror;}
     returnMarketStatus(){return this.market_status;}
     returnStates(){return this.states;}
     returnStatus(){return this.status;}
@@ -282,6 +295,8 @@ class viewView{
         // render Symbol
         this.renderSymbol();
 
+        this.renderAPIError();
+
         this.renderMarketStatus();
 
         this.renderGraph(this.controllerRef.returnViewdata);
@@ -291,7 +306,13 @@ class viewView{
         this.renderviewinfo();
 
         this.updatePageHoldingsData();
+    }
 
+    /** if there is API error, render it */
+    renderAPIError(){
+        let el = document.getElementById("view-body__error");
+        if (this.controllerRef.returnAPIerror() == true)
+            el.style.display = 'block';
     }
 
     /** renders symbol on page */

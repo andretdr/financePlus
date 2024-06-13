@@ -94,6 +94,12 @@ def retrievedata(argsymb):
             p_day += returnprevinfo(symb, '1d')
             p_week += returnprevinfo(symb, '1w')
             p_month += returnprevinfo(symb, '1m')
+
+#            if math.isnan(p_day[0]['prevdayclose']):
+#                raise ValueError
+
+        except ValueError:
+            pstatus[0]['status'] = 11
         except:
             pstatus[0]['status'] = 10
     
@@ -144,8 +150,6 @@ def retrievedata(argsymb):
 
     finaldata = status + currentprice + prevdayclose + prevweekclose + prevmonthclose + prevthreemclose + prevyearclose + daybm + dailydict + weekbm + weeklydict + monthbm + monthlydict + threembm + threemlydict + yearbm + yearlydict
     
-
-
     return finaldata
 
 
@@ -196,7 +200,10 @@ def returnprevinfo(argsymb, argrange):
         prevclosedf = argsymb.history(period='3d')
         newdf = prevclosedf.reset_index()
 
-        prevclose.append({'prevdayclose':newdf.iloc[len(newdf)-2]['Close'], 'dayopen':newdf.iloc[len(newdf)-1]['Open'], 'prevclosedate':returndatef2(newdf.iloc[0]['Date'])})
+        index1 = newdf.iloc[len(newdf)-2]['Close']
+        index2 = newdf.iloc[len(newdf)-1]['Open']
+
+        prevclose.append({'prevdayclose':index1, 'dayopen':index2, 'prevclosedate':returndatef2(newdf.iloc[0]['Date'])})
         
     else: 
         prevclosedf = argsymb.history(start=returndatef(startdate), end=returndatef(enddate))
@@ -267,12 +274,8 @@ def returnCPPC(argholdingsdata):
     # initialise API
     data = yf.download(symbstr, period='3d')
 
-# turns out yfinance drops rows once in awhile, causing errors on occasion.
-# for example, 2024-06-11 and 2024-05-27
-#    print(f'API data {data}')
-
     # initialise list of dict
-    returndata = [{} for _ in range(len(argholdingsdata))]
+    returndata = [{} for _ in range(len(argholdingsdata) + 1)]
 
     for i in range(len(argholdingsdata)):
         symb = argholdingsdata[i]['symb']
@@ -283,6 +286,15 @@ def returnCPPC(argholdingsdata):
             closeinfo = data['Close'][symb]
         returndata[i]['currprice'] = closeinfo.iloc[len(closeinfo) - 1]
         returndata[i]['prevclose'] = closeinfo.iloc[len(closeinfo) - 2]
+
+    # turns out yfinance drops rows once in awhile, causing errors on occasion.
+    # for example, 2024-06-11 and 2024-05-27
+    # will flag this
+
+    if len(data) == 3:
+        returndata[len(returndata)-1]['rowmissing'] = 'false'
+    else:
+        returndata[len(returndata)-1]['rowmissing'] = 'true'
 
     return returndata
 

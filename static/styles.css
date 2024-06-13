@@ -477,6 +477,15 @@
 /** index body heading container **/
 .index-body__heading {
     display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    min-height: 65px;
+}
+
+/** index body heading group for holdings n market status **/
+.index-body__regularhead{
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
@@ -485,14 +494,21 @@
 }
 
 /** index body heading **/
-.index-body__heading h2{
+.index-body__regularhead h2{
     width: 230px;
-    height: 50px;
+    min-height: 50px;
     margin: 0px 0px;
     text-transform: uppercase;
     font-size: 30px;
     font-weight: 700;
     color: var(--darkblue);
+}
+
+/** index error heading **/
+.index-body__errorhead{
+    font-size: 15px;
+    color: red;
+
 }
 
 /** index body holdings **/
@@ -836,6 +852,15 @@
     width: 100%;
     max-width: 700px;
     display: flex;
+    flex-flow: column;
+    justify-content: flex-start
+}
+
+/** view entire header container **/
+.view-body__header {
+    width: 100%;
+    min-height: 60px;
+    display: flex;
     flex-flow: row;
     justify-content: space-between;
     align-items: center;
@@ -882,6 +907,13 @@
     .market__status{
         font-size: 10px;
     }
+}
+
+/** error msg for corrupt api data */
+.view-body__error{
+    font-size: 14px;
+    color: red;
+    margin: 0 15px 10px 15px;
 }
 
 /** view buttons container **/

@@ -9,8 +9,13 @@
     <section class="index-body">
 
         <div class="index-body__heading">
-            <h2>My Holdings</h2>
-            <div class="market__status" id="holdings__market"></div>
+            <div class="index-body__regularhead">
+                <h2>My Holdings</h2>
+                <div class="market__status" id="holdings__market"></div>
+            </div>
+            <div class="index-body__errorhead" id="index-body__errorhead" style="display: none">
+                <div>*Yahoo API appears to be dropping data. Today's data may not be accurate</div>
+            </div>
         </div>
 
         <div class="index-body__holdings" id="index-body__grid-insert" style='visibility:hidden'>
@@ -45,6 +50,7 @@
 
     view.renderMarketStatus();
     view.refreshHoldingsPage();
+    view.updateAPICorrectness();
 
 //    view.timedRefresh();
 

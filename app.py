@@ -16,20 +16,12 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-
+# setup DB connection
 connClass = func.CC()
-
-#conn = func.mysql_conn()
-#db = conn.cursor(dictionary=True, buffered=True)
-
-#conn_pool = func.mysql_connpool()
-#conn = conn_pool.get_connection()
-#db = conn.cursor(dictionary = True)
 
 @app.route('/', methods=['GET', 'POST'])
 @landf.loginRequired
 def index():
-
     
     # handles DB connection
     conn = connClass.getConn()
@@ -61,6 +53,9 @@ def index():
                 pdata[i]['currprice'] = apidata[i]['currprice']
                 pdata[i]['prevclose'] = apidata[i]['prevclose']
 
+            pdata += [{}]
+            pdata[len(pdata)-1] = apidata[len(apidata)-1]
+
         blocka_thread = threading.Thread(target=block_a, args=(db, cashdict, session['user_id'],))
         blockb_thread = threading.Thread(target=block_b, args=(data,))
 
@@ -69,6 +64,9 @@ def index():
 
         blocka_thread.join()
         blockb_thread.join()
+
+        cashdict[0]['rowmissing'] = data[len(data)-1]['rowmissing']
+        data.pop(len(data)-1)
 
         returndata = json.dumps(cashdict + data)
 
@@ -252,6 +250,8 @@ def viewstock():
 
         if data_a[0]["status"] == 10:
             return render_template("error.html", data = symbol.upper() + ' not found')
+        if data_a[0]["status"] == 11:
+            return render_template("error.html", data = "API data missing")
 
         return render_template("viewstock.html", data = returndata)
     
@@ -268,6 +268,9 @@ def viewstock():
 
         if data[0]["status"] == 10:
             return render_template("error.html", data = symbol.upper() + ' not found')
+        
+        if data[0]["status"] == 11:
+            return render_template("error.html", data = "API data missing")
 
         return jsonify(data)
 

@@ -203,8 +203,11 @@ class indexController {
         // initialise
         let rawdata = this.getRawDataFromHTML();
 
+        console.log(rawdata);
+
         this.cash = this.getCashFromRawData(rawdata);
         this.data = this.getDataFromRawData(rawdata);
+        this.apierror = this.getRowMissingFromRawData(rawdata);
 
         this.aboutstart = false;
         if (rawdata[0]['start'] == 'start')
@@ -224,6 +227,11 @@ class indexController {
     /**  read the string and JSON.parse it into object */
     getCashFromRawData(argRawData){
         return parseFloat(argRawData[0]['cash']).toFixed(2);
+    }
+
+    /**  return if there is API error */
+    getRowMissingFromRawData(argRawData){
+        return argRawData[0]['rowmissing'];
     }
 
     /**  return just the data list without the 1st cash entry */
@@ -259,6 +267,7 @@ class indexController {
     returnAboutStart(){return this.aboutstart;}
     returnCash() {return this.cash;}
     returnData() {return this.data;}
+    returnAPIError() {return this.apierror;}
 
     async updateRawData() {
         // type = full, cash, holdings, sort = symb, quantity, avgcost
@@ -284,6 +293,13 @@ class indexView {
     /** shows about start */
     renderAboutStart(){
         showAboutStart();
+    }
+
+    updateAPICorrectness() {
+        let el = document.getElementById('index-body__errorhead');
+        if (this.controllerRef.returnAPIError() === 'true'){
+            el.style.display = 'block';
+        }
     }
 
     // update footer with info
