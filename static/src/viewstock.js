@@ -1,6 +1,6 @@
 
 function backToMain(){
-    el = document.getElementById("backtomain");
+    let el = document.getElementById("backtomain");
     el.disabled = true;
     window.location.href = "/";
 }
