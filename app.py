@@ -65,7 +65,10 @@ def index():
         blocka_thread.join()
         blockb_thread.join()
 
-        cashdict[0]['rowmissing'] = data[len(data)-1]['rowmissing']
+        if data[0] == {}:
+            cashdict[0]['rowmissing'] = 'false'
+        else:
+            cashdict[0]['rowmissing'] = data[len(data)-1]['rowmissing']
         data.pop(len(data)-1)
 
         returndata = json.dumps(cashdict + data)
