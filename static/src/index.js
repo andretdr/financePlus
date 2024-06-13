@@ -203,8 +203,6 @@ class indexController {
         // initialise
         let rawdata = this.getRawDataFromHTML();
 
-        console.log(rawdata);
-
         this.cash = this.getCashFromRawData(rawdata);
         this.data = this.getDataFromRawData(rawdata);
         this.apierror = this.getRowMissingFromRawData(rawdata);
