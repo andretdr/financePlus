@@ -7,6 +7,15 @@ Please feel free to ping me if you ever want to try it out!
 
 [Primer Video](https://youtu.be/QBfx-Er88Kk)
 
+# Development
+The app is developed using Flask/Python/Jinja2, HTML, CSS, JS.
+
+CSS is organised in the BEM methodology.
+JS files are compressed using google closure compiler.
+App optimizations are done using google lighthouse.
+
+It runs on Pylons/Waitress WSGI server and is currently deployed on Heroku using JawsDB for its MYSQL database.
+
 # Full feature list
 
 ## Login and Registry page
@@ -67,15 +76,6 @@ The app uses the following data and calculations to display its data
 - Equity = Sum of all Market Value for all the tickers in the holding
 - Cash = How much liquid Cash the user has in his account
 - Total Value = Cash + Equity
-
-# Development
-The app is developed using Flask/Python/Jinja2, HTML, CSS, JS.
-
-CSS is organised in the BEM methodology.
-JS files are compressed using google closure compiler.
-App optimizations are done using google lighthouse.
-
-It runs on Pylons/Waitress WSGI server and is currently deployed on Heroku using JawsDB for its MYSQL database.
 
 # Known Bugs
 - Yahoo Finance API appears to drop data once in awhile. For now I am simply flagging a warning when this is detected. [source1](https://stackoverflow.com/questions/40111621/yahoo-finance-api-missing-data-for-certain-days) [source2](https://www.reddit.com/r/algotrading/comments/wzimgy/anyone_else_seeing_massive_chunks_of_data_missing/)
