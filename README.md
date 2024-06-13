@@ -81,3 +81,6 @@ The app uses the following data and calculations to display its data
 - Yahoo Finance API appears to drop data once in awhile. For now I am simply flagging a warning when this is detected. [source1](https://stackoverflow.com/questions/40111621/yahoo-finance-api-missing-data-for-certain-days) [source2](https://www.reddit.com/r/algotrading/comments/wzimgy/anyone_else_seeing_massive_chunks_of_data_missing/)
 - Index Page displays a warning when stock data is missing
 - View Stock Page displays a warning when stock data is missing
+
+# What can be improved?
+- There is alot of wasted connections to the DB for extracting information on the timed refreshes. Data storage and retrival can be designed better, what to store, what data doesn't need to be updated, and what does.
