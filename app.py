@@ -22,13 +22,13 @@ connClass = func.CC()
 @app.route('/', methods=['GET', 'POST'])
 @landf.loginRequired
 def index():
-    
-    # handles DB connection
-    conn = connClass.getConn()
-    db = conn.cursor(dictionary=True, buffered=True)
 
     """ Main page """
     if request.method == 'GET':
+    
+        # handles DB connection
+        conn = connClass.getConn()
+        db = conn.cursor(dictionary=True, buffered=True)
 
         startMsg = request.args.get('q')
 
@@ -78,7 +78,8 @@ def index():
     if request.method == 'POST':
         clientrequest = request.get_json()
         clienttype = clientrequest['type']
-
+        data = clientrequest['data']
+       
         cashdict = []
         cashdict.append({"cash":0})
 
@@ -92,8 +93,7 @@ def index():
         # checks what to do depending on the type of request
 #        if clienttype == 'full' or clienttype == 'holdings':
         if clienttype == 'holdings':
-            data = viewf.dbReturnUserHoldingsDataALL(session['user_id'], db)
-
+            #data = viewf.dbReturnUserHoldingsDataALL(session['user_id'], db)
             # return currprice and prev close for all symbols
             apidata = viewf.returnCPPC(data)
 

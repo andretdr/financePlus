@@ -204,6 +204,8 @@ class indexController {
         this.apierror = 'false';
         let rawdata = this.getRawDataFromHTML();
 
+        console.log(rawdata);
+
         this.cash = this.getCashFromRawData(rawdata);
         this.data = this.getDataFromRawData(rawdata);
 
@@ -282,8 +284,11 @@ class indexController {
 
     async updateRawData() {
         // type = full, cash, holdings, sort = symb, quantity, avgcost
-        let argtype = "holdings"
-        let dataobj = await fetcher('/', 'POST', {'status':'request', 'type':argtype});
+        let argtype = "holdings";
+        // clone array
+        let argdata = this.data.slice(); 
+
+        let dataobj = await fetcher('/', 'POST', {'status':'request', 'type':argtype, 'data':argdata});
         this.data = this.getDataFromRawData(dataobj);
     }
     
