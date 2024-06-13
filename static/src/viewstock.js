@@ -1,4 +1,10 @@
 
+function backToMain(){
+    el = document.getElementById("backtomain");
+    el.disabled = true;
+    window.location.href = "/";
+}
+
 /** Handles the controller logic and stores states */
 class viewController{
     // methods
@@ -488,7 +494,7 @@ class viewView{
 
     /** timed refresh for holdings page */
     timedRefresh(){
-        if (controller.returnMarketStatus() == 'open')
+        if (this.controllerRef.returnMarketStatus() == 'open')
         {
             // refresh page every 8 secs
             let interval = 3000;
@@ -560,12 +566,16 @@ class viewView{
     }
 
     renderHoldings(){
-        const currprice = (this.controllerRef.returnCurrprice()).toFixed(2);
-        const quantity = (this.controllerRef.returnQuantity()).toFixed(2);
-        const avgcost = (this.controllerRef.returnAvgcost()).toFixed(2);
+        let currprice = this.controllerRef.returnCurrprice();
+        let quantity = this.controllerRef.returnQuantity();
+        let avgcost = this.controllerRef.returnAvgcost();
         const value = (currprice*quantity).toFixed(2);
         const totalcost = (avgcost*quantity).toFixed(2);
         const pnl = (value - totalcost).toFixed(2);
+
+        currprice = currprice.toFixed(2);
+        quantity = quantity.toFixed(2);
+        avgcost = avgcost.toFixed(2);
 
         let html = `
                 <div class="view-holdings__header">Holdings </div>

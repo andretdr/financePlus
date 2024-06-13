@@ -390,7 +390,7 @@ class indexView {
 
         for (let i = 0; i < dataobj.length; i++){
             let symb = dataobj[i]['symb'];
-            let currprice = parseFloat(dataobj[i]['currprice']).toFixed(2);
+            let currprice = dataobj[i]['currprice'];
             let quantity = dataobj[i]['quantity'];
             let avgcost = dataobj[i]['avgcost'];
             let prevclose = dataobj[i]['prevclose'];
@@ -399,6 +399,8 @@ class indexView {
             let marketvalue = (currprice*quantity).toFixed(2);
             let totalcost = (avgcost*quantity).toFixed(2);
             let pnl = (marketvalue - totalcost).toFixed(2);
+            currprice = currprice.toFixed(2);
+            quantity = quantity.toFixed(2);
 
             totalpnl += parseFloat(pnl);
             equity += parseFloat(marketvalue);
@@ -475,7 +477,7 @@ class indexView {
 
     /** timed refresh for holdings page */
     timedRefresh(){
-        if (controller.returnMarketStatus() == 'open')
+        if (this.controllerRef.returnMarketStatus() == 'open')
         {
             // refresh page every 8 secs
             let interval = 3000;

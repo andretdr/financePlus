@@ -69,13 +69,18 @@ def buysharesDB(argid, argsymb, argcashamt, argdb, conn):
 
     # calculating avg cost
     currprice = viewf.returncurrprice(argsymb)
-    sharesamt = round(float(argcashamt)/float(currprice), 2)
+    sharesamt = round(float(argcashamt)/float(currprice), 4)
     totalcost = float(quantity) * float(avgcost)
     newtotal = float(totalcost) + float(argcashamt)
     newquant = float(quantity) + float(sharesamt)
     
-    newavgcost = round(newtotal/newquant, 2)
+
+
+    newavgcost = round(newtotal/newquant, 4)
     newcash = float(cash) - float(argcashamt)
+
+    print(f'currentprice: {currprice}')
+    print(f'avg: {newavgcost}')
 
     # get back symbid, if symb is new, add it into db
     symbid = lookupSymbol(argsymb, argdb)
@@ -129,7 +134,7 @@ def sellsharesDB(argid, argsymb, argsharesamt, argclose, argdb, conn):
     symbid = lookupSymbol(argsymb, argdb)
 
     # if holdings entry not found
-    if newquant == 0: #remove entry
+    if round(newquant, 2) == 0: #remove entry
         executionstr = "DELETE FROM fin_holdings WHERE user_id = %s AND symb_id = %s"
         argdb.execute(executionstr, (argid, symbid))
     # if not, just update
@@ -142,7 +147,15 @@ def sellsharesDB(argid, argsymb, argsharesamt, argclose, argdb, conn):
     conn.commit()
 
     data = []
-    data.append({'quantity':newquant, 'avgcost':avgcost, 'symbol':argsymb, 'cash':newcash, 'status':0})
+    
+    # handles cases where quantity left is almost zero but not
+    returnquant = 0
+    returncost = 0
+    if round(newquant, 2) != 0:
+        returncost = avgcost
+        returnquant = newquant
+
+    data.append({'quantity':returnquant, 'avgcost':returncost, 'symbol':argsymb, 'cash':newcash, 'status':0})
 
     return data
 

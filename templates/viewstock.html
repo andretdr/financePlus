@@ -94,7 +94,7 @@
                 <!-- buttons -->
                 <div class="buysellbutton-container buysellbutton-container--order">
                     <button class="buysellbutton-container__buttons buysellbutton-container__buttons--buy" id="buy-button" onclick="viewview.buy()">Place Order</button>
-                    <button class="buysellbutton-container__buttons buysellbutton-container__buttons--close" onclick="buysellview.closeBuySellMenu()">Close</button>
+                    <button class="buysellbutton-container__buttons buysellbutton-container__buttons--close" onclick="buysellview.closeBuySellMenu()">Cancel</button>
                 </div>
             </div>
         </section>
@@ -200,11 +200,10 @@
 
                 </section>
 
-
                 <!-- buttons -->
                 <div class="buysellbutton-container buysellbutton-container--order">
                     <button id="sell-button" class="buysellbutton-container__buttons buysellbutton-container__buttons--sell" onClick="viewview.sell()">Place Order</button>
-                    <button class="buysellbutton-container__buttons buysellbutton-container__buttons--close" onclick="buysellview.closeBuySellMenu()">Close</button>
+                    <button class="buysellbutton-container__buttons buysellbutton-container__buttons--close" onclick="buysellview.closeBuySellMenu()">Cancel</button>
                 </div>
             </div>
         </section>
@@ -284,8 +283,13 @@
 
     <!-- buttons -->
     <section class="view-buttons--buysell">
-        <button class="view-buttons-buysellmenu view-buttons-buysellmenu--buy" onclick="buysellview.showBuyMenu()">Buy</button> 
-        <button class="view-buttons-buysellmenu view-buttons-buysellmenu--sell" id="viewsellbutton" onclick="buysellview.showSellMenu(states)">Sell</button>
+        <div class="view-buttons__buyselldiv">
+            <button class="view-buttons-buysellmenu view-buttons-buysellmenu--buy" onclick="buysellview.showBuyMenu()">Buy</button> 
+            <button class="view-buttons-buysellmenu view-buttons-buysellmenu--sell" id="viewsellbutton" onclick="buysellview.showSellMenu(states)">Sell</button>
+        </div>
+        <div class="view-buttons__backdiv">
+            <button onclick="backToMain()" id="backtomain" class="buysellbutton-container__buttons buysellbutton-container__buttons--back">Back to Main Page</button>
+        </div>
     </section>
 
     <!-- Storing the data for this stock page -->
@@ -297,9 +301,9 @@
 
 {% block script %}
 
-<!--
+
 <script src="../static/src/viewstock.js"></script>
-<script src="../static/src/buysell.js"></script>-->
+<script src="../static/src/buysell.js"></script>
 <script>
 
    
@@ -311,7 +315,7 @@
     let states = {'buy':false, 'sell':false, 'bydollars':false, 'byshares':false};
 
     viewview.renderpage();
-//    viewview.timedRefresh();
+    viewview.timedRefresh();
 
 </script>
 
