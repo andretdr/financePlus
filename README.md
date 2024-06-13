@@ -7,6 +7,8 @@ The app allows you to buy and sell shares with virtual money, based on real info
 
 Please feel free to ping me if you ever want to try it out!
 
+[Primer Video](https://youtu.be/QBfx-Er88Kk)
+
 ## Full feature list
 
 - All forms on the site feature client side and server side validation.  
