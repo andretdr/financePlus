@@ -33,4 +33,4 @@ App optimizations are done using google lighthouse.
 It runs on Pylons/Waitress WSGI server and is currently deployed on Heroku using JawsDB for its MYSQL database.  
 
 ## Known Bugs
-Yahoo Finance API appears to drop data once in awhile. For now I am simply flagging a warning when this is detected. [source1](https://stackoverflow.com/questions/40111621/yahoo-finance-api-missing-data-for-certain-days) [source2](https://www.reddit.com/r/algotrading/comments/wzimgy/anyone_else_seeing_massive_chunks_of_data_missing/)
+- Yahoo Finance API appears to drop data once in awhile. For now I am simply flagging a warning when this is detected. [source1](https://stackoverflow.com/questions/40111621/yahoo-finance-api-missing-data-for-certain-days) [source2](https://www.reddit.com/r/algotrading/comments/wzimgy/anyone_else_seeing_massive_chunks_of_data_missing/)
