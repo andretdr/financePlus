@@ -201,11 +201,15 @@ class indexController {
     constructor(){
         
         // initialise
+        this.apierror = 'false';
         let rawdata = this.getRawDataFromHTML();
 
         this.cash = this.getCashFromRawData(rawdata);
         this.data = this.getDataFromRawData(rawdata);
-        this.apierror = this.getRowMissingFromRawData(rawdata);
+
+        // if no error still
+        if (this.apierror == 'false')
+            this.apierror = this.getRowMissingFromRawData(rawdata);
 
         this.aboutstart = false;
         if (rawdata[0]['start'] == 'start')
@@ -218,7 +222,16 @@ class indexController {
     /** read html for data, parse to obj */
     getRawDataFromHTML(){
         let datastr = document.getElementById("datadump").value;
-        let dataobj = JSON.parse(datastr);
+        let dataobj;
+
+        // if there is NAN API errors
+        try{
+            dataobj = JSON.parse(datastr);
+        }
+        catch{
+            dataobj = JSON.parse(datastr.replace(/\bNaN\b/g, "0"));//JSON.parse(data);
+            this.apierror = 'true';
+        }
         return dataobj
     }
 

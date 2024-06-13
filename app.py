@@ -83,14 +83,15 @@ def index():
         cashdict.append({"cash":0})
 
         # checks what to do depending on the type of request
-        if clienttype == 'full' or clienttype == 'cash':
-            cash = func.returncash(db, session['user_id'])
-            cashdict[0]['cash'] = cash
+#        if clienttype == 'full' or clienttype == 'cash':
+#            cash = func.returncash(db, session['user_id'])
+#            cashdict[0]['cash'] = cash
 
-        data = []
+#        data = []
 
         # checks what to do depending on the type of request
-        if clienttype == 'full' or clienttype == 'holdings':
+#        if clienttype == 'full' or clienttype == 'holdings':
+        if clienttype == 'holdings':
             data = viewf.dbReturnUserHoldingsDataALL(session['user_id'], db)
 
             # return currprice and prev close for all symbols
@@ -219,11 +220,11 @@ def register():
 @landf.loginRequired
 def viewstock():
 
-    # handles DB connection
-    conn = connClass.getConn()
-    db = conn.cursor(dictionary=True, buffered=True)
-
     if request.method == "GET" :
+        # handles DB connection
+        conn = connClass.getConn()
+        db = conn.cursor(dictionary=True, buffered=True)
+
         symbol = request.args.get('q')
         data_a = []
         data_b = []

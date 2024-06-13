@@ -86,7 +86,14 @@ async function fetcher(argroute, argmethod, argbody){
     });
 
     let responset = await response.text();
-    let responseobj = JSON.parse(responset);
+    let responseobj;
+    // if there is NAN API errors
+    try{
+        responseobj = JSON.parse(responset);
+    }
+    catch{
+        responseobj = JSON.parse(responset.replace(/\bNaN\b/g, "0"));//JSON.parse(data);
+    }
 
     return responseobj;
 }
