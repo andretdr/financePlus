@@ -1,6 +1,8 @@
 # Introduction
 
 Finance plus is a personal full stack project created by me, Andre Tong.  
+It is inspired by and based on the CS050 assignment Finance, albeit plused up in its features.  
+
 It gets and calculates real time market data from Yahoo's free API via yfinance.  
 It features real-time rendered ticker graph history  
 The app allows you to buy and sell shares with virtual money, based on real information pulled real time.  
