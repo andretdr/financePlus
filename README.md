@@ -2,6 +2,7 @@
 
 Finance plus is a personal full stack project created by me, Andre Tong.  
 It gets and calculates real time market data from Yahoo's free API via yfinance.  
+It features real-time rendered ticker graph history  
 The app allows you to buy and sell shares with virtual money, based on real information pulled real time.  
 Please feel free to ping me if you ever want to try it out!
 
@@ -16,7 +17,16 @@ App optimizations are done using google lighthouse.
 
 It runs on Pylons/Waitress WSGI server and is currently deployed on Heroku using JawsDB for its MYSQL database.
 
+# MVC Design Pattern
+- The app is designed based on the MVC design pattern. The back-end python and MYSQL processes correspond to the MODEL, this is where the data is stored.
+In the front-end I implement CONTROLLER Classes which are incharge of getting and processing data from the MODEL and storing the state of the page.
+I also implement VIEW Classes which are solely responsible for updating the interface of the page, based on the state and processed data from the CONTROLLER Classes.
+
 # Full feature list
+
+## Connections
+- MYSQL is used as the back-end database, connecting to it via [python mysql connector](https://pypi.org/project/mysql-connector-python/)
+- Connection pooling is used for more efficient connecting to the database
 
 ## Login and Registry page
 - All forms here feature client side and server side validation.
@@ -41,14 +51,17 @@ It runs on Pylons/Waitress WSGI server and is currently deployed on Heroku using
 ## View Stock Page
 - At the back end, the specific Stock Symbol data is pulled from Yahoo's free API using [yfinance](https://pypi.org/project/yfinance/) python library.
 - Holdings data (Stock bought, quantity, average cost) is pulled from MYSQL database.
-- As the app is drawing the Stock graph real-time in the view stock page, it requires alot of data from the API. Itg ets from the API the close data for each of 1 day,
+- #### Real-time stock graphs are rendered using [chart.js](https://www.chartjs.org/), for each of the 1day, 1week, 1month, 3months and 1year buttons.
+- As the app is drawing the Stock graph real-time in the view stock page, it requires alot of data from the API. It gets from the API the close data for each of 1 day,
 1 week, 1 month, 3 months and 1 year. It also get close information for every 5mins for the current day, for every hour for the pass 1 week, for every 1 day for the pass 1 month,
 for every 1 day for the pass 3 months, and for every 1 week for the pass 1 year.
-- This processing takes about 500-700ms, so I implement python multi-threading to bring the average time down to about 200ms.
-- At the front-end the stock history graph is drawn real-time with js.chart using the stock data for each of the 1day, 1week, 1month, 3months and 1year buttons.
+- This processing takes about 500-700ms, so the app uses python multi-threading to bring the average time down to about 200ms.
 - The app keeps the data all on the same page so the page does not need to refresh with each different graph range selected.
 - If the Symbol searched is not found, the error page is loaded, showing an error message.
 - When the market is open, at EDT 0930 to 1600 or SGT 2100 to 0400, the app refreshes every 3 secs updating the graph and the holdings data.
+
+## Real-Time ticker graphs
+
 
 ## Buy Sell Page
 - All forms here feature client side and server side validation.
@@ -56,11 +69,6 @@ for every 1 day for the pass 3 months, and for every 1 week for the pass 1 year.
 - Inputs here are event-listened for their value and checked/validated against current stock holdings. If Buying, the app checks that there is enough money left to buy the stock.
 If Selling, the app checks if there is enough stock left to sell. The app also checks against Buying or Selling 0 Stock. If all goes well, the transaction takes place.
 - On succesful transaction, the MYSQL database in the back-end is updated with the new information.
-
-# MVC Design Pattern
-- The app is designed based on the MVC design pattern. The back-end python and MYSQL processes correspond to the MODEL, this is where the data is stored.
-In the front-end I implement CONTROLLER Classes which are incharge of getting and processing data from the MODEL and storing the state of the page.
-I also implement VIEW Classes which are solely responsible for updating the interface of the page, based on the state and processed data from the CONTROLLER Classes.
 
 # Calculations
 The app uses the following data and calculations to display its data
@@ -81,6 +89,3 @@ The app uses the following data and calculations to display its data
 - Yahoo Finance API appears to drop data once in awhile. For now I am simply flagging a warning when this is detected. [source1](https://stackoverflow.com/questions/40111621/yahoo-finance-api-missing-data-for-certain-days) [source2](https://www.reddit.com/r/algotrading/comments/wzimgy/anyone_else_seeing_massive_chunks_of_data_missing/)
 - Index Page displays a warning when stock data is missing
 - View Stock Page displays a warning when stock data is missing
-
-# What can be improved?
-- There is alot of wasted connections to the DB for extracting information on the timed refreshes. Data storage and retrival can be designed better, what to store, what data doesn't need to be updated, and what does.
