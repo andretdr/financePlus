@@ -493,8 +493,8 @@ class indexView {
 
     /** timed refresh for holdings page */
     timedRefresh(){
-        if (this.controllerRef.returnMarketStatus() == 'open')
-        {
+//        if (this.controllerRef.returnMarketStatus() == 'open')
+//        {
             // refresh page every 8 secs
             let interval = 3000;
             let count = 0;
@@ -507,7 +507,7 @@ class indexView {
                 }
                 count++;
                 }, interval);
-        }
+//        }
     }
 
 }

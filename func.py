@@ -112,50 +112,27 @@ class CC:
     def __init__(this):
         # initialise pool
         this.conn_pool = mysql_connpool()
-        this.index = 0
+        this.connection = this.conn_pool.get_connection()
 
     def getConn(this):
         #returns a new connection, if connection is closed reconnects
         try:
-            print('trying...')
-            newConn = this.conn_list[this.index]
-            if not newConn.is_connected():
-                print('not connected, reconnecting...')
+            if not this.connection.is_connected():
+                print('not connected, connecting...')
                 this.reconnect()
-                newConn = this.conn_list[this.index]
-            this.nextIndex()
-            return newConn
+            return this.connection
         except:
             try:
                 print('reconnecting...')
                 this.reconnect()
-                newConn = this.conn_list[this.index]
-                this.nextIndex()
-                return newConn
+                return this.connection
             except:
                 print('reinitialising pool...')
                 this.conn_pool = mysql_connpool()
-                this.index = 0
                 this.reconnect()
-                newConn = this.conn_list[this.index]
-                this.nextIndex()
-                return newConn
+                return this.connection
 
 
     def reconnect(this):
         #re-get connections
-        this.conn_list = []
-        this.conn_list.append(this.conn_pool.get_connection())
-        this.conn_list.append(this.conn_pool.get_connection())
-#        this.conn_list.append(this.conn_pool.get_connection())
-
-        this.index = 0
-
-    def closeConn(this):
-        if this.conn.is_connected():
-            this.conn.close()
-            this.db.close()
-
-    def nextIndex(this):
-        this.index = (this.index + 1) % 2#3
-
+        this.connection = this.conn_pool.get_connection()
