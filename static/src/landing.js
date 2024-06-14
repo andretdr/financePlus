@@ -60,7 +60,6 @@ function addEL_loginform(){
 
         // if login sucessful
         if (isvalid(responseobj)){
-            console.log(responseobj)
             window.location.href = "/";
         }
 

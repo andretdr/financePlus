@@ -37,6 +37,13 @@ function linkDisable(p_id){
     el.classList.add("link__disable");
 }
 
+/** disable all anchor **/
+function linkDisableAllAnchor(){
+    let collection = document.getElementsByTagName("a");
+    for (let el of collection)
+        el.classList.add("link__disable");
+}
+
 /** log out **/
 function logout() {
     location.assign('/logout');
@@ -139,7 +146,7 @@ class searchBarClass {
                 if (stock[0].startsWith(input)){
                     html += `
                             <a class="search-menu__items" id="search-${counter}"href="/viewstock?q=${stock[0]}" 
-                            onmouseover="searchClass.onHoverSearch(${counter})" onclick="linkDisable('search-${counter}')">
+                            onmouseover="searchClass.onHoverSearch(${counter})" onclick="linkDisableAllAnchor()">
                             <div> ${stock[0]} | ${stock[1]} </div></a>`;
                     counter ++;
                     // if we list 6 already then break
@@ -203,8 +210,6 @@ class indexController {
         // initialise
         this.apierror = 'false';
         let rawdata = this.getRawDataFromHTML();
-
-        console.log(rawdata);
 
         this.cash = this.getCashFromRawData(rawdata);
         this.data = this.getDataFromRawData(rawdata);
@@ -433,9 +438,9 @@ class indexView {
                 pnlhtml = `<data style="color:${red}">$${pnl}&darr;</data>`
             else
                 pnlhtml = `<data style="color:${green}">$${pnl}&uarr;</data>`
-    
+
             html += `
-                    <a href="/viewstock?q=${symb}" id="id-${symb}" onclick="linkDisable('id-${symb}')">
+                    <a href="/viewstock?q=${symb}" id="id-${symb}" onclick="linkDisableAllAnchor()">
                         <div class="holding-item">
                             <div class="hitem__each hitem__each--symb"><data>${symb}</data></div>
                             <div class="hitem__each hitem__each--cp"><data>$${currprice}</data></div>
@@ -493,8 +498,8 @@ class indexView {
 
     /** timed refresh for holdings page */
     timedRefresh(){
-//        if (this.controllerRef.returnMarketStatus() == 'open')
-//        {
+        if (this.controllerRef.returnMarketStatus() == 'open')
+        {
             // refresh page every 8 secs
             let interval = 3000;
             let count = 0;
@@ -507,7 +512,7 @@ class indexView {
                 }
                 count++;
                 }, interval);
-//        }
+        }
     }
 
 }
