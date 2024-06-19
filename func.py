@@ -5,34 +5,27 @@ import numpy as np
 import mysql.connector, mysql.connector.pooling
 import sys, json
 
-
-""" initialise db connection """
-def mysql_conn():
-    # Configure DB
-    try:
-        conn = mysql.connector.connect(
-            user="p7bd0h8ge1mlykim",
-            password="z2jsf0lcs1vwrt70",
-            host="ol5tz0yvwp930510.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-            port=3306,
-            database="rl3utnqw5gapzw4n",
-        )
-    except mysql.connector.Error as e:
-        print(f"Error connecting to database: {e}")
-        sys.exit(1)
-
-    return conn
+from dotenv import load_dotenv
+import os
 
 # Configure DB for connection pooling
 def mysql_connpool():
+    # load from dotenv
+    load_dotenv('./.env')
+
+    dbusername: str = os.getenv('DBUSERNAME')
+    dbpassword: str = os.getenv('DBPASSWORD')
+    dbhost: str = os.getenv('DBHOST')
+    dbdatabase: str = os.getenv('DBDATABASE')
+
     try:
         conn_pool = mysql.connector.pooling.MySQLConnectionPool(
             pool_name="mypool",
-            user="p7bd0h8ge1mlykim",
-            password="z2jsf0lcs1vwrt70",
-            host="ol5tz0yvwp930510.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+            user=dbusername,
+            password=dbpassword,
+            host=dbhost,
             port=3306,
-            database="rl3utnqw5gapzw4n",
+            database=dbdatabase,
 #            connect_timeout=10,
             autocommit=True,
         )
@@ -54,13 +47,8 @@ def returnUserName(argid, argdb):
 """ returns cash of current user """
 def returncash(argdb, pid):
 
-#    with argdb:
-#        with argdb.cursor() as cursor:
-#            cursor.execute("SELECT cash FROM fin_users WHERE id = %s", (session['user_id'],))
-
     argdb.execute("SELECT cash FROM fin_users WHERE id = %s", (pid,))
     row = argdb.fetchall()
-#    row = cursor.fetchall()
 
     return row[0]['cash']
 

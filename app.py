@@ -1,12 +1,14 @@
-import os, json, re ,sys, time
+import json
 
-from flask import Flask, render_template, jsonify, request, session, redirect, g
+from flask import Flask, render_template, jsonify, request, session, redirect
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-import buysell, func, landf, viewf, mysql.connector
-import yfinance as yf
+import buysell, func, landf, viewf
 import threading
+
+from dotenv import load_dotenv
+import os
 
 # Configure application
 app = Flask(__name__)
@@ -83,18 +85,7 @@ def index():
         cashdict = []
         cashdict.append({"cash":0})
 
-        # checks what to do depending on the type of request
-#        if clienttype == 'full' or clienttype == 'cash':
-#            cash = func.returncash(db, session['user_id'])
-#            cashdict[0]['cash'] = cash
-
-#        data = []
-
-        # checks what to do depending on the type of request
-#        if clienttype == 'full' or clienttype == 'holdings':
         if clienttype == 'holdings':
-            #data = viewf.dbReturnUserHoldingsDataALL(session['user_id'], db)
-            # return currprice and prev close for all symbols
             apidata = viewf.returnCPPC(data)
 
             for i in range(len(data)):
@@ -311,16 +302,6 @@ def sell():
 
     return jsonify(record)
 
-#@app.before_request
-#def before_request():
-#    g.conn = conn_pool.get_connection()
-#    g.db = g.conn.cursor(dictionary = True)
-
-#@app.after_request
-#def after_request(response):
-#    g.db.close()
-#    g.conn.close()
-#    return response
 
 def create_app():
     return app
