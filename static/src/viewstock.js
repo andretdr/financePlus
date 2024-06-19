@@ -494,8 +494,8 @@ class viewView{
 
     /** timed refresh for holdings page */
     timedRefresh(){
-        if (this.controllerRef.returnMarketStatus() == 'open')
-        {
+//        if (this.controllerRef.returnMarketStatus() == 'open')
+//        {
             // refresh page every 8 secs
             let interval = 3000;
             let count = 0;
@@ -508,7 +508,7 @@ class viewView{
                 }
                 count++;
                 }, interval);
-        }
+//        }
     }
 
     /** render the stock data */

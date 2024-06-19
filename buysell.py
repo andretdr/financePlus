@@ -73,9 +73,14 @@ def buysharesDB(argid, argsymb, argcashamt, argdb, conn):
     totalcost = float(quantity) * float(avgcost)
     newtotal = float(totalcost) + float(argcashamt)
     newquant = float(quantity) + float(sharesamt)
+    
+
 
     newavgcost = round(newtotal/newquant, 4)
     newcash = float(cash) - float(argcashamt)
+
+    print(f'currentprice: {currprice}')
+    print(f'avg: {newavgcost}')
 
     # get back symbid, if symb is new, add it into db
     symbid = lookupSymbol(argsymb, argdb)
