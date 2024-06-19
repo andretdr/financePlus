@@ -11,18 +11,21 @@ import os
 # Configure DB for connection pooling
 def mysql_connpool():
     # load from dotenv
-    load_dotenv('./.env')
+    load_dotenv('.env')
 
     dbusername: str = os.getenv('DBUSERNAME')
-    dbpassword: str = os.getenv('DBPASSWORD')
+    dbpassword: str = os.getenv('DB_PASSWORD')
     dbhost: str = os.getenv('DBHOST')
     dbdatabase: str = os.getenv('DBDATABASE')
+
+    print(dbpassword)
+    print('azdfhc2ea8p1890p')
 
     try:
         conn_pool = mysql.connector.pooling.MySQLConnectionPool(
             pool_name="mypool",
             user=dbusername,
-            password=dbpassword,
+            password='azdfhc2ea8p1890p',         #dbpassword,
             host=dbhost,
             port=3306,
             database=dbdatabase,

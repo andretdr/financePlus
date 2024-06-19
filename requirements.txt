@@ -5,3 +5,4 @@ mysql.connector
 yfinance==0.2.38
 Werkzeug==2.3.7
 waitress==3.0.0
+python-dotenv
