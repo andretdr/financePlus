@@ -14,7 +14,7 @@ def mysql_connpool():
     load_dotenv('./.env')
 
     dbusername: str = os.getenv('DBUSERNAME')
-    dbpassword: str = os.getenv('DB_PASSWORD')
+    dbpassword: str = os.getenv('DB__PASSWORD')
     dbhost: str = os.getenv('DBHOST')
     dbdatabase: str = os.getenv('DBDATABASE')
 
