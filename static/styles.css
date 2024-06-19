@@ -1,6 +1,7 @@
 :root{
-    --lightblue: rgb(96, 174, 238);
-    --darkblue: rgb(64, 161, 241);
+    /**--lightblue: rgb(96, 174, 238);*/
+    --lightblue: rgb(55, 162, 250);
+    --darkblue: rgb(55, 162, 250);
     --ntheven: rgb(205, 234, 247);
     --grey: rgb(82, 119, 150);
     --summary: rgb(95, 127, 143);
