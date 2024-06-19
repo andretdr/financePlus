@@ -11,21 +11,18 @@ import os
 # Configure DB for connection pooling
 def mysql_connpool():
     # load from dotenv
-    load_dotenv('.env')
+    load_dotenv('./.env')
 
     dbusername: str = os.getenv('DBUSERNAME')
     dbpassword: str = os.getenv('DB_PASSWORD')
     dbhost: str = os.getenv('DBHOST')
     dbdatabase: str = os.getenv('DBDATABASE')
 
-    print(dbpassword)
-    print('azdfhc2ea8p1890p')
-
     try:
         conn_pool = mysql.connector.pooling.MySQLConnectionPool(
             pool_name="mypool",
             user=dbusername,
-            password='azdfhc2ea8p1890p',         #dbpassword,
+            password=dbpassword,
             host=dbhost,
             port=3306,
             database=dbdatabase,
@@ -50,8 +47,13 @@ def returnUserName(argid, argdb):
 """ returns cash of current user """
 def returncash(argdb, pid):
 
+#    with argdb:
+#        with argdb.cursor() as cursor:
+#            cursor.execute("SELECT cash FROM fin_users WHERE id = %s", (session['user_id'],))
+
     argdb.execute("SELECT cash FROM fin_users WHERE id = %s", (pid,))
     row = argdb.fetchall()
+#    row = cursor.fetchall()
 
     return row[0]['cash']
 

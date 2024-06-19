@@ -7,9 +7,6 @@ from werkzeug.security import check_password_hash, generate_password_hash
 import buysell, func, landf, viewf
 import threading
 
-from dotenv import load_dotenv
-import os
-
 # Configure application
 app = Flask(__name__)
 
