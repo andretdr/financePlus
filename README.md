@@ -3,7 +3,8 @@
 Finance plus is a personal full stack project created by me, Andre Tong.  
 It gets and calculates real time market data from Yahoo's free API via yfinance.  
 The app allows you to buy and sell shares with virtual money, based on real information pulled real time.  
-Please feel free to ping me if you ever want to try it out!
+
+[You can try it out here](https://financeplus-cfec3ff5d154.herokuapp.com/landing)
 
 [Primer Video](https://youtu.be/QBfx-Er88Kk)
 
