@@ -11,7 +11,7 @@ There's an intro video and a link to the app below.
 [Finance Plus](https://financeplus-cfec3ff5d154.herokuapp.com/landing)
 
 # Development
-The app is developed using Flask/Python/Jinja2, HTML, CSS, JS.
+The app is developed using Flask/Python/Jinja2, HTML, CSS, JS, MySQL.
 
 CSS is organised in the BEM methodology.
 JS files are compressed using google closure compiler.
