@@ -1716,7 +1716,7 @@
     justify-content: center;
     align-items: center;
     width: 300px;
-    height: 250px;
+    height: 320px;
     padding: 20px;
 }
 
@@ -1735,8 +1735,8 @@
     display: none;
     justify-content: center;
     align-items: center;
-    width: 220px;
-    height: 120px;
+    width: 96px;
+    height: 48px;
 }
 
 /** button container for hideme */
@@ -1744,22 +1744,29 @@
     display: none;
     justify-content: center;
     align-items: center;
-    width: 220px;
-    height: 120px;
+    width: 96px;
+    height: 48px;
 }
 
 /** actual login/register button rules */
 .landing-container__button {
-    width: 14rem;
-    height: 6rem;
+    width: 96px;
+    height: 48px;
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 6px;
     text-align: center;
     text-decoration: none;
-    font-size: 23px;
+    font-size: 14px;
     padding: 10px 15px;
+    margin-bottom: 30px;
     background-color: var(--buttongreen);
+}
+
+
+landing-container__button span{
+    margin-top: 0;
+
 }
 
 /** hover color change */
@@ -1769,6 +1776,7 @@
 
 /** register button overide on color */
 .landing-container__button--register {
+    padding-top: 2px;
     background-color: var(--buttonorange);
 }
 
@@ -1786,7 +1794,7 @@
     border-radius: 6px;
     text-align: center;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 14px;
     padding: 5px 7px;
     background-color: var(--summary);
     z-index: 2;
@@ -1797,8 +1805,18 @@
     background-color: var(--summarylight);
 }
 
+
+.break {
+    padding-top: 20px;
+
+
+    margin: 20px auto 20px auto;
+    width: 50%;
+}
+
 /** actual register form */
 .landing-container__form {
+    margin-top: 18px;
     display: flex;
     flex-direction: column;
     justify-content: center;
