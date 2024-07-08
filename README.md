@@ -25,8 +25,6 @@ It runs on Pylons/Waitress WSGI server and is currently deployed on Heroku using
 
 ![image](https://github.com/andretdr/financePlus/assets/162653875/d5416b33-e863-492a-8037-0b265fcd405a)
 
-![image](https://github.com/andretdr/financePlus/assets/162653875/003091f2-189e-4eec-8b06-304e8dd9690f)
-
 - All forms here feature client side and server side validation.
 - Regex is used for client side and server side checks.
 - Usernames are checked using regex to be alpha numeric ONLY.
@@ -36,7 +34,7 @@ It runs on Pylons/Waitress WSGI server and is currently deployed on Heroku using
 
 ## Search Bar
 
-
+![image](https://github.com/andretdr/financePlus/assets/162653875/b7a8fd91-b5cb-4e9c-bff5-f139ec509ad6)
 
 - Search bar features dynamic results from reading directly from a list of symbols.
 - Symbol CSV is gotten from online [source](https://stockanalysis.com/stocks/) and outputted into a list of dictionaries as a JS object. It is then fed directly into the app.
@@ -44,12 +42,18 @@ It runs on Pylons/Waitress WSGI server and is currently deployed on Heroku using
 - Items are highlighted when mouse over, and keyboard up and down arrows can be used to select the items as well
 
 ## Index Page
+
+![image](https://github.com/andretdr/financePlus/assets/162653875/e9ae2092-c02f-42c2-a859-d7dd5330a043)
+
 - At the back end, stock data is pulled from Yahoo's free API using [yfinance](https://pypi.org/project/yfinance/) python library.
 - Holdings data (Stock bought, quantity, average cost) is pulled from MYSQL database.
 - Processing the API data and MYSQL database is alittle slow and the process is sped up using python multi-threading.
 - When the market is open, at EDT 0930 to 1600 or SGT 2100 to 0400, the app refreshes every 3 secs pulling in real-time stock data.
 
 ## View Stock Page
+
+![image](https://github.com/andretdr/financePlus/assets/162653875/cc1e1644-433b-4d49-8074-856ae5e888a3)
+
 - At the back end, the specific Stock Symbol data is pulled from Yahoo's free API using [yfinance](https://pypi.org/project/yfinance/) python library.
 - Holdings data (Stock bought, quantity, average cost) is pulled from MYSQL database.
 - As the app is drawing the Stock graph real-time in the view stock page, it requires alot of data from the API. Itg ets from the API the close data for each of 1 day,
@@ -62,6 +66,9 @@ for every 1 day for the pass 3 months, and for every 1 week for the pass 1 year.
 - When the market is open, at EDT 0930 to 1600 or SGT 2100 to 0400, the app refreshes every 3 secs updating the graph and the holdings data.
 
 ## Buy Sell Page
+
+![image](https://github.com/andretdr/financePlus/assets/162653875/e95f15f3-ec36-46e3-b99a-daac4209bc58)
+
 - All forms here feature client side and server side validation.
 - The app give the option to Buy new or existing stock, or Sell existing stock.
 - Inputs here are event-listened for their value and checked/validated against current stock holdings. If Buying, the app checks that there is enough money left to buy the stock.
