@@ -23,8 +23,6 @@ It runs on Pylons/Waitress WSGI server and is currently deployed on Heroku using
 
 ## Login and Registry page
 
-![image](https://github.com/andretdr/financePlus/assets/162653875/d5416b33-e863-492a-8037-0b265fcd405a)
-
 <img src="https://github.com/andretdr/financePlus/assets/162653875/d5416b33-e863-492a-8037-0b265fcd405a" alt="drawing" width="500"/>
 
 - All forms here feature client side and server side validation.
@@ -36,7 +34,7 @@ It runs on Pylons/Waitress WSGI server and is currently deployed on Heroku using
 
 ## Search Bar
 
-![image](https://github.com/andretdr/financePlus/assets/162653875/b7a8fd91-b5cb-4e9c-bff5-f139ec509ad6)
+<img src="https://github.com/andretdr/financePlus/assets/162653875/b7a8fd91-b5cb-4e9c-bff5-f139ec509ad6" alt="drawing" width="500"/>
 
 - Search bar features dynamic results from reading directly from a list of symbols.
 - Symbol CSV is gotten from online [source](https://stockanalysis.com/stocks/) and outputted into a list of dictionaries as a JS object. It is then fed directly into the app.
@@ -45,7 +43,7 @@ It runs on Pylons/Waitress WSGI server and is currently deployed on Heroku using
 
 ## Index Page
 
-![image](https://github.com/andretdr/financePlus/assets/162653875/e9ae2092-c02f-42c2-a859-d7dd5330a043)
+<img src="https://github.com/andretdr/financePlus/assets/162653875/e9ae2092-c02f-42c2-a859-d7dd5330a043" alt="drawing" width="500"/>
 
 - At the back end, stock data is pulled from Yahoo's free API using [yfinance](https://pypi.org/project/yfinance/) python library.
 - Holdings data (Stock bought, quantity, average cost) is pulled from MYSQL database.
@@ -54,7 +52,7 @@ It runs on Pylons/Waitress WSGI server and is currently deployed on Heroku using
 
 ## View Stock Page
 
-![image](https://github.com/andretdr/financePlus/assets/162653875/cc1e1644-433b-4d49-8074-856ae5e888a3)
+<img src="https://github.com/andretdr/financePlus/assets/162653875/cc1e1644-433b-4d49-8074-856ae5e888a3" alt="drawing" width="500"/>
 
 - At the back end, the specific Stock Symbol data is pulled from Yahoo's free API using [yfinance](https://pypi.org/project/yfinance/) python library.
 - Holdings data (Stock bought, quantity, average cost) is pulled from MYSQL database.
@@ -69,7 +67,7 @@ for every 1 day for the pass 3 months, and for every 1 week for the pass 1 year.
 
 ## Buy Sell Page
 
-![image](https://github.com/andretdr/financePlus/assets/162653875/e95f15f3-ec36-46e3-b99a-daac4209bc58)
+<img src="https://github.com/andretdr/financePlus/assets/162653875/e95f15f3-ec36-46e3-b99a-daac4209bc58" alt="drawing" width="500"/>
 
 - All forms here feature client side and server side validation.
 - The app give the option to Buy new or existing stock, or Sell existing stock.
