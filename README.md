@@ -22,6 +22,11 @@ It runs on Pylons/Waitress WSGI server and is currently deployed on Heroku using
 # Full feature list
 
 ## Login and Registry page
+
+![image](https://github.com/andretdr/financePlus/assets/162653875/d5416b33-e863-492a-8037-0b265fcd405a)
+
+![image](https://github.com/andretdr/financePlus/assets/162653875/003091f2-189e-4eec-8b06-304e8dd9690f)
+
 - All forms here feature client side and server side validation.
 - Regex is used for client side and server side checks.
 - Usernames are checked using regex to be alpha numeric ONLY.
@@ -30,6 +35,9 @@ It runs on Pylons/Waitress WSGI server and is currently deployed on Heroku using
 - All passwords are hashed using werkzeug.security before storing.
 
 ## Search Bar
+
+
+
 - Search bar features dynamic results from reading directly from a list of symbols.
 - Symbol CSV is gotten from online [source](https://stockanalysis.com/stocks/) and outputted into a list of dictionaries as a JS object. It is then fed directly into the app.
 - Search results are outputted on a list of max length 6
