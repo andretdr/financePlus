@@ -24,6 +24,7 @@ It runs on Pylons/Waitress WSGI server and is currently deployed on Heroku using
 ## Login and Registry page
 
 ![image](https://github.com/andretdr/financePlus/assets/162653875/d5416b33-e863-492a-8037-0b265fcd405a)
+<img src="[drawing.jpg](https://github.com/andretdr/financePlus/assets/162653875/d5416b33-e863-492a-8037-0b265fcd405a)" alt="drawing" width="200"/>
 
 - All forms here feature client side and server side validation.
 - Regex is used for client side and server side checks.
